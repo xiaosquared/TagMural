@@ -1,3 +1,4 @@
+package test;
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -7,7 +8,7 @@ import water.RainGroup;
 import water.Splash;
 import water.WaveGroup;
 
-public class ProcessingTest extends PApplet {
+public class WaveTest extends PApplet {
 	
 	WaveGroup waves; 
 	RainGroup rains;
@@ -89,5 +90,7 @@ public class ProcessingTest extends PApplet {
     		}
     }
     
-    public static void main(String[] args) { PApplet.main("ProcessingTest"); }
+    public static void main(String[] args) { 
+    		PApplet.main("test.WaveTest"); 
+    }
 }
