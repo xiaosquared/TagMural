@@ -1,15 +1,15 @@
-package particles;
+package water;
 
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class Spring extends Particle {
+public class WaveParticle extends Particle {
 	float k = 0.0025f;
 	float target_height;
 	float damping = 0.03f;
 	
-	public Spring(PVector pos, PApplet parent) {
+	public WaveParticle(PVector pos, PApplet parent) {
 		super(pos, parent);
 		target_height = pos.y;
 	}

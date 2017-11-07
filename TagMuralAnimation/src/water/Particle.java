@@ -1,19 +1,21 @@
-package particles;
+package water;
 
 import processing.core.PApplet;
 import processing.core.PVector;
 
 public class Particle {
+	protected PApplet parent;
+	
 	protected PVector pos;
 	protected PVector vel;
 	protected PVector acc;
 	
-	protected PApplet parent;
-	
+	public static PVector g = new PVector(0, 0.1f); // gravity constant	
+		
 	public Particle(PVector pos, PApplet p) {
 		this.pos = pos;
-		this.vel = new PVector(0, 10);
-		this.acc = new PVector(0, 2);
+		this.vel = new PVector(0, 0);
+		this.acc = new PVector(0, 0);
 		parent = p;
 	}
 
@@ -47,11 +49,9 @@ public class Particle {
 		parent.ellipse(pos.x, pos.y, 5, 5);
 	}
 
-	/*
-	 * if off the screen left, bottom, right - ok to be offscreen form top
-	 */
+
 	public boolean isDead() {
-		return pos.x < 0 || pos.x > parent.width || pos.y > parent.height;
+		return pos.x < 0 || pos.x > parent.width || pos.y < 0 || pos.y > parent.height;
 	}
 
 	public void respawn() {}

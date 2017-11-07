@@ -1,16 +1,16 @@
-package particles;
+package water;
 
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class RainDrop extends Particle{
+public class RainParticle extends Particle{
 	
 	String word;
-	int font_size = 8;
+	int font_size = 9;
 	float word_width;
 	int shade;
 	
-	public RainDrop(PVector pos, PVector vel, PVector acc, String w, PApplet parent) {
+	public RainParticle(PVector pos, PVector vel, PVector acc, String w, PApplet parent) {
 		super(pos, vel, acc, parent);
 		shade = (int) parent.random(70, 170);
 		word = w;
