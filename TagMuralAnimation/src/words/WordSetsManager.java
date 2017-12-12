@@ -1,5 +1,6 @@
 package words;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import processing.core.PApplet;
@@ -11,15 +12,20 @@ public class WordSetsManager {
 	private static final String populations = "Plaquemine\nNatchez\nnative Americans\ncolonial\nSenegambian\nenslaved\nAfricans\nSpanish\nCanary Islanders\nAcadians\nCajuns\nAnglo\nHatian revolution\nfaubourgs\ndiversity\nfree people of color\nport\ncreole\nGerman\nIrish\nSicilian\nEastern European\nChinese\nworking class\nLGBTQ";
 	
 	private static HashMap<String, WordSet> word_sets;
+	private static ArrayList<String> keys;
 	
 	private static String current_key;
+	private static int current_key_index = 0;
 	private static WordSet current_words;
 	
 	public static void init(PApplet parent) {
 		word_sets = new HashMap<String, WordSet>();
+		keys = new ArrayList<String>();
+		
 		WordSet ws1 = new WordSet(parent);
+		current_key = "transport";
 		ws1.addAllWords(transport);
-		word_sets.put("transport", ws1);
+		word_sets.put(current_key, ws1);
 		
 		WordSet ws2 = new WordSet(parent);
 		ws2.addAllWords(arts);
@@ -33,8 +39,9 @@ public class WordSetsManager {
 		ws4.addAllWords(populations);
 		word_sets.put("populations", ws4);
 		
-		current_key = "transport";
+		keys.addAll(word_sets.keySet());
 		current_words = ws1;
+		current_key_index = 0;
 	}
 	
 	public static WordSet getCurrentWordSet() {
@@ -43,6 +50,12 @@ public class WordSetsManager {
 	
 	public static Word getRandomWord() {
 		return current_words.getRandomWord();
+	}
+	
+	public static void switchWordSet() {
+		current_key_index = (current_key_index ++)%keys.size();
+		current_key = keys.get(current_key_index);
+		current_words = word_sets.get(current_key);
 	}
 	
 	public static void switchWordSet(String key) {

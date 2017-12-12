@@ -53,6 +53,10 @@ public class FloatingWaveText extends WaveText{
 		target_wave.perturbRegion(left, right, start_pos.y + font_size/4, sp);
 	}
 
+	public void fadeOut() {
+		Ani.to(this, 1f, "opacity", 0, Ani.QUAD_IN_OUT);
+	}
+	
 	public void reset() {
 		opacity = 1;
 		inWater = false;

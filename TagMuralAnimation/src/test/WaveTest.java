@@ -79,7 +79,7 @@ public class WaveTest extends PApplet {
 			WaveScene.translateUp();
 			break;
 		case 'f':
-			WordSetsManager.switchWordSet("arts");
+			WordSetsManager.switchWordSet();
 			WaveScene.fadeToSwitchWordSet();
 			break;
 //		default:

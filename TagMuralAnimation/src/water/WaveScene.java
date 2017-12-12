@@ -38,7 +38,6 @@ public class WaveScene {
 	public static void run(PApplet parent) {
 		rains.run(true, isRaining);
 		
-
 		if (trans.y >= DOWN_POSITION)
 			return;
 		
@@ -86,6 +85,7 @@ public class WaveScene {
 	}
 	
 	public static void fadeToSwitchWordSet() {
+		featured_word.fadeOut();
 		waves.fadeOut("onEnd:switchAndFadeIn");
 	}
 	
