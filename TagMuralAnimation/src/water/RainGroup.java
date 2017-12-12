@@ -16,10 +16,10 @@ public class RainGroup {
 	}
 
 	public void run(boolean letters, boolean raining) {
-		if (!raining)
-			return;
+//		if (!raining)
+//			return;
 		for (int i = 0; i < rains.length; i++) {
-			rains[i].run(sp, letters, true);
+			rains[i].run(sp, letters, raining);
 		}
 	}
 

@@ -50,8 +50,8 @@ public class Rain {
 	void restart() {
 		for (int i = 0; i < n; i++) {
 			RainParticle r = rain.get(i);
-			if (r.pos.y < 0) {
-				r.pos.y = -i*150;
+			if (r.pos.y <= 0) {
+				r.pos.y -= i*150;
 				r.vel.y = 10;
 				r.acc.y = Particle.g.y;
 			}

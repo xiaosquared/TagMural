@@ -25,9 +25,7 @@ public class WaveTest extends PApplet {
 
 		Ani.init(this);
 		initWords();
-
 		WaveScene.init(this, words);
-		WaveScene.initFeaturedWord(this);
 		
 		//initClient();		
 	}
@@ -35,8 +33,8 @@ public class WaveTest extends PApplet {
 	public void draw(){
 		background(0);
 
-		WaveScene.run();
-		WaveScene.updateFeaturedWord(this);
+		WaveScene.run(this);
+		//WaveScene.updateFeaturedWord(this);
 	}
 
 	void initClient() {
@@ -72,8 +70,14 @@ public class WaveTest extends PApplet {
 			}
 			break;
 		case 'w':
+			WaveScene.initFeaturedWord(this);
 			break;
-			
+		case 't':
+			WaveScene.translateDown();
+			break;
+		case 'y':
+			WaveScene.translateUp();
+			break;
 		case 'f':
 			WordSetsManager.switchWordSet("arts");
 			WaveScene.fadeToSwitchWordSet();

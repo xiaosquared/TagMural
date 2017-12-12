@@ -31,7 +31,7 @@ public class Wave {
 	float font_size = 0;
 	int shade = 200;
 
-	final float FADE_TIME = 1;
+	final float FADE_TIME = 3;
 	float SHADE_VALUE = 200;
 	
 	public Wave(PVector startPos, PVector endPos, float particle_width, int shade, PApplet parent) {

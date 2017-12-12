@@ -10,6 +10,8 @@ public class RainParticle extends Particle{
 	float word_width;
 	int shade;
 	
+	private static int DOWN_POSITION = 320;
+	
 	public RainParticle(PVector pos, PVector vel, PVector acc, String w, PApplet parent) {
 		super(pos, vel, acc, parent);
 		shade = (int) parent.random(70, 170);
@@ -20,7 +22,7 @@ public class RainParticle extends Particle{
 	
 	public void respawn(boolean stop) {
 		pos.x = parent.random(4, parent.width-4);
-		pos.y = -parent.random(50); 
+		pos.y = -parent.random(DOWN_POSITION)-DOWN_POSITION; 
 		vel.y = stop? 0 : 10;
 		acc.y = stop? 0 : 0.1f; 
 	}

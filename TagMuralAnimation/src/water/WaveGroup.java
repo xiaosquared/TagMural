@@ -79,7 +79,7 @@ public class WaveGroup {
 			waves[i].fadeOut(delay);
 		}
 		if (onEnd != null) {
-			float delay = (waves.length-1)*0.5f;
+			float delay = (waves.length+1)*0.5f;
 			waves[0].fadeOut(delay, this, onEnd);
 		} 
 	}
