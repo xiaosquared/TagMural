@@ -10,6 +10,7 @@ import water.RainGroup;
 import water.Splash;
 import water.WaveGroup;
 import websockets.WebsocketClient;
+import words.WordSetsManager;
 
 public class WaveTest extends PApplet {
 
@@ -29,8 +30,8 @@ public class WaveTest extends PApplet {
 	ArrayList<String> featured_word_queue;
 
 	public void settings(){
-		//size(1200,800, P2D);
-		fullScreen(P2D);
+		size(1200,800, P2D);
+		//fullScreen(P2D);
 	}
 
 	public void setup(){    	
@@ -45,7 +46,7 @@ public class WaveTest extends PApplet {
 		splash = new Splash(this);
 		rains = new RainGroup(waves, splash, words, 12, this);
 
-		initClient();
+		//initClient();
 		featured_word_queue = new ArrayList<String>();
 
 		initFeaturedWord();
@@ -75,7 +76,9 @@ public class WaveTest extends PApplet {
 	}
 
 	void initWords() {
-		words = split(phrase, '\n');
+		WordSetsManager.init(this);
+		words = WordSetsManager.getCurrentWordSet().getTexts(); 
+		
 		font = createFont("American Typewriter", font_size);
 		textFont(font, font_size);  
 	}
@@ -117,8 +120,16 @@ public class WaveTest extends PApplet {
 			if (isRaining)
 				rains.restart();
 			break;
-		default:
-			client.sendMessage("hello dd!");
+		case 'w':
+			
+			// TODO: this is a pretty shitty way of testing switching wordsets...
+			
+			WordSetsManager.switchWordSet("arts");
+			words = WordSetsManager.getCurrentWordSet().getTexts();
+			waves.initText(words, 16, 36);
+			break;
+//		default:
+//			client.sendMessage("hello dd!");
 
 		}
 	}
