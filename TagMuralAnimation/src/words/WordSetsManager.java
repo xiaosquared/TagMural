@@ -41,12 +41,15 @@ public class WordSetsManager {
 		return current_words;
 	}
 	
+	public static Word getRandomWord() {
+		return current_words.getRandomWord();
+	}
+	
 	public static void switchWordSet(String key) {
 		WordSet ws = word_sets.get(key); 
 		if (ws != null) {
 			current_words = ws;
 			current_key = key;
-			PApplet.println("ok");
 		}
 	}
 	

@@ -2,11 +2,14 @@ package water;
 
 import processing.core.PApplet;
 import processing.core.PVector;
+import words.WordSetsManager;
 
 public class WaveGroup {
 	PApplet parent;
 	
 	Wave[] waves;
+	private static final int MIN_FONT_SIZE = 16;
+	private static final int MAX_FONT_SIZE = 36;
 
 	public WaveGroup(int n, PVector tl, PVector br, float particle_width, int sShade, int eShade, PApplet parent) {
 		this.parent = parent;
@@ -45,6 +48,15 @@ public class WaveGroup {
 		}
 	}
 
+	public void switchWordSet() {
+		initText(WordSetsManager.getCurrentWordSet().getTexts(), MIN_FONT_SIZE, MAX_FONT_SIZE);
+	}
+	
+	private void switchAndFadeIn() {
+		switchWordSet();
+		fadeIn();
+	}
+	
 	public void update() {
 		for (int i = 0; i < waves.length; i++) {
 			waves[i].update();
@@ -59,5 +71,23 @@ public class WaveGroup {
 
 	public Wave getWave(int i) {
 		return waves[i];
+	}
+	
+	public void fadeOut(String onEnd) {
+		for (int i = waves.length-1; i >= 1; i--) {
+			float delay = (waves.length-1-i)*0.8f;
+			waves[i].fadeOut(delay);
+		}
+		if (onEnd != null) {
+			float delay = (waves.length-1)*0.5f;
+			waves[0].fadeOut(delay, this, onEnd);
+		} 
+	}
+	
+	public void fadeIn() {
+		for (int i = 0; i < waves.length; i++) {
+			float delay = i*0.8f;
+			waves[i].fadeIn(delay);
+		}
 	}
 }

@@ -31,10 +31,14 @@ public class Wave {
 	float font_size = 0;
 	int shade = 200;
 
+	final float FADE_TIME = 1;
+	float SHADE_VALUE = 200;
+	
 	public Wave(PVector startPos, PVector endPos, float particle_width, int shade, PApplet parent) {
 		this.parent = parent;
 		
 		this.shade = shade;
+		this.SHADE_VALUE = shade;
 		this.radius = particle_width/2;
 		target_height = startPos.y;
 
@@ -107,6 +111,26 @@ public class Wave {
 		sp.createSplash(springs[(int)(left + (right-left)/2)].pos.x, target_height);
 	}
 
+	public void fadeOut() {
+		fadeOut(0);
+	}
+	
+	public void fadeOut(float delay) {
+		Ani.to(this, FADE_TIME, delay, "shade", 0, Ani.SINE_IN_OUT);
+	}
+	
+	public void fadeOut(float delay, Object onEndObj, String onEnd) {
+		Ani.to(this, FADE_TIME, delay, "shade", 0, Ani.SINE_IN_OUT, onEndObj, onEnd);
+	}
+	
+	public void fadeIn() {
+		fadeIn(0);
+	}
+	
+	public void fadeIn(float delay) {
+		Ani.to(this, FADE_TIME, delay, "shade", SHADE_VALUE, Ani.SINE_IN_OUT);
+	}
+	
 	public void update() {
 		// deal with traveling wave
 		if (amplitude != 0) {

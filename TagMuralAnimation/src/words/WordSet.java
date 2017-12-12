@@ -3,7 +3,7 @@ package words;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import filling.Rectangle;
+import filling.Rectangle; 
 import processing.core.PApplet;
 
 public class WordSet {
