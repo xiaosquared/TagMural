@@ -17,7 +17,7 @@ public class BrickVertical extends Brick {
 	}
 	
 	public void draw(boolean draw_border, boolean bw_mode, PApplet parent) {
-		setColor(bw_mode, parent);
+		setFill(bw_mode, parent);
 		
 		if (draw_border) {
 			parent.pushMatrix();

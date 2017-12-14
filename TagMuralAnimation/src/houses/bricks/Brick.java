@@ -20,7 +20,7 @@ public class Brick extends Rectangle{
 		return getMinX() + width;
 	}
 	
-	public void setColor(boolean bw_mode, PApplet parent) {
+	public void setFill(boolean bw_mode, PApplet parent) {
 		if (bw_mode) 
 			color.fillBW(parent); 
 		else
@@ -28,7 +28,7 @@ public class Brick extends Rectangle{
 	}
 	
 	public void draw(boolean draw_border, boolean bw_mode, PApplet parent) {
-		setColor(bw_mode, parent);
+		setFill(bw_mode, parent);
 		
 		if (draw_border) {
 			super.draw(parent);
