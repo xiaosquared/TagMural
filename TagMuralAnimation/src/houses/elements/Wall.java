@@ -23,15 +23,16 @@ public class Wall {
 	private ArrayList<Brick> bricks;
 	private boolean isFilled = false;
 	
-	// TODO: Deal with color... prob make it an enum for a set pallett?
+	ColorPalette color = ColorPalette.CYAN;
 	
 	public Wall(float x, float y, float width, float height) {
 		bounding_box = new Rectangle(x, y, width, height);
 		bricks = new ArrayList<Brick>();
 	}
 	
-	public Wall(float x, float y, float width, float height, float layer_thickness) {
+	public Wall(float x, float y, float width, float height, float layer_thickness, ColorPalette color) {
 		this(x, y, width, height);
+		this.color = color;
 		
 		this.layer_thickness = layer_thickness;
 		layers = new ArrayList<Layer>();
@@ -43,6 +44,7 @@ public class Wall {
 	}
 	
 	// TODO: SET & GET Methods!!
+	// if I want to reset color, don't forget to change all the bricks
 	
 	// TODO: don't forget about redoing windows. might not be here though....
 	public void reset() {
@@ -71,7 +73,7 @@ public class Wall {
 			return false;
 		
 		bricks.add(brick);
-		// TODO: deal with color HERE!
+		brick.setColor(color.getColorVariation(parent));
 		
 		if (height_scale > 1) {
 			for (int i = 0; i < height_scale; i++) {
@@ -143,6 +145,6 @@ public class Wall {
 	// TODO: COLOR!! for b.draw - also where do I set bw mode??
 	private void drawWords(PApplet parent) {
 		for (Brick b : bricks)
-			b.draw(false, false, parent);
+			b.draw(parent);
 	}
 }

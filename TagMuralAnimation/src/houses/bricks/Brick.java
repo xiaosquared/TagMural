@@ -1,5 +1,6 @@
 package houses.bricks;
 
+import global.Settings;
 import processing.core.PApplet;
 import words.Word;
 
@@ -20,17 +21,19 @@ public class Brick extends Rectangle{
 		return getMinX() + width;
 	}
 	
-	public void setFill(boolean bw_mode, PApplet parent) {
-		if (bw_mode) 
+	public void setColor(Color c ) { this.color = c; }
+	
+	public void setFill(PApplet parent) {
+		if (Settings.bw_mode) 
 			color.fillBW(parent); 
 		else
 			color.fill(parent);
 	}
 	
-	public void draw(boolean draw_border, boolean bw_mode, PApplet parent) {
-		setFill(bw_mode, parent);
+	public void draw(PApplet parent) {
+		setFill(parent);
 		
-		if (draw_border) {
+		if (Settings.draw_brick_border) {
 			super.draw(parent);
 		}
 		word.draw(getMinX(), getMinY(), height);

@@ -1,5 +1,6 @@
 package houses.bricks;
 
+import global.Settings;
 import processing.core.PApplet;
 import words.Word;
 
@@ -16,10 +17,10 @@ public class BrickVertical extends Brick {
 		return getMinY() + height;
 	}
 	
-	public void draw(boolean draw_border, boolean bw_mode, PApplet parent) {
-		setFill(bw_mode, parent);
+	public void draw(PApplet parent) {
+		setFill(parent);
 		
-		if (draw_border) {
+		if (Settings.draw_brick_border) {
 			parent.pushMatrix();
 			parent.translate(getMinX() + width, super.getMinY());
 			parent.rect(0, 0, width, height);
