@@ -1,6 +1,8 @@
 package test;
 
 import houses.elements.ColorPalette;
+import houses.elements.RectWindow;
+import houses.elements.Window;
 import houses.elements.Wall;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -9,6 +11,7 @@ import words.WordSetsManager;
 public class WallTest extends PApplet {
 
 	Wall wall;
+	Window win;
 	PFont font;
 	int font_size = 100;
 	
@@ -22,10 +25,16 @@ public class WallTest extends PApplet {
 		colorMode(HSB, 360, 100, 100);
 		initWords();
 		
-		wall = new Wall(100, 100, width-200, height-200, 6, ColorPalette.RED);
+		wall = new Wall(100, 100, width-200, 400, 6, ColorPalette.RED);
+		win = new RectWindow(200, 200, width-400, 300, 6, ColorPalette.YELLOW);
+		win.makeHole(wall);
+		
 		wall.fillAll(this);
+		win.fillAll(this);
+		
 		background(0);
-		wall.draw(true, true, true, this);
+		wall.draw(false, true, true, this);
+		win.draw(false, true, true, this);
 	}
 	
 	public void draw() {

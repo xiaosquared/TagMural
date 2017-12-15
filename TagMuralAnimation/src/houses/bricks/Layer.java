@@ -57,6 +57,14 @@ public class Layer {
 		return slots.isEmpty();
 	}
 	
+	public void makeHole(float left_bound, float right_bound, float gap) {
+		ArrayList<Slot> overlaps = getOverlappingSlots(left_bound, right_bound);
+		if (overlaps.size() > 0) {
+			for (Slot s : overlaps)
+				subdivideSlot(s, left_bound - gap, right_bound + gap, 1);
+		}
+	}
+	
 	public ArrayList<Slot> getOverlappingSlots(float left_bound, float right_bound) {
 		ArrayList<Slot> overlaps = new ArrayList<Slot>();
 		for (Slot s : slots) {

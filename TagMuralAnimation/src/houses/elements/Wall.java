@@ -45,6 +45,12 @@ public class Wall {
 	
 	// TODO: SET & GET Methods!!
 	// if I want to reset color, don't forget to change all the bricks
+	public ArrayList<Layer> getLayers() { return layers; }
+	public float getMinX() { return bounding_box.getMinX(); }
+	public float getMinY() { return bounding_box.getMinY(); }
+	public float getMaxX() { return bounding_box.getMaxX(); }
+	public float getMaxY() { return bounding_box.getMaxY(); }
+	public float getLayerThickness() { return layer_thickness; }
 	
 	// TODO: don't forget about redoing windows. might not be here though....
 	public void reset() {
@@ -134,15 +140,13 @@ public class Wall {
 		bounding_box.draw(parent);
 	}
 	
-	// TODO: COLOR!!
 	private void drawLayers(PApplet parent) {
 		parent.noStroke();
-		parent.fill(100, 100, 100);
+		parent.fill(color.hue(), 100, 100);
 		for (Layer l : layers) 
 			l.draw(parent);
 	}
 	
-	// TODO: COLOR!! for b.draw - also where do I set bw mode??
 	private void drawWords(PApplet parent) {
 		for (Brick b : bricks)
 			b.draw(parent);
