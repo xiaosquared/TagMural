@@ -45,6 +45,22 @@ public class Layer {
 	public float getThickness() { return thickness; }
 	public float getLength() { return length; }
 	
+	public void extendLower(float amount) {
+		lower_bound -= amount;
+		length = upper_bound - lower_bound;
+
+		slots = new ArrayList<Slot>();
+		slots.add(new Slot(lower_bound, upper_bound));
+	}
+
+	public void extendUpper(float amount) {
+		upper_bound += amount;
+		length = upper_bound - lower_bound;
+
+		slots = new ArrayList<Slot>();
+		slots.add(new Slot(lower_bound, upper_bound));
+	}
+	
 	public void reset() {
 		slots.clear();
 		if (isVertical)
