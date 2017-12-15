@@ -11,19 +11,19 @@ import words.Word;
 import words.WordSetsManager;
 
 public class Wall {
-	private static float MIN_BRICK_WIDTH = 5;
-	private static float MAX_HEIGHT_SCALE = 5;
+	protected static float MIN_BRICK_WIDTH = 5;
+	protected static float MAX_HEIGHT_SCALE = 5;
 	
 	Rectangle bounding_box;
 	
-	private ArrayList<Layer> layers;
-	private int layer_index = 0;
-	private float layer_thickness;
+	protected ArrayList<Layer> layers;
+	protected int layer_index = 0;
+	protected float layer_thickness;
 	
-	private ArrayList<Brick> bricks;
-	private boolean isFilled = false;
+	protected ArrayList<Brick> bricks;
+	protected boolean isFilled = false;
 	
-	ColorPalette color = ColorPalette.CYAN;
+	protected ColorPalette color = ColorPalette.CYAN;
 	
 	public Wall(float x, float y, float width, float height) {
 		bounding_box = new Rectangle(x, y, width, height);

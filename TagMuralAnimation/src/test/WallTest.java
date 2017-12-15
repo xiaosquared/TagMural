@@ -1,5 +1,6 @@
 package test;
 
+import houses.elements.ArchWindow;
 import houses.elements.ColorPalette;
 import houses.elements.RectWindow;
 import houses.elements.Window;
@@ -26,7 +27,7 @@ public class WallTest extends PApplet {
 		initWords();
 		
 		wall = new Wall(100, 100, width-200, 400, 6, ColorPalette.RED);
-		win = new RectWindow(200, 200, width-400, 300, 6, ColorPalette.YELLOW);
+		win = new ArchWindow(200, 200, 250, 300, 6, ColorPalette.YELLOW);
 		win.makeHole(wall);
 		
 		wall.fillAll(this);

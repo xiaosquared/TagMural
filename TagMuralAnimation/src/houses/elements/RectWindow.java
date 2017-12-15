@@ -5,13 +5,15 @@ import processing.core.PApplet;
 
 public class RectWindow extends Wall implements Window {
 
-	private float gap = 5;
-	
 	public RectWindow(float x, float y, float width, float height, float layer_thickness, ColorPalette color) {
 		super(x, y, width, height, layer_thickness, color);
 	}
 	
 	public void makeHole(Wall wall) {
+		makeHole(wall, GAP);
+	}
+	
+	public void makeHole(Wall wall, float gap) {
 		int top_index = 0;
 		int bottom_index = wall.getLayers().size();
 		
