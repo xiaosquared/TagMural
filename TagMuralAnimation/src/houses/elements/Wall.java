@@ -30,6 +30,11 @@ public class Wall {
 		bricks = new ArrayList<Brick>();
 	}
 	
+	public Wall(float x, float y, float width, float height, ColorPalette color) {
+		this(x, y, width, height);
+		this.color = color;
+	}
+	
 	public Wall(float x, float y, float width, float height, float layer_thickness, ColorPalette color) {
 		this(x, y, width, height);
 		this.color = color;

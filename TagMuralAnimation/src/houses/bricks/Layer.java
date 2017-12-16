@@ -27,6 +27,7 @@ public class Layer {
 		this.position = position;
 		this.thickness = thickness;
 		this.length = upper_bound - lower_bound;
+		this.isVertical = isVertical;
 		
 		slots = new ArrayList<Slot>();
 		if (isVertical)

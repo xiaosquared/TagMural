@@ -5,7 +5,6 @@ import processing.core.PApplet;
 
 public class PointedWindow extends Wall implements Window {
 	private static float DEFAULT_ANGLE = 55;
-	private float angle;
 	
 	public PointedWindow(float x, float y, float width, float height, float layer_thickness, ColorPalette color) {
 		this(x, y, width, height, layer_thickness, color, DEFAULT_ANGLE);
@@ -13,7 +12,6 @@ public class PointedWindow extends Wall implements Window {
 	
 	public PointedWindow(float x, float y, float width, float height, float layer_thickness, ColorPalette color, float angle) {
 		super(x, y, width, height, layer_thickness, color);
-		this.angle = angle;
 		
 		float tan_angle = PApplet.tan(PApplet.radians(angle));
 		float triangle_height = width/2 / tan_angle;
