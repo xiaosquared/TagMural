@@ -3,7 +3,7 @@ package houses.elements;
 import houses.bricks.Layer;
 import processing.core.PApplet;
 
-public class RectWindow extends Wall implements Window {
+public class RectWindow extends Wall implements Window, Fillable {
 
 	public RectWindow(float x, float y, float width, float height, float layer_thickness, ColorPalette color) {
 		super(x, y, width, height, layer_thickness, color);

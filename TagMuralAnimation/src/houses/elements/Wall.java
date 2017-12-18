@@ -10,7 +10,7 @@ import processing.core.PApplet;
 import words.Word;
 import words.WordSetsManager;
 
-public class Wall {
+public class Wall implements Fillable {
 	protected static float MIN_BRICK_WIDTH = 5;
 	protected static float MAX_HEIGHT_SCALE = 5;
 	
@@ -55,7 +55,10 @@ public class Wall {
 	public float getMinY() { return bounding_box.getMinY(); }
 	public float getMaxX() { return bounding_box.getMaxX(); }
 	public float getMaxY() { return bounding_box.getMaxY(); }
+	public float getWidth() { return bounding_box.getWidth(); }
+	public float getHeight() { return bounding_box.getHeight(); }
 	public float getLayerThickness() { return layer_thickness; }
+	public ColorPalette getColor() { return color; }
 	
 	// TODO: don't forget about redoing windows. might not be here though....
 	public void reset() {
@@ -97,6 +100,10 @@ public class Wall {
 			}
 		}
 		return true;
+	}
+	
+	public boolean isFilled() {
+		return isFilled;
 	}
 	
 	public void fillAll(PApplet parent) {

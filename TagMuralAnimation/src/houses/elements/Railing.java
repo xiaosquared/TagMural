@@ -5,11 +5,11 @@ import houses.bricks.Rectangle;
 import processing.core.PApplet;
 
 public class Railing {
-	Rectangle bounding_box;
-	ArrayList<Column> rails;
-	Wall top_rail;
-	Wall bottom_rail;
-	int current_rail = 0;
+	private Rectangle bounding_box;
+	private ArrayList<Column> rails;
+	private Wall top_rail;
+	private Wall bottom_rail;
+	private int current_rail = 0;
 	
 	public Railing(float x, float y, float width, float height, 
 					float rail_width, float tb_rail_height, float in_between,
@@ -53,13 +53,13 @@ public class Railing {
 	}
 	
 	public void fillByLayer(PApplet parent) {
-		if (!bottom_rail.isFilled) 
+		if (!bottom_rail.isFilled()) 
 			bottom_rail.fillByLayer(parent);
-		else if (verticalFilled() && !top_rail.isFilled)
+		else if (verticalFilled() && !top_rail.isFilled())
 			top_rail.fillByLayer(parent);
 		else {
 			Column my_rail = rails.get(current_rail);
-			if (!my_rail.isFilled)
+			if (!my_rail.isFilled())
 				my_rail.fillByLayer(parent);
 			else if (current_rail < rails.size())
 				current_rail++;
@@ -67,14 +67,14 @@ public class Railing {
 	}
 	
 	public boolean isFilled() {
-		return top_rail.isFilled;
+		return top_rail.isFilled();
 	}
 	
 	/**
 	 * @return true if the vertical rails are all filled with words
 	 */
 	private boolean verticalFilled() {
-		return rails.get(rails.size()-1).isFilled;
+		return rails.get(rails.size()-1).isFilled();
 	}
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {

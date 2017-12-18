@@ -36,7 +36,9 @@ public class Rectangle {
 	public float getMinY() { return tl.y; }
 	public float getMaxX() { return tr.x; }
 	public float getMaxY() { return bl.y; }
-
+	public float getWidth() { return width; }
+	public float getHeight() { return height; }
+	
 	public void draw(PApplet parent) { 
 		parent.rect(tl.x, tl.y, width, height); 
 	}

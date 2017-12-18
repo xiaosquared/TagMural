@@ -3,7 +3,7 @@ package houses.elements;
 import houses.bricks.Layer;
 import processing.core.PApplet;
 
-public class PointedWindow extends Wall implements Window {
+public class PointedWindow extends Wall implements Window, Fillable {
 	private static float DEFAULT_ANGLE = 55;
 	
 	public PointedWindow(float x, float y, float width, float height, float layer_thickness, ColorPalette color) {

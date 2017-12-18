@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import houses.bricks.Layer;
 import processing.core.PApplet;
 
-public class Column extends Wall {
+public class Column extends Wall implements Fillable {
 	public Column(float x, float y, float width, float height, float layer_thickness, ColorPalette color) {
 		super(x, y, width, height, color);
 		
