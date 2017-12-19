@@ -2,8 +2,10 @@ package houses.stories;
 
 import java.util.ArrayList;
 
+import global.Settings;
 import houses.elements.ColorPalette;
 import houses.elements.Fillable;
+import houses.elements.Railing;
 import houses.elements.Wall;
 import houses.elements.Window;
 import houses.elements.WindowFactory;
@@ -69,6 +71,27 @@ public class PlainStory {
 		}
 	}
 	
+	public void addRailing(float r_height, float rail_width, float tb_rail_height, float in_between, ColorPalette color) {
+
+		// if base already exists, replace it with railing. ignore r_height
+		if (base != null) {
+			float rx = base.getMinX();
+			float ry = base.getMinY();
+			float rw = base.getWidth();
+			float rh = base.getHeight();
+			//float 
+			base = new Railing(rx, ry, rw, rh, rail_width, tb_rail_height, in_between, layer_thickness, color);
+		} 
+		
+		// if base doesn't already exits, have to shorten wall
+		else {
+			float new_y = main.getMaxY() - r_height;
+			shortenMainWall(new_y);
+			base = new Railing(main.getMinX(), main.getMaxY() + Settings.GAP, main.getWidth(), r_height, 
+								rail_width, tb_rail_height, in_between, layer_thickness, color);	
+		}
+	}
+	
 	/**
 	 * helper method to create base wall from y to bottom of the main wall
 	 * Run shortenMainWall right after to prevent overlap
@@ -100,6 +123,8 @@ public class PlainStory {
 		for (Window win : windows) {
 			win.reset();
 			win.makeHole(main);
+			if (win.getMaxY() > main.getMaxY())
+				((Wall) base).removeSection(win.getMinX(), win.getMaxX());
 		}
 	}
 	

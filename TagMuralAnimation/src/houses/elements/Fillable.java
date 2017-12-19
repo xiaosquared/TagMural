@@ -4,6 +4,10 @@ import processing.core.PApplet;
 
 public interface Fillable {
 	
+	public float getMinX();
+	public float getMaxX();
+	public float getMinY();
+	public float getMaxY();
 	public float getWidth();
 	public float getHeight();
 	

@@ -2,6 +2,7 @@ package houses.bricks;
 
 import java.util.ArrayList;
 
+import global.Settings;
 import processing.core.PApplet;
 import words.Word;
 
@@ -10,7 +11,6 @@ import words.Word;
  * 			 specifies x if layer is vertical (isVertical = true)
  */
 public class Layer {
-	private final float GAP = 6;
 	private float lower_bound;
 	private float upper_bound;
 	private float position;
@@ -83,7 +83,7 @@ public class Layer {
 	}
 	
 	public void makeHole(float left_bound, float right_bound) {
-		makeHole(left_bound, right_bound, GAP);
+		makeHole(left_bound, right_bound, Settings.GAP);
 	}
 	
 	public ArrayList<Slot> getOverlappingSlots(float left_bound, float right_bound) {
@@ -126,15 +126,15 @@ public class Layer {
 	public void subdivideSlot(Slot s, float brick_left, float brick_right, float min_width) {
 		if (brick_left - s.getLeft() > min_width) {
 			if (s instanceof SlotVertical)
-				slots.add(new SlotVertical(s.getLeft(), brick_left - GAP));
+				slots.add(new SlotVertical(s.getLeft(), brick_left - Settings.GAP));
 			else
-				slots.add(new Slot(s.getLeft(), brick_left - GAP));
+				slots.add(new Slot(s.getLeft(), brick_left - Settings.GAP));
 		}
 		if (s.getRight() - brick_right > min_width) {
 			if (s instanceof SlotVertical)
-				slots.add(new SlotVertical(brick_right + GAP, s.getRight()));
+				slots.add(new SlotVertical(brick_right + Settings.GAP, s.getRight()));
 			else
-				slots.add(new Slot(brick_right + GAP, s.getRight()));
+				slots.add(new Slot(brick_right + Settings.GAP, s.getRight()));
 		}
 		slots.remove(s);
 	}

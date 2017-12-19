@@ -1,5 +1,6 @@
 package houses.elements;
 
+import global.Settings;
 import houses.bricks.Layer;
 import processing.core.PApplet;
 
@@ -30,7 +31,7 @@ public class PointedWindow extends Wall implements Window, Fillable {
 	}
 	
 	public void makeHole(Wall wall) {
-		makeHole(wall, GAP);
+		makeHole(wall, Settings.GAP);
 	}
 	
 	public void makeHole(Wall wall, float gap) {

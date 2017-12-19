@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import houses.bricks.Rectangle;
 import processing.core.PApplet;
 
-public class Railing {
+public class Railing implements Fillable {
 	private Rectangle bounding_box;
 	private ArrayList<Column> rails;
 	private Wall top_rail;
@@ -35,6 +35,13 @@ public class Railing {
 		bottom_rail = new Wall(x, y + height - tb_rail_height, width, tb_rail_height, layer_thickness, color);
 		
 	}
+	
+	public float getMinX() { return bounding_box.getMinX(); }
+	public float getMinY() { return bounding_box.getMinY(); }
+	public float getMaxX() { return bounding_box.getMaxX(); }
+	public float getMaxY() { return bounding_box.getMaxY(); }
+	public float getWidth() { return bounding_box.getWidth(); }
+	public float getHeight() { return bounding_box.getHeight(); }
 	
 	public void reset() {
 		for (Column rail : rails)

@@ -1,5 +1,6 @@
 package houses.elements;
 
+import global.Settings;
 import houses.bricks.Layer;
 import processing.core.PApplet;
 
@@ -44,7 +45,7 @@ public class ArchWindow extends Wall implements Window, Fillable {
 	}
 	
 	public void makeHole(Wall wall) {
-		makeHole(wall, GAP);
+		makeHole(wall, Settings.GAP);
 	}
 	
 	// window must be aligned with the bottom of the wall

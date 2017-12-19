@@ -4,7 +4,12 @@ import processing.core.PApplet;
 
 public interface Window {
 	
-	public static float GAP = 5;
+	public float getMinX();
+	public float getMaxX();
+	public float getMinY();
+	public float getMaxY();
+	public float getWidth();
+	public float getHeight();
 	
 	public void makeHole(Wall wall);
 	public void fillAll(PApplet parent);

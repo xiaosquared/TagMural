@@ -39,9 +39,11 @@ public class WallTest extends PApplet {
 		//rail = new Railing(100, 100, 200, 300, 12, 12, 10, 6, ColorPalette.CYAN);
 		//rail.fillAll(this);
 		
-		PlainStory story = new PlainStory(100, 100, width-200, 400, 6, ColorPalette.GREEN);
+		story = new PlainStory(100, 100, width-200, 400, 6, ColorPalette.GREEN);
+		story.addRailing(120, 12, 12, 10, ColorPalette.YELLOW);
 		story.addWindow(WindowFactory.Type.POINTED, 200, 150, 150, 200, ColorPalette.CYAN);
-		story.addDoor(WindowFactory.Type.RECT, 500, 100, 150, ColorPalette.YELLOW);
+		//story.addDoor(WindowFactory.Type.RECT, 500, 100, 150, ColorPalette.YELLOW);
+		
 		story.fillAll(this);
 //		
 //		wall.fillAll(this);
@@ -67,10 +69,9 @@ public class WallTest extends PApplet {
 	
 	public void keyPressed() {
 		if (key == 32) {
-			wall.reset();
-			wall.fillAll(this);
+			story.reset();
 			background(0);
-			wall.draw(false, true, true, this);
+			story.draw(false, true, true, this);
 		}
 	}
 	
