@@ -69,6 +69,12 @@ public class Wall implements Fillable {
 		layer_index = 0;
 	}
 	
+	public void removeSection(float lower_bound, float upper_bound) {
+		for (Layer l : layers) {
+			l.makeHole(lower_bound, upper_bound);
+		}
+	}
+	
 	public boolean addWordBrick(Word word, boolean featured, PApplet parent) {
 		if (isFilled || layers.size() == 0)
 			return false;

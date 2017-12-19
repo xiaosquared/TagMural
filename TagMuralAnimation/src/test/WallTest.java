@@ -41,6 +41,7 @@ public class WallTest extends PApplet {
 		
 		PlainStory story = new PlainStory(100, 100, width-200, 400, 6, ColorPalette.GREEN);
 		story.addWindow(WindowFactory.Type.POINTED, 200, 150, 150, 200, ColorPalette.CYAN);
+		story.addDoor(WindowFactory.Type.RECT, 500, 100, 150, ColorPalette.YELLOW);
 		story.fillAll(this);
 //		
 //		wall.fillAll(this);

@@ -35,7 +35,6 @@ public class PlainStory {
 	 * @param top_margin: y of window relative to main.y
 	 */
 	public void addWindow(WindowFactory.Type type, float left_margin, float top_margin, float w_width, float w_height, ColorPalette color) {
-		Window w; 
 		if (base != null) {
 			w_height = main.getHeight() - top_margin;
 		} else {
@@ -43,9 +42,31 @@ public class PlainStory {
 			createBaseWall(new_y);
 			shortenMainWall(new_y);
 		}
-		w = WindowFactory.createWindow(type, main.getMinX() + left_margin, main.getMinY() + top_margin, w_width, w_height, layer_thickness, color);
+		Window w = WindowFactory.createWindow(type, main.getMinX() + left_margin, main.getMinY() + top_margin, w_width, w_height, layer_thickness, color);
 		windows.add(w);
 		w.makeHole(main);
+	}
+	
+	public void addDoor(WindowFactory.Type type, float left_margin, float top_margin, float d_width, ColorPalette color) {
+		float d_height;
+		if (base != null) {
+			d_height = main.getHeight() + base.getHeight() - top_margin;
+			Window door = WindowFactory.createWindow(type, main.getMinX() + left_margin, main.getMinY() + top_margin, 
+													d_width, d_height, layer_thickness, color);
+			windows.add(door);
+			door.makeHole(main);
+			if (base instanceof Wall) {
+				float left_bound = ((Wall) base).getMinX() + left_margin;
+				float right_bound = left_bound + d_width;
+				((Wall) base).removeSection(left_bound, right_bound);
+			}
+		} else {
+			d_height = main.getHeight() - top_margin;
+			Window door = WindowFactory.createWindow(type, main.getMinX() + left_margin, main.getMinY() + top_margin, 
+					d_width, d_height, layer_thickness, color);
+			windows.add(door);
+			door.makeHole(main);
+		}
 	}
 	
 	/**

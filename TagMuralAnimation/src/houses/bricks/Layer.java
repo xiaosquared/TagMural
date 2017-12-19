@@ -82,6 +82,10 @@ public class Layer {
 		}
 	}
 	
+	public void makeHole(float left_bound, float right_bound) {
+		makeHole(left_bound, right_bound, GAP);
+	}
+	
 	public ArrayList<Slot> getOverlappingSlots(float left_bound, float right_bound) {
 		ArrayList<Slot> overlaps = new ArrayList<Slot>();
 		for (Slot s : slots) {
