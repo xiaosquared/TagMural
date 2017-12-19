@@ -10,7 +10,7 @@ import words.Word;
  * 			 specifies x if layer is vertical (isVertical = true)
  */
 public class Layer {
-	private final float GAP = 5;
+	private final float GAP = 6;
 	private float lower_bound;
 	private float upper_bound;
 	private float position;

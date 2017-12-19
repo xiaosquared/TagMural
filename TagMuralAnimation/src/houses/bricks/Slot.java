@@ -9,8 +9,7 @@ public class Slot {
 	private float right;
 	private float distance;
 	private int failure_count;
-	private boolean to_remove;
-	
+
 	public Slot(float left, float right) {
 		this.left = PApplet.min(left, right);
 		this.right = PApplet.max(left, right);
