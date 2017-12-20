@@ -126,15 +126,15 @@ public class Layer {
 	public void subdivideSlot(Slot s, float brick_left, float brick_right, float min_width) {
 		if (brick_left - s.getLeft() > min_width) {
 			if (s instanceof SlotVertical)
-				slots.add(new SlotVertical(s.getLeft(), brick_left - Settings.GAP));
+				slots.add(new SlotVertical(s.getLeft(), brick_left - Settings.F_GAP));
 			else
-				slots.add(new Slot(s.getLeft(), brick_left - Settings.GAP));
+				slots.add(new Slot(s.getLeft(), brick_left - Settings.F_GAP));
 		}
 		if (s.getRight() - brick_right > min_width) {
 			if (s instanceof SlotVertical)
-				slots.add(new SlotVertical(brick_right + Settings.GAP, s.getRight()));
+				slots.add(new SlotVertical(brick_right + Settings.F_GAP, s.getRight()));
 			else
-				slots.add(new Slot(brick_right + Settings.GAP, s.getRight()));
+				slots.add(new Slot(brick_right + Settings.F_GAP, s.getRight()));
 		}
 		slots.remove(s);
 	}

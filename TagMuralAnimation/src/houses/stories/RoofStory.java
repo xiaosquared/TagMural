@@ -8,7 +8,7 @@ import houses.elements.Window;
 import houses.elements.WindowFactory;
 import processing.core.PApplet;
 
-public class RoofStory extends PlainStory {
+public class RoofStory extends PlainStory implements Story {
 	
 	float angle;
 	float x_trap; // top left corner "x" of trapezoid. 
@@ -56,10 +56,34 @@ public class RoofStory extends PlainStory {
 		Window w = super.addWindow(type, left_margin, top_margin, w_width, w_height, color);
 		
 		createInclineSides(main, main.getMinX(), main.getMinY(), angle, left_incline, right_incline);
-		createInclineSides((Wall)base, main.getMinX(), main.getMinY(), angle, left_incline, right_incline);
+		if (base != null)
+			createInclineSides((Wall)base, main.getMinX(), main.getMinY(), angle, left_incline, right_incline);
 		
 		w.makeHole(main);
 		return w;
+	}
+	
+	public void addChimney(float where, float width, float height) {
+		Layer top_layer = main.getLayers().get(main.getLayers().size()-1);
+		int num_layers = PApplet.floor(height / layer_thickness);
+		
+		if (top_layer.getLength() < width) {
+			float diff = width - top_layer.getLength();
+			top_layer.extendLower(-diff/2);
+			top_layer.extendLower(diff/2);
+			
+			for (int i = 0; i < num_layers; i++) {
+				Layer l = new Layer(top_layer.getLowerBound(), top_layer.getUpperBound(), 
+									top_layer.getPosition() - i * layer_thickness, top_layer.getThickness());
+				main.getLayers().add(l);
+			}
+		} else {
+			float lower_bound = PApplet.lerp(top_layer.getLowerBound(), top_layer.getUpperBound() - width, where);
+			for (int i = 1; i <= num_layers; i++) {
+				Layer l = new Layer(lower_bound, lower_bound + width, top_layer.getPosition() - i * layer_thickness, top_layer.getThickness());
+				main.getLayers().add(l);
+			}
+		}
 	}
 	
 	private void drawOutline(PApplet parent) {

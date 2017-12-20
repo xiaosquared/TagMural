@@ -11,13 +11,13 @@ import houses.elements.Window;
 import houses.elements.WindowFactory;
 import processing.core.PApplet;
 
-public class PlainStory {
+public class PlainStory implements Story {
 	protected Wall main;
 	protected Fillable base;
 	protected ArrayList<Window> windows;
 	
 	protected float height;
-	private float layer_thickness;
+	protected float layer_thickness;
 	
 	public PlainStory(float x, float y, float width, float height, float layer_thickness, ColorPalette color) {
 		main = new Wall(x, y, width, height, layer_thickness, color);
@@ -35,24 +35,43 @@ public class PlainStory {
 	
 	/**
 	 * @param type
-	 * @param left_margin: x of window relative to main.x 
-	 * @param top_margin: y of window relative to main.y
+	 * @param win_x: x of window relative to main.x 
+	 * @param win_y: y of window relative to main.y
 	 */
-	public Window addWindow(WindowFactory.Type type, float left_margin, float top_margin, float w_width, float w_height, ColorPalette color) {
+	
+	//TODO: probably make this private... need to change the interface!!
+	// What about for roof?
+	
+	public Window addWindow(WindowFactory.Type type, float win_x, float win_y, float w_width, float w_height, ColorPalette color) {
 		if (base != null) {
-			w_height = main.getHeight() - top_margin;
+			w_height = main.getHeight() - win_y;
 		} else {
-			float new_y = main.getMinY() + top_margin + w_height;
+			float new_y = main.getMinY() + win_y + w_height;
 			createBaseWall(new_y);
 			shortenMainWall(new_y);
 		}
-		Window w = WindowFactory.createWindow(type, main.getMinX() + left_margin, main.getMinY() + top_margin, w_width, w_height, layer_thickness, color);
+		Window w = WindowFactory.createWindow(type, main.getMinX() + win_x, main.getMinY() + win_y, w_width, w_height, layer_thickness, color);
 		windows.add(w);
 		w.makeHole(main);
 		
 		return w;
 	}
 	
+	public ArrayList<Window> addWindows(WindowFactory.Type type, float num, float top_margin, float bot_margin, float side_margin, float in_between, ColorPalette color) {
+		float win_width = (main.getWidth() - 2 * side_margin - (num-1) * in_between)/num;
+		float win_height = main.getHeight() - top_margin - bot_margin;
+		
+		ArrayList<Window> windows = new ArrayList<Window>();
+		for (int i = 0; i < num; i++) {
+			float win_x = side_margin + i * (in_between + win_width);
+			Window w = addWindow(type, win_x, top_margin, win_width, win_height, color);
+			windows.add(w);
+		}
+		return windows;
+	}
+	
+	
+// TODO: fix the arguments names/order
 	public Window addDoor(WindowFactory.Type type, float left_margin, float top_margin, float d_width, ColorPalette color) {
 		float d_height;
 		Window door;
@@ -78,8 +97,7 @@ public class PlainStory {
 		return door;
 	}
 	
-	public void addRailing(float r_height, float rail_width, float tb_rail_height, float in_between, ColorPalette color) {
-
+	public void addRailing(float rail_height, float rail_width, float tb_rail_height, float in_between, ColorPalette color) {
 		// if base already exists, replace it with railing. ignore r_height
 		if (base != null) {
 			float rx = base.getMinX();
@@ -92,11 +110,17 @@ public class PlainStory {
 		
 		// if base doesn't already exits, have to shorten wall
 		else {
-			float new_y = main.getMaxY() - r_height;
+			float new_y = main.getMaxY() - rail_height;
 			shortenMainWall(new_y);
-			base = new Railing(main.getMinX(), main.getMaxY() + Settings.GAP, main.getWidth(), r_height, 
+			base = new Railing(main.getMinX(), main.getMaxY() + Settings.GAP, main.getWidth(), rail_height, 
 								rail_width, tb_rail_height, in_between, layer_thickness, color);	
 		}
+	}
+	
+	public void addRailing(float rail_height, ColorPalette color) {
+		float rail_width = Settings.LAYER_THICKNESS * 2;
+		float in_between = rail_width * 1.5f;
+		addRailing(rail_height, rail_width, rail_width, in_between, color);
 	}
 	
 	/**

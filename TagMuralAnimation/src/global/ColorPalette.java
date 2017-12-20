@@ -7,7 +7,7 @@ public enum ColorPalette {
 	YELLOW(60, 250),
 	GREEN(120, 200),
 	CYAN(180, 200),
-	BLUE(240, 50),
+	BLUE(240, 120),
 	MAGENTA(300, 150);
 	
 	private final int hue;

@@ -1,8 +1,9 @@
 package test;
 
 import global.ColorPalette;
-
+import global.Settings;
 import houses.stories.PlainStory;
+import houses.stories.PorticoStory;
 import houses.stories.RoofStory;
 import houses.elements.WindowFactory;
 import processing.core.PApplet;
@@ -13,6 +14,7 @@ public class WallTest extends PApplet {
 
 	PlainStory story;
 	RoofStory roof;
+	PorticoStory portico;
 	
 	PFont font;
 	int font_size = 100;
@@ -26,30 +28,33 @@ public class WallTest extends PApplet {
 		textAlign(LEFT, TOP);
 		colorMode(HSB, 360, 100, 100);
 		initWords();
-		
-//		wall = new Wall(100, 100, width-200, 400, 6, ColorPalette.RED);
-//		win = new PointedWindow(200, 200, 250, 300, 6, ColorPalette.YELLOW);
-//		win.makeHole(wall);
-		//rail = new Railing(100, 100, 200, 300, 12, 12, 10, 6, ColorPalette.CYAN);
-		//rail.fillAll(this);
-		
-//		story = new PlainStory(100, 100, width-200, 400, 6, ColorPalette.GREEN);
+				
+		story = new PlainStory(100, 100, Settings.getStoryWidth(4), Settings.getStoryHeight(), Settings.LAYER_THICKNESS, ColorPalette.GREEN);
+		story.addRailing(Settings.getRailingHeight(), ColorPalette.YELLOW);
+		story.addWindows(WindowFactory.Type.RECT, 4, 
+						Settings.getTopMargin(), 
+						Settings.getBottomMargin(), 
+						Settings.getSideMargin(), 
+						Settings.getInBetween(), ColorPalette.BLUE);
 //		story.addRailing(120, 12, 12, 10, ColorPalette.YELLOW);
 //		story.addWindow(WindowFactory.Type.POINTED, 200, 150, 150, 200, ColorPalette.CYAN);
 		//story.addDoor(WindowFactory.Type.RECT, 500, 100, 150, ColorPalette.YELLOW);
-//		story.fillAll(this);
+		story.fillAll(this);
 		
-		
-		roof = new RoofStory(100, 100, 500, 300, 16, 6, ColorPalette.MAGENTA);
-		roof.addWindow(WindowFactory.Type.POINTED , 100, 50, 50, 50, ColorPalette.YELLOW);
-		roof.fillAll(this);
-		
-//		wall.fillAll(this);
-//		win.fillAll(this);
+//		roof = new RoofStory(100, 100, Settings.getStoryWidth(3), Settings.DEFAULT_STORY_HEIGHT, 16, Settings.LAYER_THICKNESS, ColorPalette.MAGENTA);
+//		roof.addWindow(WindowFactory.Type.POINTED, 100, 50, 50, 50, ColorPalette.YELLOW);
+//		roof.addChimney(0.5f, 40, 50);
+//		roof.fillAll(this);
+
+//		portico = new PorticoStory(100, 100, 500, 200, 3, 12, 6, ColorPalette.BLUE, ColorPalette.GREEN);
+//		portico.fillAll(this);
 		
 		background(0);
-		roof.draw(false, true, true, this);
-//		story.draw(false, true, true, this);
+		
+//		portico.draw(false, true, true, this);
+		
+//		roof.draw(false, true, true, this);
+		story.draw(false, true, true, this);
 		//rail.draw(false, true, true, this);
 //		wall.draw(false, true, true, this);
 //		win.draw(false, true, true, this);

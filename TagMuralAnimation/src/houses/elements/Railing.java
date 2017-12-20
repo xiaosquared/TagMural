@@ -3,6 +3,7 @@ package houses.elements;
 import java.util.ArrayList;
 
 import global.ColorPalette;
+import global.Settings;
 import houses.bricks.Rectangle;
 import processing.core.PApplet;
 
