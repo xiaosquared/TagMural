@@ -1,6 +1,5 @@
-package houses.elements;
+package global;
 
-import houses.bricks.Color;
 import processing.core.PApplet;
 
 public enum ColorPalette {

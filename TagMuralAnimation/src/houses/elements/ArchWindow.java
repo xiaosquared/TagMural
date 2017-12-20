@@ -1,5 +1,6 @@
 package houses.elements;
 
+import global.ColorPalette;
 import global.Settings;
 import houses.bricks.Layer;
 import processing.core.PApplet;

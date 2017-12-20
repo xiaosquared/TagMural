@@ -1,4 +1,4 @@
-package houses.bricks;
+package global;
 
 import processing.core.PApplet;
 

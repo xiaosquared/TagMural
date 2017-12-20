@@ -1,5 +1,6 @@
 package houses.bricks;
 
+import global.Color;
 import global.Settings;
 import processing.core.PApplet;
 import words.Word;

@@ -2,6 +2,7 @@ package houses.elements;
 
 import java.util.ArrayList;
 
+import global.ColorPalette;
 import houses.bricks.Layer;
 import processing.core.PApplet;
 
