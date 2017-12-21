@@ -38,15 +38,16 @@ public class PointedWindow extends Wall implements Window, Fillable {
 	public void makeHole(Wall wall, float gap) {
 		Layer current_window_layer;
 		Layer current_wall_layer;
-		for (int i = 0; i < layers.size(); i++) {
+		int i;
+		for (i = 0; i < layers.size(); i++) {
 			current_window_layer = layers.get(i);
 			current_wall_layer = wall.getLayers().get(i);
 			
 			current_wall_layer.makeHole(current_window_layer.getLowerBound(), current_window_layer.getUpperBound(), gap);
 		}
 		
-		int num_gap_layers = PApplet.ceil(gap / layer_thickness);
-		for (int i = layers.size()-1; i > num_gap_layers; i--) {
+		int num_gap_layers = PApplet.floor(gap / layer_thickness);
+		for (i = layers.size()-1; i > num_gap_layers; i--) {
 			current_window_layer = layers.get(i);
 			if (num_gap_layers + i >= wall.getLayers().size())
 				break;

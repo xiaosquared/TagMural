@@ -1,5 +1,7 @@
 package houses.stories;
 
+import java.util.ArrayList;
+
 import global.ColorPalette;
 import houses.bricks.Layer;
 import houses.elements.Fillable;
@@ -62,6 +64,22 @@ public class RoofStory extends PlainStory implements Story {
 		w.makeHole(main);
 		return w;
 	}
+	
+	public ArrayList<Window> addWindows(WindowFactory.Type type, int num, float top_margin, float bot_margin, 
+										float side_margin, float in_between, ColorPalette color) {
+		ArrayList<Window> windows = super.addWindows(type, num, top_margin, bot_margin, side_margin, in_between, color);
+		
+		createInclineSides(main, main.getMinX(), main.getMinY(), angle, left_incline, right_incline);
+		if (base != null)
+			createInclineSides((Wall)base, main.getMinX(), main.getMinY(), angle, left_incline, right_incline);
+		
+		for (Window w : windows) {
+			w.makeHole(main);
+		}
+		
+		return windows;
+	}
+	
 	
 	public void addChimney(float where, float width, float height) {
 		Layer top_layer = main.getLayers().get(main.getLayers().size()-1);

@@ -1,71 +1,58 @@
 package test;
 
-import global.ColorPalette;
+import de.looksgood.ani.Ani;
 import global.Settings;
-import houses.stories.PlainStory;
-import houses.stories.PorticoStory;
-import houses.stories.RoofStory;
 import houses.elements.WindowFactory;
+import houses.stories.House;
+
 import processing.core.PApplet;
 import processing.core.PFont;
+import water.WaveScene;
 import words.WordSetsManager;
 
 public class WallTest extends PApplet {
 
-	PlainStory story;
-	RoofStory roof;
-	PorticoStory portico;
+	House house;
 	
 	PFont font;
 	int font_size = 100;
+	String[] words = new String[20];
 	
 	public void settings(){
-		size(1200,800, P2D);
-		//fullScreen(P2D);
+		//size(1200,800, P2D);
+		fullScreen(P2D);
 	}
 	
 	public void setup() {
 		textAlign(LEFT, TOP);
 		colorMode(HSB, 360, 100, 100);
 		initWords();
+		Ani.init(this);
 				
-		story = new PlainStory(100, 100, Settings.getStoryWidth(4), Settings.getStoryHeight(), Settings.LAYER_THICKNESS, ColorPalette.GREEN);
-		story.addRailing(Settings.getRailingHeight(), ColorPalette.YELLOW);
-		story.addWindows(WindowFactory.Type.RECT, 4, 
-						Settings.getTopMargin(), 
-						Settings.getBottomMargin(), 
-						Settings.getSideMargin(), 
-						Settings.getInBetween(), ColorPalette.BLUE);
-//		story.addRailing(120, 12, 12, 10, ColorPalette.YELLOW);
-//		story.addWindow(WindowFactory.Type.POINTED, 200, 150, 150, 200, ColorPalette.CYAN);
-		//story.addDoor(WindowFactory.Type.RECT, 500, 100, 150, ColorPalette.YELLOW);
-		story.fillAll(this);
-		
-//		roof = new RoofStory(100, 100, Settings.getStoryWidth(3), Settings.DEFAULT_STORY_HEIGHT, 16, Settings.LAYER_THICKNESS, ColorPalette.MAGENTA);
-//		roof.addWindow(WindowFactory.Type.POINTED, 100, 50, 50, 50, ColorPalette.YELLOW);
-//		roof.addChimney(0.5f, 40, 50);
-//		roof.fillAll(this);
-
-//		portico = new PorticoStory(100, 100, 500, 200, 3, 12, 6, ColorPalette.BLUE, ColorPalette.GREEN);
-//		portico.fillAll(this);
+		house = new House(100, 600, Settings.getStoryWidth(3), 3, Settings.LAYER_THICKNESS);
+		//house.addDoorwayStory();
+		//house.addPlainStory();
+		//house.addBalconyStory();
+		//house.addBalconyStory();
+		//house.addRoof(true);
+		house.addRoof(true, true);
+		//house.fillAll(this);
 		
 		background(0);
+		house.draw(false, true, true, this);
 		
-//		portico.draw(false, true, true, this);
-		
-//		roof.draw(false, true, true, this);
-		story.draw(false, true, true, this);
-		//rail.draw(false, true, true, this);
-//		wall.draw(false, true, true, this);
-//		win.draw(false, true, true, this);
+//		WaveScene.init(this, words);
 	}
 	
 	public void draw() {
-		
+//		background(0);
+//		house.draw(false, true, true, this);
+//		WaveScene.run(this);
 	}
 	
 	private void initWords() {
 		WordSetsManager.init(this);
+		words = WordSetsManager.getCurrentWordSet().getTexts();
 		
 		font = createFont("American Typewriter", font_size);
 		textFont(font, font_size);  
@@ -73,9 +60,7 @@ public class WallTest extends PApplet {
 	
 	public void keyPressed() {
 		if (key == 32) {
-			story.reset();
-			background(0);
-			story.draw(false, true, true, this);
+			
 		}
 	}
 	

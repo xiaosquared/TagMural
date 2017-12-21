@@ -50,7 +50,7 @@ public class WaveTest extends PApplet {
 
 	void initWords() {
 		WordSetsManager.init(this);
-		words = WordSetsManager.getCurrentWordSet().getTexts(); 
+		words = WordSetsManager.getCurrentWordSet().getTexts();   
 		
 		font = createFont("American Typewriter", font_size);
 		textFont(font, font_size);  

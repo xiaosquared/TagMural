@@ -57,44 +57,50 @@ public class PlainStory implements Story {
 		return w;
 	}
 	
-	public ArrayList<Window> addWindows(WindowFactory.Type type, float num, float top_margin, float bot_margin, float side_margin, float in_between, ColorPalette color) {
+	public ArrayList<Window> addWindows(WindowFactory.Type type, int num, float top_margin, float bot_margin, float side_margin, float in_between, ColorPalette color) {
 		float win_width = (main.getWidth() - 2 * side_margin - (num-1) * in_between)/num;
 		float win_height = main.getHeight() - top_margin - bot_margin;
 		
 		ArrayList<Window> windows = new ArrayList<Window>();
 		for (int i = 0; i < num; i++) {
 			float win_x = side_margin + i * (in_between + win_width);
-			Window w = addWindow(type, win_x, top_margin, win_width, win_height, color);
+			Window w = (bot_margin == 0) ? 
+					addDoor(type, win_x, top_margin, win_width, color) :
+					addWindow(type, win_x, top_margin, win_width, win_height, color);
 			windows.add(w);
 		}
 		return windows;
 	}
-	
-	
-// TODO: fix the arguments names/order
-	public Window addDoor(WindowFactory.Type type, float left_margin, float top_margin, float d_width, ColorPalette color) {
+
+	public Window addDoor(WindowFactory.Type type, float d_x, float d_y, float d_width, ColorPalette color) {
 		float d_height;
 		Window door;
 		if (base != null) {
-			d_height = main.getHeight() + base.getHeight() - top_margin;
-			door = WindowFactory.createWindow(type, main.getMinX() + left_margin, main.getMinY() + top_margin, 
+			d_height = main.getHeight() + base.getHeight() - d_y;
+			door = WindowFactory.createWindow(type, main.getMinX() + d_x, main.getMinY() + d_y, 
 													d_width, d_height, layer_thickness, color);
 			windows.add(door);
 			door.makeHole(main);
 			if (base instanceof Wall) {
-				float left_bound = ((Wall) base).getMinX() + left_margin;
+				float left_bound = ((Wall) base).getMinX() + d_x;
 				float right_bound = left_bound + d_width;
 				((Wall) base).removeSection(left_bound, right_bound);
 			}
 		} else {
-			d_height = main.getHeight() - top_margin;
-			door = WindowFactory.createWindow(type, main.getMinX() + left_margin, main.getMinY() + top_margin, 
+			d_height = main.getHeight() - d_y;
+			door = WindowFactory.createWindow(type, main.getMinX() + d_x, main.getMinY() + d_y, 
 					d_width, d_height, layer_thickness, color);
 			windows.add(door);
 			door.makeHole(main);
 		}
 		
 		return door;
+	}
+	
+	public void addRailing(float rail_height, ColorPalette color) {
+		float rail_width = Settings.LAYER_THICKNESS * 2;
+		float in_between = rail_width * 1.5f;
+		addRailing(rail_height, rail_width, rail_width, in_between, color);
 	}
 	
 	public void addRailing(float rail_height, float rail_width, float tb_rail_height, float in_between, ColorPalette color) {
@@ -117,11 +123,6 @@ public class PlainStory implements Story {
 		}
 	}
 	
-	public void addRailing(float rail_height, ColorPalette color) {
-		float rail_width = Settings.LAYER_THICKNESS * 2;
-		float in_between = rail_width * 1.5f;
-		addRailing(rail_height, rail_width, rail_width, in_between, color);
-	}
 	
 	/**
 	 * helper method to create base wall from y to bottom of the main wall

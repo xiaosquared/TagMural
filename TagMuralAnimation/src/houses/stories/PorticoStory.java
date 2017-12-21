@@ -33,6 +33,17 @@ public class PorticoStory implements Story {
 		}
 	}
 	
+	public float getHeight() {
+		return panels.get(0).getHeight();
+	}
+	
+	public ArrayList<Window> addWindows(WindowFactory.Type type, 
+										int num, float top_margin, float bot_margin, 
+										float side_margin, float in_between, ColorPalette color) {
+		ArrayList<Window> windows = new ArrayList<Window>();
+		return windows;
+	}
+	
 	public Window addWindow(WindowFactory.Type type, float left_margin, float top_margin, float w_width, float w_height, ColorPalette color) {
 		return null;
 	}
@@ -42,6 +53,10 @@ public class PorticoStory implements Story {
 	}
 	
 	public void addRailing(float r_height, float rail_width, float tb_rail_height, float in_between, ColorPalette color) {
+		
+	}
+	
+	public void addRailing(float r_height, ColorPalette color) {
 		
 	}
 	
