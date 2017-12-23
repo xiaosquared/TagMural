@@ -65,22 +65,42 @@ public class House {
 		return story;
 	}
 	
+	public void addPorticoStory() { addPorticoStory(WindowFactory.Type.ARCH); }
+	public void addPorticoStory(WindowFactory.Type type) {
+		float story_height = Settings.getStoryHeight();
+		Story story = new PorticoStory(base.x, base.y - getBuildingHeight() - story_height, width, story_height, 
+										num_windows, Settings.getColumnWidth(), layer_thickness, wall_color, ColorPalette.YELLOW);
+		story.addRailing(Settings.getRailingHeight(), Settings.getRailingWidth(), Settings.getRailingWidth(), Settings.getRailingInbetween(), ColorPalette.GREEN);
+		story.addWindows(type, num_windows, Settings.getTopMargin(), Settings.getBottomMargin(), Settings.getSideMargin(), 0, window_color);
+		stories.add(story);
+	}
+	
 	// ROOF
 	
-	public void addRoof(boolean has_overhang, boolean has_windows) {
+	public void addRoof(HouseInfo.RoofType type, boolean has_overhang, boolean has_windows) {
 		float roof_height = Settings.getRoofHeight();
 		float overhang = 0;
 		if (has_overhang)
 			overhang = Settings.getRoofOverhang(width);
-		Story story = new RoofStory(base.x - overhang, base.y - getBuildingHeight() - roof_height,
-									width + 2*overhang, roof_height, Settings.getRoofAngle(), layer_thickness, roof_color);
+		
+		Story story;
+		switch(type) {
+		case POINTED:
+			story = new RoofStory(base.x - overhang, base.y - getBuildingHeight() - roof_height,
+					width + 2*overhang, roof_height, layer_thickness, roof_color);
+			break;
+		default:
+			story = new RoofStory(base.x - overhang, base.y - getBuildingHeight() - roof_height,
+					width + 2*overhang, roof_height, Settings.getRoofAngle(), layer_thickness, roof_color);
+			break;
+		}
 		
 
 		// TODO: this is a total hack!
-		if (has_windows) {
-			story.addWindows(WindowFactory.Type.POINTED, 1, Settings.getTopMargin() * 2, 
-							Settings.getBottomMargin(), Settings.getSideMargin() * num_windows, Settings.getSideMargin(), window_color);
-		}
+//		if (has_windows) {
+//			story.addWindows(WindowFactory.Type.POINTED, 1, Settings.getTopMargin() * 2, 
+//							Settings.getBottomMargin(), Settings.getSideMargin() * num_windows, Settings.getSideMargin(), window_color);
+//		}
 			
 		
 		stories.add(story);
