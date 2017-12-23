@@ -8,6 +8,8 @@ import houses.elements.WindowFactory;
 import processing.core.PApplet;
 
 public interface Story {
+	
+	public float getWidth();
 	public float getHeight();
 
 	public ArrayList<Window> addWindows(WindowFactory.Type type, int num, 

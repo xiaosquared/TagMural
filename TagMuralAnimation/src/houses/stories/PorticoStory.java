@@ -3,10 +3,11 @@ package houses.stories;
 import java.util.ArrayList;
 
 import global.ColorPalette;
+import houses.block.HouseInfo;
+import houses.block.HouseInfo.PositionType;
 import houses.elements.Column;
 import houses.elements.Window;
 import houses.elements.WindowFactory;
-import houses.stories.HouseInfo.PositionType;
 import processing.core.PApplet;
 
 public class PorticoStory implements Story {
@@ -16,8 +17,12 @@ public class PorticoStory implements Story {
 	
 	HouseInfo.PositionType p_type; 
 	
+	float width;
+	
 	public PorticoStory(float x, float y, float width, float height, int num, float col_width, float layer_thickness, 
 					ColorPalette wall_color, ColorPalette col_color) {
+		
+		this.width = width;
 		
 		panels = new ArrayList<PlainStory>();
 		float panel_width = (width - (col_width * (num+1))) / num;
@@ -75,9 +80,8 @@ public class PorticoStory implements Story {
 		}
 	}
 	
-	public float getHeight() {
-		return panels.get(0).getHeight();
-	}
+	public float getHeight() { return panels.get(0).getHeight(); }
+	public float getWidth() { return width; }
 	
 	public ArrayList<Window> addWindows(WindowFactory.Type type, int num, float top_margin, float bot_margin,
 													float side_margin, float in_between, ColorPalette color) {

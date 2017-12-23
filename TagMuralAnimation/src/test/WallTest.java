@@ -2,10 +2,9 @@ package test;
 
 import de.looksgood.ani.Ani;
 import global.Settings;
+import houses.block.Block;
+import houses.block.House;
 import houses.elements.WindowFactory;
-import houses.stories.Block;
-import houses.stories.House;
-
 import processing.core.PApplet;
 import processing.core.PFont;
 import words.WordSetsManager;

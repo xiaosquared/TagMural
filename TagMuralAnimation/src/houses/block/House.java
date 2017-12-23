@@ -1,29 +1,33 @@
-package houses.stories;
+package houses.block;
 
 import java.util.ArrayList;
 
 import global.ColorPalette;
 import global.Settings;
 import houses.elements.WindowFactory;
+import houses.stories.PlainStory;
+import houses.stories.PorticoStory;
+import houses.stories.RoofStory;
+import houses.stories.Story;
 import processing.core.PApplet;
 import processing.core.PVector;
 
 public class House {
-	private PVector base;
-	private PVector trans = new PVector(0, 0);
+	protected PVector base;
+	protected PVector trans = new PVector(0, 0);
 	
-	private float width;
-	private float layer_thickness;
+	protected float width;
+	protected float layer_thickness;
 	
-	private int num_windows;
+	protected int num_windows;
 	
-	private ArrayList<Story> stories;
-	private int current_story_index;
+	protected ArrayList<Story> stories;
+	protected int current_story_index;
 	
-	private ColorPalette wall_color = ColorPalette.CYAN;
-	private ColorPalette window_color = ColorPalette.BLUE;
-	private ColorPalette railing_color = ColorPalette.YELLOW;
-	private ColorPalette roof_color = ColorPalette.RED;
+	protected ColorPalette wall_color = ColorPalette.CYAN;
+	protected ColorPalette window_color = ColorPalette.BLUE;
+	protected ColorPalette railing_color = ColorPalette.YELLOW;
+	protected ColorPalette roof_color = ColorPalette.RED;
 	
 	public House(float base_x, float base_y, float width, int num_windows, float layer_thickness) {
 		base = new PVector(base_x, base_y);
@@ -60,7 +64,7 @@ public class House {
 		stories.add(story);
 	}
 	
-	private Story makePlainStoryHelper(float story_height) {
+	protected Story makePlainStoryHelper(float story_height) {
 		Story story = new PlainStory(base.x, base.y - getBuildingHeight() - story_height, width, story_height, layer_thickness, wall_color);
 		return story;
 	}
@@ -70,7 +74,7 @@ public class House {
 		float story_height = Settings.getStoryHeight();
 		Story story = new PorticoStory(base.x, base.y - getBuildingHeight() - story_height, width, story_height, 
 										num_windows, Settings.getColumnWidth(), layer_thickness, wall_color, ColorPalette.YELLOW);
-		story.addRailing(Settings.getRailingHeight(), Settings.getRailingWidth(), Settings.getRailingWidth(), Settings.getRailingInbetween(), ColorPalette.GREEN);
+		story.addRailing(Settings.getRailingHeight(), Settings.getRailingWidth(), Settings.getRailingWidth(), Settings.getRailingWidth(), ColorPalette.GREEN);
 		story.addWindows(type, num_windows, Settings.getTopMargin(), Settings.getBottomMargin(), Settings.getSideMargin(), 0, window_color);
 		stories.add(story);
 	}

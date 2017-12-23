@@ -1,9 +1,10 @@
-package houses.stories;
+package houses.block;
 
 import java.util.ArrayList;
 
 import global.ColorPalette;
 import global.Settings;
+import houses.block.OneStoryHouse.DoorLayout;
 import houses.elements.Wall;
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -40,26 +41,30 @@ public class Block {
 
 		for (HouseInfo hi : block_divisions) {
 			float width = hi.story_width;
+			int stories = hi.num_stories;
 			
-			House h = new House(x, origin.y, width, hi.num_windows, Settings.LAYER_THICKNESS); 
-			int stories = PApplet.floor(parent.random(2, 5));
+			if (stories == 1) {
+				OneStoryHouse h = new OneStoryHouse(x, origin.y, width, hi.num_windows, Settings.LAYER_THICKNESS);
+				h.makeGroundFloor(h.pickRandomLayout());
+//				h.makeGroundFloor(DoorLayout.DOOR_WINDOW);
+				makeRoof(h, parent);
+				houses.add(h);
+				x += width;
+			} else {
+				House h = new House(x, origin.y, width, hi.num_windows, Settings.LAYER_THICKNESS); 
 
-			// make the first floor
-			//h.addPlainStory();
-			h.addPorticoStory();
-			stories --;
-			
-			// make upper floors
-			while (stories > 1) {
-				//h.addPlainStory();
-				h.addPorticoStory();
-				stories--;
+				// make upper floors
+				while (stories >= 1) {
+					h.addPlainStory();
+					//h.addPorticoStory();
+					stories--;
+				}
+
+				makeRoof(h, parent);
+				houses.add(h);
+
+				x += width;
 			}
-
-			makeRoof(h, parent);
-			houses.add(h);
-			
-			x += width;
 		}
 	}
 	
@@ -78,14 +83,16 @@ public class Block {
 	private ArrayList<HouseInfo> divideBlock(float block_width, float min_sides, PApplet parent) {
 		ArrayList<HouseInfo> divisions = new ArrayList<HouseInfo>();
 		while (block_width > min_sides) {
-			int windows = PApplet.floor(parent.random(MIN_UNITS, MAX_UNITS));
-			float h_height = Settings.getStoryHeightWithVar();
-			float h_width = Settings.getStoryWidthWithVar(windows);
+			HouseType type = HouseType.getRandomType();
+			float h_width = type.getWidth();
+			float h_height = Settings.getStoryHeightWithVar();			
+			int windows = type.windows();
+			int stories = type.stories();
 
 			if (h_width > block_width)
 				return divisions;
 			
-			HouseInfo info = new HouseInfo(windows, h_width, h_height, Settings.getRoofHeight());
+			HouseInfo info = new HouseInfo(windows, stories, h_width, h_height, Settings.getRoofHeight());
 			divisions.add(info);
 			
 			block_width -= h_width;

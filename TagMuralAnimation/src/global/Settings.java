@@ -55,6 +55,10 @@ public class Settings {
 		return DEFAULT_STORY_HEIGHT * 0.4f;
 	}
 	
+	public static float getShortWindowHeight() {
+		return DEFAULT_STORY_HEIGHT * 0.3f;
+	}
+	
 	public static float getRailingHeight() {
 		return DEFAULT_STORY_HEIGHT * 0.4f;
 	}

@@ -1,4 +1,4 @@
-package houses.stories;
+package houses.block;
 
 import processing.core.PApplet;
 
@@ -7,6 +7,7 @@ public class HouseInfo {
 	public enum RoofType { STRAIGHT, POINTED, ANGLED; }
 	
 	public int num_windows;
+	public int num_stories;
 	public float story_width;
 	public float story_height;
 	public float roof_height;
@@ -14,8 +15,9 @@ public class HouseInfo {
 	public PositionType p_type = PositionType.CENTER;
 	public RoofType r_type = RoofType.ANGLED;
 	
-	public HouseInfo(int num_windows, float story_width, float story_height, float roof_height) {
+	public HouseInfo(int num_windows, int num_stories, float story_width, float story_height, float roof_height) {
 		this.num_windows = num_windows;
+		this.num_stories = num_stories;
 		this.story_width = story_width;
 		this.story_height = story_height;
 		this.roof_height = roof_height;
