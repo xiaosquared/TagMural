@@ -26,7 +26,8 @@ public class OneStoryHouse extends House {
 		return DoorLayout.VALUES.get(DoorLayout.RANDOM.nextInt(DoorLayout.SIZE));
 	}
 	
-	public void makeGroundFloor(DoorLayout layout) {
+	public void addDoorwayStory() {
+		DoorLayout layout = pickRandomLayout();
 		Story story = makePlainStoryHelper(Settings.getStoryHeight());
 
 		WindowFactory.Type type = WindowFactory.Type.RECT;
@@ -62,23 +63,6 @@ public class OneStoryHouse extends House {
 		}
 
 		stories.add(story);
-	}
-
-	private void addDoorWindow(Story story, int[] doors, int[] windows) {
-		ArrayList<PVector> win_origins = getWindowOrigins(story, Settings.getTopMargin(), Settings.getSideMargin(), Settings.getInBetween());
-		float win_width = getWindowWidth(story, Settings.getTopMargin(), Settings.getSideMargin(), Settings.getInBetween());
-
-		PVector origin;
-		WindowFactory.Type type = WindowFactory.Type.RECT;
-		for (int i = 0; i < doors.length; i++) {
-			origin = win_origins.get(doors[i]);
-			story.addDoor(type, origin.x, origin.y, win_width, window_color);
-		}
-
-		for (int i = 0; i < windows.length; i++) {
-			origin = win_origins.get(doors[i]);
-			story.addWindow(type, origin.x, origin.y, win_width, Settings.getShortWindowHeight(), window_color);
-		}
 	}
 
 	private float getWindowWidth(Story story, float top_margin, float side_margin, float in_between) {

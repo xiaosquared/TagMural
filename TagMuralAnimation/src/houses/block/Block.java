@@ -39,44 +39,17 @@ public class Block {
 		
 		float x = (parent.width - sumWidths(block_divisions))/2;
 
-		for (HouseInfo hi : block_divisions) {
-			float width = hi.story_width;
-			int stories = hi.num_stories;
-			
-			if (stories == 1) {
-				OneStoryHouse h = new OneStoryHouse(x, origin.y, width, hi.num_windows, Settings.LAYER_THICKNESS);
-				h.makeGroundFloor(h.pickRandomLayout());
-//				h.makeGroundFloor(DoorLayout.DOOR_WINDOW);
-				makeRoof(h, parent);
-				houses.add(h);
-				x += width;
-			} else {
-				House h = new House(x, origin.y, width, hi.num_windows, Settings.LAYER_THICKNESS); 
-
-				// make upper floors
-				while (stories >= 1) {
-					h.addPlainStory();
-					//h.addPorticoStory();
-					stories--;
-				}
-
-				makeRoof(h, parent);
-				houses.add(h);
-
-				x += width;
-			}
+		for (HouseInfo info : block_divisions) {
+			House h = HouseFactory.makeHouse(info, x, origin.y);
+			houses.add(h);
+			x += h.getWidth();
 		}
-	}
-	
-	//TODO: how to decide what type of roof to make?
-	private void makeRoof(House h, PApplet parent) {
-		h.addRoof(HouseInfo.pickRandomRoofType(parent), false, true) ;
 	}
 
 	private float sumWidths(ArrayList<HouseInfo> houses_info) {
 		int total = 0;
 		for (HouseInfo hi : houses_info)
-			total += hi.story_width;
+			total += hi.getWidth();
 		return total;
 	}
 
@@ -86,13 +59,11 @@ public class Block {
 			HouseType type = HouseType.getRandomType();
 			float h_width = type.getWidth();
 			float h_height = Settings.getStoryHeightWithVar();			
-			int windows = type.windows();
-			int stories = type.stories();
 
 			if (h_width > block_width)
 				return divisions;
 			
-			HouseInfo info = new HouseInfo(windows, stories, h_width, h_height, Settings.getRoofHeight());
+			HouseInfo info = new HouseInfo(type, h_height, Settings.getRoofHeight());
 			divisions.add(info);
 			
 			block_width -= h_width;

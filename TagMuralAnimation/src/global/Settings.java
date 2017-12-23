@@ -7,11 +7,11 @@ public class Settings {
 	public static boolean draw_words = true;
 	public static boolean draw_brick_border = false;
 	
-	public static float DEFAULT_STORY_HEIGHT = 120;
+	public static float DEFAULT_STORY_HEIGHT = 100;
 	public static float HEIGHT_VARIATION = 0.1f;
 	public static float WIDTH_VARIATION = 0.3f;
 	public static float ROOF_ANGLE = 16;
-	public static float LAYER_THICKNESS = 5;
+	public static float LAYER_THICKNESS = 4;
 	public static float GAP = LAYER_THICKNESS;
 	public static float F_GAP = GAP/2;
 	public static float SIDEWALK_HEIGHT = 30;

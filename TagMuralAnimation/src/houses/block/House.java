@@ -37,6 +37,14 @@ public class House {
 		stories = new ArrayList<Story>();
 	}
 	
+	public void addStories(int num_stories) {
+		for (int i = 0; i < num_stories; i++)
+			addPlainStory();
+	}
+	
+	
+	// TYPES OF STORIES	
+	
 	public void addPlainStory() { addPlainStory(WindowFactory.Type.RECT); }
 	public void addPlainStory(WindowFactory.Type type) {
 		Story story = makePlainStoryHelper(Settings.getStoryHeight());
@@ -44,8 +52,6 @@ public class House {
 						Settings.getBottomMargin(), Settings.getSideMargin(), Settings.getInBetween(), window_color);
 		stories.add(story);
 	}
-
-	// TYPES OF STORIES	
 	
 	public void addBalconyStory() { addBalconyStory(WindowFactory.Type.ARCH); }
 	public void addBalconyStory(WindowFactory.Type type) {
@@ -126,6 +132,8 @@ public class House {
 			h += s.getHeight();
 		return h;
 	}
+	
+	public float getWidth() { return width; }
 	
 	public void fillAll(PApplet parent) {
 		for (Story s : stories)
