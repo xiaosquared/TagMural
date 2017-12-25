@@ -10,4 +10,9 @@ public class PorticoHouse extends House {
 		for (int i = 0; i < num_stories; i++)
 			addPorticoStory();
 	}
+	
+	public void addStories(int num_stories, HouseInfo.PositionType p_type) {
+		for (int i = 0; i < num_stories; i++)
+			addPorticoStory(p_type);
+	}
 }

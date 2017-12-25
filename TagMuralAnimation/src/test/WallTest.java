@@ -19,7 +19,7 @@ public class WallTest extends PApplet {
 	
 	public void settings(){
 		//size(1200,800, P2D);
-		fullScreen(P2D);
+		fullScreen();
 	}
 	
 	public void setup() {

@@ -27,11 +27,23 @@ public class RoofStory extends PlainStory implements Story {
 		createIncline(main, x, y, angle);
 	}
 	
+	public RoofStory(float x, float y, float width, float height, float angle, boolean left, boolean right, float layer_thickness, ColorPalette color) {
+		super(x, y, width, height, layer_thickness, color);
+		createInclineSides(main, x, y, angle, left, right);
+	}
+	
 	public RoofStory(float x, float y, float width, float height, float layer_thickness, ColorPalette color) {
 		super(x, y, width, height, layer_thickness, color);
 		
 		angle = PApplet.atan(width / 2 / height);
 		createIncline(main, x, y, angle);
+	}
+	
+	public RoofStory(float x, float y, float width, float height, boolean left, boolean right, float layer_thickness, ColorPalette color) {
+		super(x, y, width, height, layer_thickness, color);
+		
+		angle = PApplet.atan(width / 2 / height);
+		createInclineSides(main, x, y, angle, left, right);
 	}
 	
 	private void createIncline(Wall wall, float x, float y, float angle) {

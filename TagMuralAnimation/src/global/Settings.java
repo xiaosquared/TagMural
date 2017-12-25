@@ -68,7 +68,7 @@ public class Settings {
 	}
 	
 	public static float getRailingInbetween() {
-		return LAYER_THICKNESS * 1.5f;
+		return LAYER_THICKNESS * 1.2f;
 	}
 	
 	public static float getColumnWidth() {

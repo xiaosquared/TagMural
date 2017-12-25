@@ -42,42 +42,52 @@ public class PorticoStory implements Story {
 	}
 	
 	public PorticoStory(float x, float y, float width, float height, 
-					int num, float col_width, float layer_thickness, 
-					HouseInfo.PositionType p_type, ColorPalette wall_color, ColorPalette col_color) {
-		
+			int num, float col_width, float layer_thickness, 
+			HouseInfo.PositionType p_type, ColorPalette wall_color, ColorPalette col_color) {
+
 		this.p_type = p_type;
-		if (p_type == HouseInfo.PositionType.CENTER) 
-			new PorticoStory(x, y, width, height, num, col_width, layer_thickness, wall_color, col_color);
 		
-		else {
-			panels = new ArrayList<PlainStory>();
-			float panel_width = (width - (col_width * (num+1))) / num;
+		panels = new ArrayList<PlainStory>();
+		float panel_width = (width - (col_width * (num+1))) / num;
 
-			int start = 0;
-			int end = num;
+		int start = 0;
+		int end = num;
 
-			// if left is edge, make the shorter wall
-			if (p_type == HouseInfo.PositionType.LEFT_EDGE) {
-				start = 1;
-				PlainStory panel = new PlainStory(x + (col_width * 2 + panel_width)/2, y,
-						panel_width/2 - layer_thickness, height,
-						layer_thickness, wall_color);
-				panels.add(panel);
-			} else {
-				end--;
-			}
+		// if left is edge, make the shorter wall
+		if (p_type == HouseInfo.PositionType.LEFT_EDGE) {
+			start = 1;
+			PlainStory panel = new PlainStory(x + (col_width * 2 + panel_width)/2, y,
+					panel_width/2 - layer_thickness, height, layer_thickness, wall_color);
+			panels.add(panel);
 
-			// make all the middle walls
-			for (int i = start; i < end; i++) {
-				float wall_x = col_width + i * (col_width + panel_width);
-				PlainStory panel = new PlainStory(x + wall_x, y, panel_width - layer_thickness,
-						height, layer_thickness, wall_color);
-				panels.add(panel);
-			}
-			
-			// TODO: if right side is edge
-			
+		} else {
+			end--;
 		}
+
+		// make all the middle walls
+		for (int i = start; i < end; i++) {
+			float wall_x = col_width + i * (col_width + panel_width);
+			PlainStory panel = new PlainStory(x + wall_x, y, panel_width - layer_thickness,
+					height, layer_thickness, wall_color);
+			panels.add(panel);
+		}
+
+		// if right side is edge, make the right side shorter wall
+		if (p_type == HouseInfo.PositionType.RIGHT_EDGE) {
+			float wall_x = col_width + end * (col_width + panel_width);
+			PlainStory panel = new PlainStory(x + wall_x, y, panel_width/2 - layer_thickness, 
+					height, layer_thickness, wall_color);
+			panels.add(panel);
+		}
+
+		columns = new ArrayList<Column>();
+		for (int i = 0; i < num+ 1; i++) {
+			float col_x = i * (col_width + panel_width);
+			float col_height_addition = num == 1 ? height / 8 : 0;
+			Column col = new Column(x + col_x, y - col_height_addition, col_width, height + col_height_addition, layer_thickness, col_color);
+			columns.add(col);
+		}
+
 	}
 	
 	public float getHeight() { return panels.get(0).getHeight(); }
@@ -85,9 +95,20 @@ public class PorticoStory implements Story {
 	
 	public ArrayList<Window> addWindows(WindowFactory.Type type, int num, float top_margin, float bot_margin,
 													float side_margin, float in_between, ColorPalette color) {
+		
+		int start = 0;
+		int end = panels.size(); 
+
+		if (p_type == HouseInfo.PositionType.LEFT_EDGE)
+			start++;
+		else if (p_type == HouseInfo.PositionType.RIGHT_EDGE)
+			end--;
+			
 		ArrayList<Window> windows = new ArrayList<Window>();
-		for (PlainStory panel : panels) {
-			ArrayList<Window> ws = panel.addWindows(type, 1, top_margin, bot_margin, side_margin, 0, color);
+		
+		
+		for(int i = start; i < end; i++) {   
+			ArrayList<Window> ws = panels.get(i).addWindows(type, 1, top_margin, bot_margin, side_margin, 0, color);
 			windows.addAll(ws);
 		}
 		return windows;
@@ -102,9 +123,20 @@ public class PorticoStory implements Story {
 	}
 	
 	public void addRailing(float r_height, float rail_width, float tb_rail_height, float in_between, ColorPalette color) {
+		
 		int start = 0;
 		int end = panels.size();
 
+		if (p_type == HouseInfo.PositionType.LEFT_EDGE) {
+			start ++;
+			panels.get(0).addRailing(r_height, rail_width, tb_rail_height, in_between, panels.get(0).getWidth(), 0, color);
+		}
+		
+		else if (p_type == HouseInfo.PositionType.RIGHT_EDGE) {
+			end--;
+			panels.get(panels.size()-1).addRailing(r_height, rail_width, tb_rail_height, in_between, 0, panels.get(panels.size()-1).getWidth(), color);
+		}
+		
 		for (int i = start; i < end; i++) {
 			panels.get(i).addRailing(r_height, rail_width, tb_rail_height, in_between, color);
 		}

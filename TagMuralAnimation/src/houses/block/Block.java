@@ -61,13 +61,17 @@ public class Block {
 			float h_height = Settings.getStoryHeightWithVar();			
 
 			if (h_width > block_width)
-				return divisions;
+				break;
 			
 			HouseInfo info = new HouseInfo(type, h_height, Settings.getRoofHeight());
 			divisions.add(info);
 			
 			block_width -= h_width;
 		}
+		
+		divisions.get(0).setPositionType(HouseInfo.PositionType.LEFT_EDGE);
+		divisions.get(divisions.size()-1).setPositionType(HouseInfo.PositionType.RIGHT_EDGE);
+		
 		return divisions;
 	}
 

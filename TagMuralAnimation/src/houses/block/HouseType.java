@@ -12,7 +12,8 @@ public enum HouseType {
 	ONE_STORY_FOUR_WINDOW(1, 4, false),
 	TWO_STORY_THREE_WINDOW(2, 3, false),
 	TWO_STORY_THREE_WINDOW_PORTICO(2, 3, true),
-	THREE_STORY_THREE_WINDOW(3, 3, false);
+	THREE_STORY_THREE_WINDOW(3, 3, false),
+	THREE_STORY_THREE_WINDOW_PORTICO(3, 3, true);
 	
 	private final int num_stories;
 	private final int num_windows;
@@ -40,6 +41,7 @@ public enum HouseType {
 		case TWO_STORY_THREE_WINDOW_PORTICO:
 			return Settings.DEFAULT_STORY_HEIGHT * 1.73f;
 		case THREE_STORY_THREE_WINDOW:
+		case THREE_STORY_THREE_WINDOW_PORTICO:	
 			return Settings.DEFAULT_STORY_HEIGHT * 2.46f;
 		default:
 			throw new AssertionError("unknown type " + this);

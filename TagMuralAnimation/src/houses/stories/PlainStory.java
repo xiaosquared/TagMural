@@ -103,24 +103,29 @@ public class PlainStory implements Story {
 		addRailing(rail_height, rail_width, rail_width, in_between, color);
 	}
 	
-	public void addRailing(float rail_height, float rail_width, float tb_rail_height, float in_between, ColorPalette color) {
+	public void addRailing(float rail_height, float rail_width, float tb_rail_height, float in_between, float left_overhang, float right_overhang, ColorPalette color) {
 		// if base already exists, replace it with railing. ignore r_height
 		if (base != null) {
 			float rx = base.getMinX();
 			float ry = base.getMinY();
 			float rw = base.getWidth();
 			float rh = base.getHeight();
-			//float 
-			base = new Railing(rx, ry, rw, rh, rail_width, tb_rail_height, in_between, layer_thickness, color);
+			
+			base = new Railing(rx - left_overhang, ry, rw + left_overhang + right_overhang, rh, rail_width, tb_rail_height, in_between, layer_thickness, color);
 		} 
 		
 		// if base doesn't already exits, have to shorten wall
 		else {
 			float new_y = main.getMaxY() - rail_height;
 			shortenMainWall(new_y);
-			base = new Railing(main.getMinX(), main.getMaxY() + Settings.GAP, main.getWidth(), rail_height, 
+			base = new Railing(main.getMinX() - left_overhang, main.getMaxY() + Settings.GAP, 
+								main.getWidth() + left_overhang + right_overhang, rail_height, 
 								rail_width, tb_rail_height, in_between, layer_thickness, color);	
 		}
+	}
+	
+	public void addRailing(float rail_height, float rail_width, float tb_rail_height, float in_between, ColorPalette color) {
+		addRailing(rail_height, rail_width, tb_rail_height, Settings.getRailingInbetween(), 0, 0, color);
 	}
 	
 	
