@@ -39,9 +39,14 @@ public class WallTest extends PApplet {
 	}
 	
 	public void draw() {
-//		background(0);
-//		house.draw(false, true, true, this);
-//		WaveScene.run(this);
+		if (!block.isFilled()) {
+			background(0);
+			block.fillByLayer(this);
+			block.draw(false, false, true, this);
+		} else {
+			block.clear();
+			block.populateBlock(this);
+		}
 	}
 	
 	private void initWords() {
@@ -53,12 +58,13 @@ public class WallTest extends PApplet {
 	}
 	
 	public void keyPressed() {
-		if (key == 32) {
+		if (key == 10) {
 			block.clear();
 			background(0);
 			block.populateBlock(this);
-			block.fillAll(this);
-			block.draw(false, true, true, this);
+		}
+		else if (key == 32) {
+			
 		}
 	}
 	

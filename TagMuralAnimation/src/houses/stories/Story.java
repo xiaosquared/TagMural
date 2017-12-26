@@ -21,5 +21,7 @@ public interface Story {
 	public void addRailing(float r_height, ColorPalette color);
 	
 	public void fillAll(PApplet parent);
+	public void fillByLayer(PApplet parent);
+	public boolean isFilled();
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent);
 }

@@ -32,9 +32,12 @@ public class HouseFactory {
 		RoofStory roof;
 		
 		// Make the main roof
+		// if multi-story house
 		if (info.getNumStories() > 1) {
 			HouseInfo.PositionType position_type = info.getPositionType(); 
 			
+			// if house is in the center, make roof angled if it's a portico house, 
+			// otherwise pick random roof
 			if (position_type == HouseInfo.PositionType.CENTER) {
 				if (info.isPortico()) {
 					r_type = HouseInfo.RoofType.ANGLED;
@@ -44,11 +47,15 @@ public class HouseFactory {
 				}
 				roof = h.addRoof(r_type, false, false);
 			}
+			
+			// if house is on the edges, must be angled, not pointed
 			else {
 				r_type = HouseInfo.RoofType.ANGLED;
 				roof = h.addRoof(r_type, position_type);
 			}
 		}  
+		
+		// if single story, just pick a random roof type
 		else { 
 			r_type = HouseInfo.pickRandomRoofType();
 			roof = h.addRoof(r_type, false, false);

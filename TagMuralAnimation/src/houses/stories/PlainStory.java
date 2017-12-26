@@ -165,12 +165,31 @@ public class PlainStory implements Story {
 		}
 	}
 	
+	public boolean isFilled() {
+		if (!main.isFilled())
+			return false;
+		for (Window win : windows)
+			if (!win.isFilled())
+				return false;
+		return true;
+	}
+	
 	public void fillAll(PApplet parent) {
 		main.fillAll(parent);
 		if (base != null)
 			base.fillAll(parent);
 		for (Window win : windows)
 			win.fillAll(parent);
+	}
+	
+	public void fillByLayer(PApplet parent) {
+		if (base!= null && !base.isFilled())
+			base.fillByLayer(parent);
+		else {
+			main.fillByLayer(parent);
+			for (Window win : windows)
+				win.fillByLayer(parent);
+		}
 	}
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {

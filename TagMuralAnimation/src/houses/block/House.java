@@ -166,9 +166,28 @@ public class House {
 	
 	public float getWidth() { return width; }
 	
+	public boolean isFilled() {
+		for (Story s : stories)
+			if (!s.isFilled())
+				return false;
+		return true;
+	}
+	
 	public void fillAll(PApplet parent) {
 		for (Story s : stories)
 			s.fillAll(parent);
+	}
+	
+	public void fillByLayer(PApplet parent) {
+		if (stories.size() > 0 && current_story_index >= 0) {
+			Story s = stories.get(current_story_index);
+			s.fillByLayer(parent);
+			if (s.isFilled()) {
+				current_story_index++;
+				if (current_story_index == stories.size())
+					current_story_index = 0;
+			}
+		}
 	}
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {

@@ -3,6 +3,7 @@ package houses.stories;
 import java.util.ArrayList;
 
 import global.ColorPalette;
+import global.Settings;
 import houses.block.HouseInfo;
 import houses.block.HouseInfo.PositionType;
 import houses.elements.Column;
@@ -144,7 +145,17 @@ public class PorticoStory implements Story {
 	}
 	
 	public void addRailing(float r_height, ColorPalette color) {
-
+		addRailing(r_height, Settings.getRailingWidth(), Settings.getRailingWidth(), Settings.getRailingInbetween(), color);
+	}
+	
+	public boolean isFilled() {
+		for (PlainStory p : panels)
+			if (!p.isFilled())
+				return false;
+		for (Column c : columns)
+			if (!c.isFilled())
+				return false;
+		return true;
 	}
 	
 	public void fillAll(PApplet parent) {
@@ -153,6 +164,14 @@ public class PorticoStory implements Story {
 		for (Column c : columns)
 			c.fillAll(parent);
 	}
+	
+	public void fillByLayer(PApplet parent) {
+		for (PlainStory p : panels)
+			p.fillAll(parent);
+		for (Column c : columns)
+			c.fillByLayer(parent);
+	}
+	
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {
 		for (PlainStory p : panels)

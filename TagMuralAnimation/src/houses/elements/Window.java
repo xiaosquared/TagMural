@@ -13,6 +13,8 @@ public interface Window {
 	
 	public void makeHole(Wall wall);
 	public void fillAll(PApplet parent);
+	public void fillByLayer(PApplet parent);
+	public boolean isFilled();
 	public void draw(boolean outline, boolean layer, boolean words, PApplet parent);
 	public void reset();
 }

@@ -75,10 +75,27 @@ public class Block {
 		return divisions;
 	}
 
+	public boolean isFilled() {
+		for (House h : houses) {
+			if (!h.isFilled())
+				return false;
+		}
+		return true;
+	}
+	
 	public void fillAll(PApplet parent) {
 		for (House h : houses)
 			h.fillAll(parent);
 		sidewalk.fillAll(parent);
+	}
+	
+	public void fillByLayer(PApplet parent) {
+		if (sidewalk != null && !sidewalk.isFilled())
+			sidewalk.fillByLayer(parent);
+		else {
+			for (House h : houses)
+				h.fillByLayer(parent);
+		}
 	}
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {
