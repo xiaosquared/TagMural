@@ -1,6 +1,9 @@
 package houses.block;
 
+import global.ColorPalette;
 import global.Settings;
+import houses.elements.WindowFactory;
+import houses.stories.RoofStory;
 
 public class HouseFactory {
 	
@@ -24,11 +27,52 @@ public class HouseFactory {
 		}
 
 		// roof
+		
+		HouseInfo.RoofType r_type;
+		RoofStory roof;
+		
+		// Make the main roof
 		if (info.getNumStories() > 1) {
-			h.addRoof(info.getRoofType(), info.getPositionType());
-		} else { 
-			h.addRoof(HouseInfo.pickRandomRoofType(), false, false);
+			HouseInfo.PositionType position_type = info.getPositionType(); 
+			
+			if (position_type == HouseInfo.PositionType.CENTER) {
+				if (info.isPortico()) {
+					r_type = HouseInfo.RoofType.ANGLED;
+				}
+				else {
+					r_type = HouseInfo.pickRandomRoofType();	
+				}
+				roof = h.addRoof(r_type, false, false);
+			}
+			else {
+				r_type = HouseInfo.RoofType.ANGLED;
+				roof = h.addRoof(r_type, position_type);
+			}
+		}  
+		else { 
+			r_type = HouseInfo.pickRandomRoofType();
+			roof = h.addRoof(r_type, false, false);
 		}
+		
+		
+		// Deal with windows
+		if (r_type != HouseInfo.RoofType.POINTED) { 
+			if (info.getNumWindows() > 4) {
+				roof.addWindows(WindowFactory.Type.POINTED, 2, Settings.getTopMarginRoof(), Settings.getBottomMargin(), 
+						Settings.getSideMarginRoof(), Settings.getInBetweenRoof(), ColorPalette.BLUE);
+			}
+			else if (info.getNumWindows() > 2) {
+			roof.addWindows(WindowFactory.Type.POINTED, 1, Settings.getTopMarginRoof(), Settings.getBottomMargin(), 
+					Settings.getSideMarginRoof(), Settings.getInBetweenRoof(), ColorPalette.BLUE);
+			}
+			
+			if (Settings.getRandomBoolean())
+				roof.addChimney(0);
+			else if (Settings.getRandomBoolean())
+				roof.addChimney(1);
+		}
+
+		
 		return h;
 	}
 }

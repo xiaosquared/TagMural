@@ -11,13 +11,13 @@ import global.Settings;
 public enum HouseType {
 	ONE_STORY_FOUR_WINDOW(1, 4, false),
 	TWO_STORY_THREE_WINDOW(2, 3, false),
-	TWO_STORY_THREE_WINDOW_PORTICO(2, 3, true),
+	TWO_STORY_FIVE_WINDOW_PORTICO(2, 5, true),
 	THREE_STORY_THREE_WINDOW(3, 3, false),
-	THREE_STORY_THREE_WINDOW_PORTICO(3, 3, true);
+	THREE_STORY_FOUR_WINDOW_PORTICO(3, 4, true);
 	
 	private final int num_stories;
 	private final int num_windows;
-	private final boolean columns;
+	private final boolean columns; 
 	
 	private static final List<HouseType> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
 	private static final int SIZE = VALUES.size();
@@ -38,11 +38,13 @@ public enum HouseType {
 		case ONE_STORY_FOUR_WINDOW:
 			return Settings.DEFAULT_STORY_HEIGHT * 2.64f;
 		case TWO_STORY_THREE_WINDOW:
-		case TWO_STORY_THREE_WINDOW_PORTICO:
 			return Settings.DEFAULT_STORY_HEIGHT * 1.73f;
 		case THREE_STORY_THREE_WINDOW:
-		case THREE_STORY_THREE_WINDOW_PORTICO:	
 			return Settings.DEFAULT_STORY_HEIGHT * 2.46f;
+		case THREE_STORY_FOUR_WINDOW_PORTICO:
+			return Settings.DEFAULT_STORY_HEIGHT * 2.6f;
+		case TWO_STORY_FIVE_WINDOW_PORTICO:	
+			return Settings.DEFAULT_STORY_HEIGHT * 3.46f;
 		default:
 			throw new AssertionError("unknown type " + this);
 		}

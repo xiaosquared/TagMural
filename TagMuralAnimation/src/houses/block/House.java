@@ -106,28 +106,31 @@ public class House {
 	
 	// ROOF
 	
-	public void addRoof(HouseInfo.RoofType type, boolean has_overhang, boolean has_windows) {
+	public RoofStory addRoof(HouseInfo.RoofType type, boolean has_overhang, boolean has_windows) {
 		float roof_height = Settings.getRoofHeight();
 		float overhang = 0;
 		if (has_overhang)
 			overhang = Settings.getRoofOverhang(width);
 		
-		Story story;
+		RoofStory story;
 		switch(type) {
 		case POINTED:
 			story = new RoofStory(base.x - overhang, base.y - getBuildingHeight() - roof_height,
 					width + 2*overhang, roof_height, layer_thickness, roof_color);
 			break;
+		case ANGLED:				
 		default:
 			story = new RoofStory(base.x - overhang, base.y - getBuildingHeight() - roof_height,
 					width + 2*overhang, roof_height, Settings.getRoofAngle(), layer_thickness, roof_color);
 			break;
 		}
+		
 		stories.add(story);
+		return story;
 	}
 	
-	public void addRoof(HouseInfo.RoofType r_type, HouseInfo.PositionType p_type) {
-		Story story;
+	public RoofStory addRoof(HouseInfo.RoofType r_type, HouseInfo.PositionType p_type) {
+		RoofStory story;
 		
 		float roof_height = Settings.getRoofHeight();
 		boolean left_incline = true;
@@ -138,18 +141,20 @@ public class House {
 			left_incline = false;
 		
 		story = new RoofStory(base.x, base.y - getBuildingHeight() - roof_height,
-				width, roof_height, left_incline, right_incline, layer_thickness, roof_color);
+				width, roof_height, Settings.getRoofAngle(), left_incline, right_incline, layer_thickness, roof_color);
 		stories.add(story);
+		return story;
 	}	
 	
-	public void addTriangularRoof(boolean has_overhang) {
+	public RoofStory addTriangularRoof(boolean has_overhang) {
 		float roof_height = Settings.getRoofHeight();
 		float overhang = 0;
 		if (has_overhang)
 			overhang = Settings.getRoofOverhang(width);
-		Story story = new RoofStory(base.x - overhang, base.y - getBuildingHeight() - roof_height,
+		RoofStory story = new RoofStory(base.x - overhang, base.y - getBuildingHeight() - roof_height,
 									width + 2*overhang, roof_height, layer_thickness, roof_color);
 		stories.add(story);
+		return story;
 	}
 	
 	public float getBuildingHeight() {

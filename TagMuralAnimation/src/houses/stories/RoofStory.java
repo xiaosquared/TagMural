@@ -3,6 +3,7 @@ package houses.stories;
 import java.util.ArrayList;
 
 import global.ColorPalette;
+import global.Settings;
 import houses.bricks.Layer;
 import houses.elements.Fillable;
 import houses.elements.Wall;
@@ -19,31 +20,30 @@ public class RoofStory extends PlainStory implements Story {
 	boolean left_incline = true;
 	boolean right_incline = true;
 	
+	float CHIMNEY_WIDTH = 20;
+	float CHIMNEY_HEIGHT = 50;
+	
 	/**
 	 * @param angle - from vertical 16 degrees gives a pretty nice incline
 	 */
-	public RoofStory(float x, float y, float width, float height, float angle, float layer_thickness, ColorPalette color) {
-		super(x, y, width, height, layer_thickness, color);
-		createIncline(main, x, y, angle);
-	}
-	
 	public RoofStory(float x, float y, float width, float height, float angle, boolean left, boolean right, float layer_thickness, ColorPalette color) {
 		super(x, y, width, height, layer_thickness, color);
 		createInclineSides(main, x, y, angle, left, right);
+		
+		this.left_incline = left;
+		this.right_incline = right;
+	}
+	
+	public RoofStory(float x, float y, float width, float height, float angle, float layer_thickness, ColorPalette color) {
+		this(x, y, width, height, angle, true, true , layer_thickness, color);
 	}
 	
 	public RoofStory(float x, float y, float width, float height, float layer_thickness, ColorPalette color) {
-		super(x, y, width, height, layer_thickness, color);
-		
-		angle = PApplet.atan(width / 2 / height);
-		createIncline(main, x, y, angle);
+		this(x, y, width, height, PApplet.atan(width / 2 / height), true, true, layer_thickness, color);
 	}
 	
 	public RoofStory(float x, float y, float width, float height, boolean left, boolean right, float layer_thickness, ColorPalette color) {
-		super(x, y, width, height, layer_thickness, color);
-		
-		angle = PApplet.atan(width / 2 / height);
-		createInclineSides(main, x, y, angle, left, right);
+		this(x, y, width, height, PApplet.atan(width / 2 / height), left, right, layer_thickness, color);
 	}
 	
 	private void createIncline(Wall wall, float x, float y, float angle) {
@@ -79,6 +79,7 @@ public class RoofStory extends PlainStory implements Story {
 	
 	public ArrayList<Window> addWindows(WindowFactory.Type type, int num, float top_margin, float bot_margin, 
 										float side_margin, float in_between, ColorPalette color) {
+		
 		ArrayList<Window> windows = super.addWindows(type, num, top_margin, bot_margin, side_margin, in_between, color);
 		
 		createInclineSides(main, main.getMinX(), main.getMinY(), angle, left_incline, right_incline);
@@ -92,6 +93,14 @@ public class RoofStory extends PlainStory implements Story {
 		return windows;
 	}
 	
+	
+	public void addChimney() {
+		addChimney(Settings.getRandomFloat(), CHIMNEY_WIDTH, CHIMNEY_HEIGHT);
+	}
+	
+	public void addChimney(float where) {
+		addChimney(where, CHIMNEY_WIDTH, CHIMNEY_HEIGHT);
+	}
 	
 	public void addChimney(float where, float width, float height) {
 		Layer top_layer = main.getLayers().get(main.getLayers().size()-1);

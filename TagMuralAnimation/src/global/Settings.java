@@ -1,5 +1,7 @@
 package global;
 
+import java.util.Random;
+
 public class Settings {
 	public static boolean bw_mode = true;
 	public static boolean draw_outline = false;
@@ -16,7 +18,16 @@ public class Settings {
 	public static float F_GAP = GAP/2;
 	public static float SIDEWALK_HEIGHT = 30;
 	
+	private static Random random = new Random();
+	public static float getRandomFloat() {
+		return random.nextFloat();
+	}
+	public static boolean getRandomBoolean() {
+		return random.nextBoolean();
+	}
+	
 	//TODO: Add some randomness
+	
 	public static float getStoryHeight() {
 		return DEFAULT_STORY_HEIGHT;
 	}
@@ -43,6 +54,10 @@ public class Settings {
 		return DEFAULT_STORY_HEIGHT * 0.2f;
 	}
 	
+	public static float getTopMarginRoof() {
+		return DEFAULT_STORY_HEIGHT * 0.4f;
+	}
+	
 	public static float getBottomMargin() {
 		return DEFAULT_STORY_HEIGHT * 0.15f;
 	}
@@ -50,9 +65,17 @@ public class Settings {
 	public static float getSideMargin() {
 		return DEFAULT_STORY_HEIGHT * 0.4f;
 	}
+
+	public static float getSideMarginRoof() {
+		return DEFAULT_STORY_HEIGHT * 1.1f;
+	}
 	
 	public static float getInBetween() {
 		return DEFAULT_STORY_HEIGHT * 0.4f;
+	}
+	
+	public static float getInBetweenRoof() {
+		return DEFAULT_STORY_HEIGHT * 0.8f;
 	}
 	
 	public static float getShortWindowHeight() {
