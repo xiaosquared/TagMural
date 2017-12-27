@@ -1,10 +1,12 @@
 package houses.block;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import global.ColorPalette;
 import global.Settings;
 import houses.block.OneStoryHouse.DoorLayout;
+import houses.bricks.Brick;
 import houses.elements.Wall;
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -84,19 +86,37 @@ public class Block {
 	}
 	
 	public void fillAll(PApplet parent) {
+		fillAll(parent, true);
+	}
+	
+	public void fillAll(PApplet parent, boolean visibility) {
 		for (House h : houses)
-			h.fillAll(parent);
-		sidewalk.fillAll(parent);
+			h.fillAll(parent, visibility);
+		sidewalk.fillAll(parent, visibility);
 	}
 	
 	public void fillByLayer(PApplet parent) {
+		fillByLayer(parent, true);
+	}
+	
+	public void fillByLayer(PApplet parent, boolean visibility) {
 		if (sidewalk != null && !sidewalk.isFilled())
-			sidewalk.fillByLayer(parent);
+			sidewalk.fillByLayer(parent, visibility);
 		else {
 			for (House h : houses)
-				h.fillByLayer(parent);
+				h.fillByLayer(parent, visibility);
 		}
 	}
+	
+	public HashSet<Brick> getAllBricks() {
+		HashSet<Brick> bricks = new HashSet<Brick>();
+		for (House h : houses) {
+			bricks.addAll(h.getAllBricks());
+		}
+		bricks.addAll(sidewalk.getBricks());
+		return bricks;
+ 	}
+	
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {
 		for (House h : houses)

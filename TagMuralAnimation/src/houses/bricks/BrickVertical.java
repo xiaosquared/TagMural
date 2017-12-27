@@ -18,6 +18,9 @@ public class BrickVertical extends Brick {
 	}
 	
 	public void draw(PApplet parent) {
+		if (!isVisible) 
+			return;
+		
 		setFill(parent);
 		
 		if (Settings.draw_brick_border) {

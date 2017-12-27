@@ -6,6 +6,7 @@ import global.ColorPalette;
 import global.Settings;
 import houses.block.HouseInfo;
 import houses.block.HouseInfo.PositionType;
+import houses.bricks.Brick;
 import houses.elements.Column;
 import houses.elements.Window;
 import houses.elements.WindowFactory;
@@ -94,6 +95,18 @@ public class PorticoStory implements Story {
 	public float getHeight() { return panels.get(0).getHeight(); }
 	public float getWidth() { return width; }
 	
+	public ArrayList<Brick> getAllBricks() {
+		ArrayList<Brick> bricks = new ArrayList<Brick>();
+		for (PlainStory p : panels) {
+			bricks.addAll(p.getAllBricks());
+		}
+		for (Column c : columns) {
+			bricks.addAll(c.getBricks());
+		}
+		return bricks;
+	}
+	
+	
 	public ArrayList<Window> addWindows(WindowFactory.Type type, int num, float top_margin, float bot_margin,
 													float side_margin, float in_between, ColorPalette color) {
 		
@@ -159,19 +172,33 @@ public class PorticoStory implements Story {
 	}
 	
 	public void fillAll(PApplet parent) {
+		fillAll(parent, true);
+	}
+	
+	public void fillAll(PApplet parent, boolean visibility) {
 		for (PlainStory p : panels)
-			p.fillAll(parent);
+			p.fillAll(parent, visibility);
 		for (Column c : columns)
-			c.fillAll(parent);
+			c.fillAll(parent, visibility);
 	}
 	
 	public void fillByLayer(PApplet parent) {
-		for (PlainStory p : panels)
-			p.fillAll(parent);
-		for (Column c : columns)
-			c.fillByLayer(parent);
+		fillAll(parent, true);
 	}
 	
+	public void fillByLayer(PApplet parent, boolean visibility) {
+		for (PlainStory p : panels)
+			p.fillAll(parent, visibility);
+		for (Column c : columns)
+			c.fillByLayer(parent, visibility);
+	}
+	
+	public void unfill() {
+		for (PlainStory p : panels)
+			p.unfill();
+		for (Column c : columns)
+			c.unfill();
+	}
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {
 		for (PlainStory p : panels)

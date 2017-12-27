@@ -8,7 +8,8 @@ public enum ColorPalette {
 	GREEN(120, 200),
 	CYAN(180, 250),
 	BLUE(240, 120),
-	MAGENTA(300, 150);
+	MAGENTA(300, 150),
+	BLACK(0, 0);
 	
 	private final int hue;
 	private final int shade;

@@ -1,9 +1,13 @@
 package test;
 
+import java.util.Iterator;
+
 import de.looksgood.ani.Ani;
+import global.ColorPalette;
 import global.Settings;
 import houses.block.Block;
 import houses.block.House;
+import houses.bricks.Brick;
 import houses.elements.WindowFactory;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -16,6 +20,9 @@ public class WallTest extends PApplet {
 	PFont font;
 	int font_size = 100;
 	String[] words = new String[20];
+	Iterator<Brick> bricks;
+	
+	boolean fadeIn = false;
 	
 	public void settings(){
 		//size(1200,800, P2D);
@@ -39,13 +46,24 @@ public class WallTest extends PApplet {
 	}
 	
 	public void draw() {
-		if (!block.isFilled()) {
+		if (bricks != null) {
 			background(0);
-			block.fillByLayer(this);
 			block.draw(false, false, true, this);
-		} else {
-			block.clear();
-			block.populateBlock(this);
+			for (int i = 0; i < 20; i++) {
+				if(bricks.hasNext()) { 
+					bricks.next().setVisibility(fadeIn);
+				} else {
+					fadeIn = !fadeIn;
+					if (fadeIn == true) {
+						block.clear();
+						block.populateBlock(this);
+						block.fillAll(this, false);						
+					} 
+					bricks = block.getAllBricks().iterator();
+					delay(2000);
+					break;
+				}
+			}
 		}
 	}
 	
@@ -62,8 +80,11 @@ public class WallTest extends PApplet {
 			block.clear();
 			background(0);
 			block.populateBlock(this);
+			block.fillAll(this);
+			block.draw(false, false, true, this);
 		}
 		else if (key == 32) {
+			bricks = block.getAllBricks().iterator();
 			
 		}
 	}

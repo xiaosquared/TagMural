@@ -5,6 +5,7 @@ import java.util.Random;
 
 import global.ColorPalette;
 import global.Settings;
+import houses.bricks.Brick;
 import houses.elements.WindowFactory;
 import houses.stories.PlainStory;
 import houses.stories.PorticoStory;
@@ -40,6 +41,13 @@ public class House {
 		stories = new ArrayList<Story>();
 	}
 	
+	public ArrayList<Brick> getAllBricks() {
+		ArrayList<Brick> bricks = new ArrayList<Brick>();
+		for (Story s : stories)
+			bricks.addAll(s.getAllBricks());
+		return bricks;
+	}
+	
 	public void addStories(int num_stories, HouseInfo.PositionType p_type) {}
 	
 	public void addStories(int num_stories) {
@@ -52,7 +60,6 @@ public class House {
 				addPlainStory(WindowFactory.pickRandomWindowType());
 		}
 	}
-	
 	
 	// TYPES OF STORIES	
 	
@@ -174,20 +181,33 @@ public class House {
 	}
 	
 	public void fillAll(PApplet parent) {
+		fillAll(parent, true);
+	}
+	
+	public void fillAll(PApplet parent, boolean visibility) {
 		for (Story s : stories)
-			s.fillAll(parent);
+			s.fillAll(parent, visibility);
 	}
 	
 	public void fillByLayer(PApplet parent) {
+		fillAll(parent, true);
+	}
+	
+	public void fillByLayer(PApplet parent, boolean visibility) {
 		if (stories.size() > 0 && current_story_index >= 0) {
 			Story s = stories.get(current_story_index);
-			s.fillByLayer(parent);
+			s.fillByLayer(parent, visibility);
 			if (s.isFilled()) {
 				current_story_index++;
 				if (current_story_index == stories.size())
 					current_story_index = 0;
 			}
 		}
+	}
+	
+	public void unfill() {
+		for (Story s : stories)
+			s.unfill();
 	}
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {

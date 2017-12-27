@@ -7,6 +7,7 @@ import houses.bricks.Brick;
 import houses.bricks.Layer;
 import houses.bricks.Rectangle;
 import houses.bricks.Slot;
+import houses.stories.Story;
 import processing.core.PApplet;
 import words.Word;
 import words.WordSetsManager;
@@ -52,6 +53,7 @@ public class Wall implements Fillable {
 	// TODO: SET & GET Methods!!
 	// if I want to reset color, don't forget to change all the bricks
 	public ArrayList<Layer> getLayers() { return layers; }
+	public ArrayList<Brick> getBricks() { return bricks; }
 	public float getMinX() { return bounding_box.getMinX(); }
 	public float getMinY() { return bounding_box.getMinY(); }
 	public float getMaxX() { return bounding_box.getMaxX(); }
@@ -77,6 +79,10 @@ public class Wall implements Fillable {
 	}
 	
 	public boolean addWordBrick(Word word, boolean featured, PApplet parent) {
+		return addWordBrick(word, featured, true, parent);
+	}
+	
+	public boolean addWordBrick(Word word, boolean featured, boolean visibility, PApplet parent) {
 		if (isFilled || layers.size() == 0)
 			return false;
 		
@@ -93,6 +99,7 @@ public class Wall implements Fillable {
 		if (brick == null)
 			return false;
 		
+		brick.setVisibility(visibility);
 		bricks.add(brick);
 		brick.setColor(color.getColorVariation(parent));
 		
@@ -114,18 +121,34 @@ public class Wall implements Fillable {
 	}
 	
 	public void fillAll(PApplet parent) {
-		while(!isFilled) { fillByLayer(parent); }
+		fillAll(parent, true);
+	}
+	
+	public void fillAll(PApplet parent, boolean visibility) {
+		while(!isFilled) { fillByLayer(parent, visibility); }
 	}
 	
 	public void fillByLayer(PApplet parent) {
-		addWord(parent);
+		fillByLayer(parent, true);
+	}
+	
+	public void fillByLayer(PApplet parent, boolean visibility) {
+		addWord(parent, visibility);
 		checkLayer();
 	}
 	
-	private void addWord(PApplet parent) {
+	public void unfill() {
+		if (bricks.size() > 0)
+			bricks.remove(0);
+//		for (Brick b : bricks) {
+//			b.setVisibility(false);
+//		}
+	}
+	
+	private void addWord(PApplet parent, boolean visibility) {
 		Word word = WordSetsManager.getRandomWord();
-		if (!addWordBrick(word, true, parent))
-			addWordBrick(word, false, parent);
+		if (!addWordBrick(word, true, visibility, parent))
+			addWordBrick(word, false, visibility, parent);
 	}
 	
 	private void checkLayer() {

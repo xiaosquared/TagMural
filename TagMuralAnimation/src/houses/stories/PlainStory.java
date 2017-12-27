@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import global.ColorPalette;
 import global.Settings;
+import houses.bricks.Brick;
 import houses.elements.Fillable;
 import houses.elements.Railing;
 import houses.elements.Wall;
@@ -32,6 +33,16 @@ public class PlainStory implements Story {
 	public float getHeight() { return height; }
 	public float getMinX() { return main.getMinX(); }
 	public float getMinY() { return main.getMinY(); }
+	
+	public ArrayList<Brick> getAllBricks() {
+		ArrayList<Brick> bricks = new ArrayList<Brick>();
+		bricks.addAll(main.getBricks());
+		if (base != null)
+			bricks.addAll(base.getBricks());
+		for (Window w : windows)
+			bricks.addAll(w.getBricks());
+		return bricks;
+	}
 	
 	/**
 	 * @param type
@@ -175,21 +186,37 @@ public class PlainStory implements Story {
 	}
 	
 	public void fillAll(PApplet parent) {
-		main.fillAll(parent);
+		fillAll(parent, true);
+	}
+	
+	public void fillAll(PApplet parent, boolean visibility) {
+		main.fillAll(parent, visibility);
 		if (base != null)
-			base.fillAll(parent);
+			base.fillAll(parent, visibility);
 		for (Window win : windows)
-			win.fillAll(parent);
+			win.fillAll(parent, visibility);
 	}
 	
 	public void fillByLayer(PApplet parent) {
+		fillByLayer(parent, true);
+	}
+	
+	public void fillByLayer(PApplet parent, boolean visibility) {
 		if (base!= null && !base.isFilled())
-			base.fillByLayer(parent);
+			base.fillByLayer(parent, visibility);
 		else {
-			main.fillByLayer(parent);
+			main.fillByLayer(parent, visibility);
 			for (Window win : windows)
-				win.fillByLayer(parent);
+				win.fillByLayer(parent, visibility);
 		}
+	}
+	
+	public void unfill() {
+		if (base != null)
+			base.unfill();
+		main.unfill();
+		for (Window win : windows)
+			win.unfill();
 	}
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import global.ColorPalette;
 import global.Settings;
+import houses.bricks.Brick;
 import houses.bricks.Rectangle;
 import processing.core.PApplet;
 
@@ -46,6 +47,15 @@ public class Railing implements Fillable {
 	public float getWidth() { return bounding_box.getWidth(); }
 	public float getHeight() { return bounding_box.getHeight(); }
 	
+	public ArrayList<Brick> getBricks() {
+		ArrayList<Brick> bricks = new ArrayList<Brick>();
+		bricks.addAll(top_rail.getBricks());
+		bricks.addAll(bottom_rail.getBricks());
+		for (Column rail : rails)
+			bricks.addAll(rail.getBricks());
+		return bricks;
+	}
+	
 	public void reset() {
 		for (Column rail : rails)
 			rail.reset();
@@ -54,30 +64,45 @@ public class Railing implements Fillable {
 		current_rail = 0;
 	}
 	
+	public boolean isFilled() {
+		return top_rail.isFilled();
+	}
+	
 	public void fillAll(PApplet parent) {
-		bottom_rail.fillAll(parent);
+		fillAll(parent, true);
+	}
+	
+	public void fillAll(PApplet parent, boolean visibility) {
+		bottom_rail.fillAll(parent, visibility);
 		for (Column rail : rails) {
-			rail.fillAll(parent);
+			rail.fillAll(parent, visibility);
 		}
-		top_rail.fillAll(parent);;
+		top_rail.fillAll(parent, visibility);
 	}
 	
 	public void fillByLayer(PApplet parent) {
+		fillByLayer(parent, true);
+	}
+	
+	public void fillByLayer(PApplet parent, boolean visibility) {
 		if (!bottom_rail.isFilled()) 
-			bottom_rail.fillByLayer(parent);
+			bottom_rail.fillByLayer(parent, visibility);
 		else if (verticalFilled() && !top_rail.isFilled())
-			top_rail.fillByLayer(parent);
+			top_rail.fillByLayer(parent, visibility);
 		else {
 			Column my_rail = rails.get(current_rail);
 			if (!my_rail.isFilled())
-				my_rail.fillByLayer(parent);
+				my_rail.fillByLayer(parent, visibility);
 			else if (current_rail < rails.size())
 				current_rail++;
 		}
 	}
 	
-	public boolean isFilled() {
-		return top_rail.isFilled();
+	public void unfill() {
+		bottom_rail.unfill();
+		top_rail.unfill();
+		for (Column r : rails)
+			r.unfill();
 	}
 	
 	/**

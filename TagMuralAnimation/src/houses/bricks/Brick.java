@@ -8,11 +8,16 @@ import words.Word;
 public class Brick extends Rectangle{
 	protected Word word;
 	protected Color color;
+	boolean isVisible = true;
 	
 	public Brick (float x, float y, float width, float height, Word word) {
 		super(x, y, width, height);
 		this.word = word;
 	}
+	
+	public void setVisibility(boolean visibility) { this.isVisible = visibility; }
+	
+	public boolean getVisibility() { return isVisible; }
 	
 	public float getLowerBound() {
 		return getMinX();
@@ -32,6 +37,9 @@ public class Brick extends Rectangle{
 	}
 	
 	public void draw(PApplet parent) {
+		if (!isVisible) 
+			return;
+			
 		setFill(parent);
 		
 		if (Settings.draw_brick_border) {

@@ -3,6 +3,7 @@ package houses.stories;
 import java.util.ArrayList;
 
 import global.ColorPalette;
+import houses.bricks.Brick;
 import houses.elements.Window;
 import houses.elements.WindowFactory;
 import processing.core.PApplet;
@@ -22,6 +23,11 @@ public interface Story {
 	
 	public void fillAll(PApplet parent);
 	public void fillByLayer(PApplet parent);
+	public void fillAll(PApplet parent, boolean visibility);
+	public void fillByLayer(PApplet parent, boolean visibility);
 	public boolean isFilled();
+	public void unfill();
+	public ArrayList<Brick> getAllBricks();
+	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent);
 }
