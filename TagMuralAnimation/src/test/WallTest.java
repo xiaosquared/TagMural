@@ -2,14 +2,8 @@ package test;
 
 import java.util.Iterator;
 
-import de.looksgood.ani.Ani;
-import global.ColorPalette;
-import global.Settings;
-import houses.block.Block;
-import houses.block.House;
 import houses.block.HouseScene;
 import houses.bricks.Brick;
-import houses.elements.WindowFactory;
 import processing.core.PApplet;
 import processing.core.PFont;
 import words.WordSetsManager;

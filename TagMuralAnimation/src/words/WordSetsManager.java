@@ -57,7 +57,7 @@ public class WordSetsManager {
 		current_key_index%=keys.size();
 		current_key = keys.get(current_key_index);
 		current_words = word_sets.get(current_key);
-		System.out.println(current_key);
+		System.out.println("Switching to words about: " + current_key);
 	}
 	
 	public static void switchWordSet(String key) {
