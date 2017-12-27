@@ -36,7 +36,7 @@ public class Block {
 	
 	// fill block with houses
 	public void populateBlock(PApplet parent) {
-		ArrayList<HouseInfo> block_divisions = divideBlock(getSidewalkWidth(), 80, parent);
+		ArrayList<HouseInfo> block_divisions = divideBlock(getSidewalkWidth(), 80);
 		
 		
 		float x = (parent.width - sumWidths(block_divisions))/2;
@@ -55,7 +55,7 @@ public class Block {
 		return total;
 	}
 
-	private ArrayList<HouseInfo> divideBlock(float block_width, float min_sides, PApplet parent) {
+	private ArrayList<HouseInfo> divideBlock(float block_width, float min_sides) {
 		ArrayList<HouseInfo> divisions = new ArrayList<HouseInfo>();
 		while (block_width > min_sides) {
 			HouseType type = HouseType.getRandomType();
