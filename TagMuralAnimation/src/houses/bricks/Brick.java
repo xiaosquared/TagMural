@@ -1,13 +1,14 @@
 package houses.bricks;
 
 import global.Color;
+import global.ColorPalette;
 import global.Settings;
 import processing.core.PApplet;
 import words.Word;
 
 public class Brick extends Rectangle{
 	protected Word word;
-	protected Color color;
+	protected Color color = ColorPalette.YELLOW.getColor();
 	boolean isVisible = true;
 	
 	public Brick (float x, float y, float width, float height, Word word) {
@@ -18,6 +19,10 @@ public class Brick extends Rectangle{
 	public void setVisibility(boolean visibility) { this.isVisible = visibility; }
 	
 	public boolean getVisibility() { return isVisible; }
+	
+	public String getText() {
+		return word.getText();
+	}
 	
 	public float getLowerBound() {
 		return getMinX();

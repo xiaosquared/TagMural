@@ -14,7 +14,6 @@ public class WallTest extends PApplet {
 	
 	PFont font;
 	int font_size = 100;
-	String[] words = new String[20];
 	Iterator<Brick> bricks;
 	
 	boolean fadeIn = false;
@@ -46,7 +45,6 @@ public class WallTest extends PApplet {
 	
 	private void initWords() {
 		WordSetsManager.init(this);
-		words = WordSetsManager.getCurrentWordSet().getTexts();
 		
 		font = createFont("American Typewriter", font_size);
 		textFont(font, font_size);  

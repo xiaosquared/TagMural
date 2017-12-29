@@ -16,8 +16,8 @@ public class WaveTest extends PApplet {
 	WebsocketClient client;
 
 	public void settings(){
-		size(1200,800, P2D);
-		//fullScreen(P2D);
+		//size(1200,800, P2D);
+		fullScreen(P2D);
 	}
 
 	public void setup(){    	
