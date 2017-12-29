@@ -25,8 +25,8 @@ public class VehiclesTest extends PApplet{
 		initWords();
 		background(0);
 		
-		rw = new RollingWord(WordSetsManager.getRandomWord(), 50, 200, 600, 6, this);
-		rw.draw(this);
+		rw = new RollingWord(WordSetsManager.getRandomWord(), 60, 200, 600, 6, this);
+		rw.draw(1, this);
 	}
 	
 	public void draw() {
@@ -50,7 +50,7 @@ public class VehiclesTest extends PApplet{
 			
 		}
 		background(0);
-		rw.draw(this);
+		rw.draw(1, this);
 	}
 	
 	public static void main(String[] args) { 

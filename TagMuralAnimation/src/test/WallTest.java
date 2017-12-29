@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import houses.block.HouseScene;
 import houses.bricks.Brick;
+import houses.vehicles.RollingWord;
 import processing.core.PApplet;
 import processing.core.PFont;
 import words.WordSetsManager;
@@ -11,6 +12,7 @@ import words.WordSetsManager;
 public class WallTest extends PApplet {
 
 	HouseScene hs;
+	RollingWord rw;
 	
 	PFont font;
 	int font_size = 100;
@@ -32,16 +34,15 @@ public class WallTest extends PApplet {
 		initWords();
 
 		hs = new HouseScene(750, width-100, this);
-		hs.initBlock(false, this);
-		
-//		WaveScene.init(this, words);
+		hs.initBlock(false, this);		
 	}
 	
 	public void draw() {
-		hs.fadeInAndOut(this);
+		if (!hs.fadeInAndOut(this)) {
+			hs.draw(this);
+		}
+		hs.updateVehicle(this);
 	}
-	
-	
 	
 	private void initWords() {
 		WordSetsManager.init(this);
@@ -51,13 +52,21 @@ public class WallTest extends PApplet {
 	}
 	
 	public void keyPressed() {
+//		if (keyCode == 39) {
+//			rw.translateX(2);
+//		} else if (keyCode == 37) {
+//			rw.translateX(-2);
+//		} 
+		
 		switch(key) {
+		case ' ':
+			rw = new RollingWord(WordSetsManager.getRandomWord(), 60, 200, height-80, 6, this);
+			break;
 		case 'f':
 			WordSetsManager.switchWordSet();
 			break;
 		}
 	}
-	
 	
 	public static void main(String[] args) { 
 		PApplet.main("test.WallTest"); 

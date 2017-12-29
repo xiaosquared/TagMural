@@ -61,8 +61,10 @@ public class Wheel {
 		setup(parent);
 	}
 	
-	public void draw(PApplet parent) {
+	public void draw(float fade_amount, PApplet parent) {
 		parent.textSize(thickness);
+		parent.fill(220 * fade_amount);
+		
 		parent.pushMatrix();
 		parent.translate(trans.x, trans.y);
 		parent.rotate(rot);
@@ -73,6 +75,11 @@ public class Wheel {
 		
 		parent.popMatrix();
 	}
+	
+	public void draw(PApplet parent) {
+		draw(1, parent);
+	}
+	
 	
 	public void translateX(float dx) {
 		trans.x += dx;

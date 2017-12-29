@@ -21,13 +21,22 @@ public class RollingWord {
 		
 		bottom_left = new PVector(base_x, base_y);
 		
-		float radius = word_height * 0.75f;
+		float radius = PApplet.min(word_height * 0.7f, word_width/6);
+		float edge = word_width/10;
 		
-		left_wheel = new Wheel(radius, -radius, radius, thickness, 6, parent);
-		right_wheel = new Wheel(word_width - radius, -radius, radius, thickness, 6, parent);
+		left_wheel = new Wheel(radius + edge, -radius, radius, thickness, 6, parent);
+		right_wheel = new Wheel(word_width - radius - edge, -radius, radius, thickness, 6, parent);
 		
 		left_wheel.setup(parent);
 		right_wheel.setup(parent);
+	}
+	
+	public boolean offScreenRight(PApplet parent) {
+		return bottom_left.x > parent.width;
+	}
+	
+	public boolean offScreenLeft(PApplet parent) {
+		return bottom_left.x < - word_width;
 	}
 	
 	public void translateX(float dx) {
@@ -37,14 +46,14 @@ public class RollingWord {
 		right_wheel.turnWheelBy(d_ang);
 	}
 	
-	public void draw(PApplet parent) {
+	public void draw(float fade_amount, PApplet parent) {
 		parent.pushMatrix();
 		parent.translate(bottom_left.x, bottom_left.y);
-		left_wheel.draw(parent);
-		right_wheel.draw(parent);
+		left_wheel.draw(fade_amount, parent);
+		right_wheel.draw(fade_amount, parent);
 		
 		parent.textSize(word_height);
-		parent.fill(255);
+		parent.fill(255 * fade_amount);
 		parent.text(word.getText(), 0, -left_wheel.getDiameter()-word_height);
 		parent.popMatrix();
 	}
