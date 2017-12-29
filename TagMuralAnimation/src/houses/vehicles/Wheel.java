@@ -41,6 +41,10 @@ public class Wheel {
 		r_bricks = new ArrayList<Brick>();
 	}
 	
+	
+	public float getRadius() { return r; }
+	public float getDiameter() { return d; }
+	
 	public void setup(PApplet parent) {
 		fillCircumference(parent);
 		if (r > MIN_SPOKES_RADIUS)
@@ -76,6 +80,11 @@ public class Wheel {
 		rot %= PApplet.TWO_PI;
 	}
 	
+	public void turnWheelBy(float d_ang) {
+		rot += d_ang;
+		rot %= PApplet.TWO_PI;
+	}
+	
 	private void fillCircumference(PApplet parent) {
 		while (!circumference.isFilled()) {
 			addWordBrick(circumference, c_bricks, Settings.GAP/3, parent);
@@ -99,20 +108,6 @@ public class Wheel {
 			return true;
 		}
 		return false;
-	}
-	
-	// for debugging only
-	private void drawFlatCircumference(PApplet parent) {
-		parent.stroke(255);
-		parent.fill(255);
-		circumference.draw(parent);
-	}
-
-	// for debugging only	
-	private void drawBricksFlat(PApplet parent) {
-		for (Brick b : c_bricks) {
-			b.draw(parent);
-		}
 	}
 	
 	private void drawBricksCircumference(PApplet parent) {
