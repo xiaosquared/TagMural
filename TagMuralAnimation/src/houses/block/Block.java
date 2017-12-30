@@ -9,6 +9,7 @@ import houses.block.OneStoryHouse.DoorLayout;
 import houses.bricks.Brick;
 import houses.elements.Wall;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.core.PVector;
 
 public class Block {
@@ -119,6 +120,12 @@ public class Block {
 	
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {
+		for (House h : houses)
+			h.draw(outline, layers, words, parent);
+		sidewalk.draw(outline, layers, words, parent);
+	}
+	
+	public void draw(boolean outline, boolean layers, boolean words, PGraphics parent) {
 		for (House h : houses)
 			h.draw(outline, layers, words, parent);
 		sidewalk.draw(outline, layers, words, parent);

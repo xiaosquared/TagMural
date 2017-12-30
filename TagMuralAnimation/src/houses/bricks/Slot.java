@@ -1,6 +1,7 @@
 package houses.bricks;
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 //TODO: better abstraction for failure_count & to_remove
 
@@ -38,9 +39,8 @@ public class Slot {
 		return distance;
 	}
 	
-	public void draw(float y, float thickness, PApplet parent) {
-		parent.rect(left,  y, distance,  thickness);
-	}
+	public void draw(float y, float thickness, PApplet parent) { parent.rect(left,  y, distance,  thickness); }
+	public void draw(float y, float thickness, PGraphics parent) { parent.rect(left,  y, distance,  thickness); }
 	
 	public boolean contains(float val) {
 		return val >=left && val <=right;

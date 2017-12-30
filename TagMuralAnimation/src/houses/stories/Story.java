@@ -7,6 +7,7 @@ import houses.bricks.Brick;
 import houses.elements.Window;
 import houses.elements.WindowFactory;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 public interface Story {
 	
@@ -30,4 +31,5 @@ public interface Story {
 	public ArrayList<Brick> getAllBricks();
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent);
+	public void draw(boolean outline, boolean layers, boolean words, PGraphics parent);
 }

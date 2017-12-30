@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import global.Settings;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import words.Word;
 
 /*
@@ -140,6 +141,12 @@ public class Layer {
 	}
 	
 	public void draw(PApplet parent) {
+		for (Slot s : slots) {
+			s.draw(position, 2, parent);
+		}
+	}
+	
+	public void draw(PGraphics parent) {
 		for (Slot s : slots) {
 			s.draw(position, 2, parent);
 		}

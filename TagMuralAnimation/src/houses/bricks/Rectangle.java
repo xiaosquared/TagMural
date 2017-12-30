@@ -1,6 +1,7 @@
 package houses.bricks;
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.core.PVector;
 
 public class Rectangle {
@@ -39,10 +40,9 @@ public class Rectangle {
 	public float getWidth() { return width; }
 	public float getHeight() { return height; }
 	
-	public void draw(PApplet parent) { 
-		parent.rect(tl.x, tl.y, width, height); 
-	}
-
+	public void draw(PApplet parent) { parent.rect(tl.x, tl.y, width, height); }
+	public void draw(PGraphics parent) { parent.rect(tl.x, tl.y, width, height); }
+	
 	public boolean contains(PVector p) {
 		return this.contains(p.x, p.y);
 	}

@@ -11,6 +11,7 @@ import houses.elements.Column;
 import houses.elements.Window;
 import houses.elements.WindowFactory;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 public class PorticoStory implements Story {
 	
@@ -201,6 +202,13 @@ public class PorticoStory implements Story {
 	}
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {
+		for (PlainStory p : panels)
+			p.draw(outline, layers, words, parent);
+		for (Column c : columns)
+			c.draw(outline, layers, words, parent);
+	}
+	
+	public void draw(boolean outline, boolean layers, boolean words, PGraphics parent) {
 		for (PlainStory p : panels)
 			p.draw(outline, layers, words, parent);
 		for (Column c : columns)

@@ -12,6 +12,7 @@ import houses.stories.PorticoStory;
 import houses.stories.RoofStory;
 import houses.stories.Story;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.core.PVector;
 
 public class House {
@@ -211,6 +212,11 @@ public class House {
 	}
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {
+		for (Story s : stories)
+			s.draw(outline, layers, words, parent);
+	}
+	
+	public void draw(boolean outline, boolean layers, boolean words, PGraphics parent) {
 		for (Story s : stories)
 			s.draw(outline, layers, words, parent);
 	}

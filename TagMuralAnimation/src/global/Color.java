@@ -1,6 +1,7 @@
 package global;
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 public class Color {
 	private int hue;
@@ -29,20 +30,16 @@ public class Color {
 	public void setSaturation(int saturation) { this.saturation = saturation;}
 	public void setLightness(int lightness) { this.lightness = lightness;}
 	
-	public void fill(PApplet parent) {
-		parent.fill(hue, saturation, lightness);
-	}
+	public void fill(PApplet parent) { parent.fill(hue, saturation, lightness); }
+	public void fill(PGraphics parent) { parent.fill(hue, saturation, lightness); }
 	
-	public void fillBW(PApplet parent) {
-		parent.fill(shade);
-	}
+	public void fillBW(PApplet parent) { parent.fill(shade); }
+	public void fillBW(PGraphics parent) { parent.fill(shade); }
 	
-	public void stroke(PApplet parent) {
-		parent.stroke(hue, saturation, lightness);
-	}
+	public void stroke(PApplet parent) { parent.stroke(hue, saturation, lightness); }
+	public void stroke(PGraphics parent) { parent.stroke(hue, saturation, lightness); }
 	
-	public void strokeBW(PApplet parent) {
-		parent.stroke(shade);
-	}
+	public void strokeBW(PApplet parent) { parent.stroke(shade); }
+	public void strokeBW(PGraphics parent) { parent.stroke(shade); }
 	
 }

@@ -25,7 +25,8 @@ public class WallTest extends PApplet {
 	
 	public void settings(){
 		//size(1400,1000, P2D);
-		fullScreen();
+		fullScreen(P2D);
+		smooth(4);
 	}
 	
 	public void setup() {
@@ -33,15 +34,26 @@ public class WallTest extends PApplet {
 		colorMode(HSB, 360, 100, 100);
 		initWords();
 
-		hs = new HouseScene(750, width-100, this);
-		hs.initBlock(false, this);		
+		hs = new HouseScene(650, width-100, this);
+		hs.initBlock(true, this);
+		hs.drawOffscreen();
+		hs.drawFromOffscreen(this);
 	}
 	
 	public void draw() {
-		if (!hs.fadeInAndOut(this)) {
-			hs.draw(this);
-		}
-		hs.updateVehicle(this);
+//		boolean isFading = hs.fadeInAndOut(this);
+//		hs.drawOffscreen();
+//		hs.drawFromOffscreen(this);
+		
+//		if (isFading) {
+//			//hs.draw(this);
+//			hs.drawOffscreen();
+//			hs.drawFromOffscreen(this);
+//		} 
+//		//else {
+//			//hs.drawFromOffscreen(this);
+//		//}
+//		hs.updateVehicle(this);
 	}
 	
 	private void initWords() {

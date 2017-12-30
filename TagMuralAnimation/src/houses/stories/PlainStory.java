@@ -11,6 +11,7 @@ import houses.elements.Wall;
 import houses.elements.Window;
 import houses.elements.WindowFactory;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 public class PlainStory implements Story {
 	protected Wall main;
@@ -220,6 +221,15 @@ public class PlainStory implements Story {
 	}
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {
+		main.draw(outline, layers, words, parent);
+		if (base != null)
+			base.draw(outline, layers, words, parent);
+		for (Window win : windows) {
+			win.draw(outline, layers, words, parent);
+		}
+	}
+	
+	public void draw(boolean outline, boolean layers, boolean words, PGraphics parent) {
 		main.draw(outline, layers, words, parent);
 		if (base != null)
 			base.draw(outline, layers, words, parent);

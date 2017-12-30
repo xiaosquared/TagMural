@@ -7,6 +7,7 @@ import global.Settings;
 import houses.bricks.Brick;
 import houses.bricks.Rectangle;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 public class Railing implements Fillable {
 	private Rectangle bounding_box;
@@ -113,6 +114,13 @@ public class Railing implements Fillable {
 	}
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {
+		for (Column rail : rails)
+			rail.draw(outline, layers, words, parent);
+		top_rail.draw(outline, layers, words, parent);
+		bottom_rail.draw(outline, layers, words, parent);
+	}
+	
+	public void draw(boolean outline, boolean layers, boolean words, PGraphics parent) {
 		for (Column rail : rails)
 			rail.draw(outline, layers, words, parent);
 		top_rail.draw(outline, layers, words, parent);

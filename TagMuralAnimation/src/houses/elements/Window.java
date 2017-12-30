@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import houses.bricks.Brick;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 public interface Window {
 	
@@ -23,5 +24,6 @@ public interface Window {
 	public boolean isFilled();
 	public void unfill();
 	public void draw(boolean outline, boolean layer, boolean words, PApplet parent);
+	public void draw(boolean outline, boolean layer, boolean words, PGraphics parent);
 	public void reset();
 }

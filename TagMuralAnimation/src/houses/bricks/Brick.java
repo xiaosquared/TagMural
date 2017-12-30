@@ -4,6 +4,7 @@ import global.Color;
 import global.ColorPalette;
 import global.Settings;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import words.Word;
 
 public class Brick extends Rectangle{
@@ -41,6 +42,13 @@ public class Brick extends Rectangle{
 			color.fill(parent);
 	}
 	
+	public void setFill(PGraphics parent) {
+		if (Settings.bw_mode) 
+			color.fillBW(parent); 
+		else
+			color.fill(parent);
+	}
+	
 	public void draw(PApplet parent) {
 		if (!isVisible) 
 			return;
@@ -50,7 +58,19 @@ public class Brick extends Rectangle{
 		if (Settings.draw_brick_border) {
 			super.draw(parent);
 		}
-		word.draw(getMinX(), getMinY(), height);
+		word.draw(getMinX(), getMinY(), height, parent);
+	}
+	
+	public void draw(PGraphics parent) {
+		if (!isVisible) 
+			return;
+			
+		setFill(parent);
+		
+		if (Settings.draw_brick_border) {
+			super.draw(parent);
+		}
+		word.draw(getMinX(), getMinY(), height, parent);
 	}
 	
 	// TODO: Grow height function?

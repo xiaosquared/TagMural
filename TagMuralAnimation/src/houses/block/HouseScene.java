@@ -7,9 +7,13 @@ import global.Settings;
 import houses.bricks.Brick;
 import houses.vehicles.RollingWord;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import words.WordSetsManager;
 
 public class HouseScene {
+	
+	private PGraphics pg;
+	
 	private Block block;
 	private RollingWord featured;
 	
@@ -28,7 +32,10 @@ public class HouseScene {
 	public HouseScene(float y, float width, PApplet parent) {
 		block = new Block(y, width, Settings.SIDEWALK_HEIGHT, parent);
 		
-		featured = new RollingWord(WordSetsManager.getRandomWord(), 60, 200, parent.height-80, 6, parent);
+		featured = new RollingWord(WordSetsManager.getRandomWord(), 60, 200, parent.height-50, 6, parent);
+		
+		pg = parent.createGraphics(parent.width, parent.height);
+		pg.textAlign(PApplet.LEFT, PApplet.TOP);
 	}
 	
 	public void initBlock(boolean visibility, PApplet parent) {
@@ -50,6 +57,11 @@ public class HouseScene {
 		else if (featured.offScreenRight(parent))
 			AMOUNT = -2;
 	}
+	
+	public boolean isFading() {
+		return !isPaused;
+	}
+	
 	
 	// return false if paused, true if fading
 	public boolean fadeInAndOut(PApplet parent) {
@@ -80,7 +92,7 @@ public class HouseScene {
 					block.clear();
 					block.populateBlock(parent);
 					block.fillAll(parent, false);
-					clearScreen(parent);
+					//clearScreen(parent);
 				}
 				
 				// reset the iterator
@@ -107,6 +119,18 @@ public class HouseScene {
 		block.draw(false, false, true, parent);
 		
 		featured.draw(fade_count/(total_bricks + 1), parent);
+	}
+	
+	public void drawOffscreen() {
+		pg.beginDraw();
+		pg.background(0);
+		block.draw(false, false, true, pg);
+		pg.endDraw();
+		//featured.draw(fade_count/(total_bricks + 1), pg);
+	}
+	
+	public void drawFromOffscreen(PApplet parent) {
+		parent.image(pg, 0, 0);
 	}
 	
 	private void clearScreen(PApplet parent) {

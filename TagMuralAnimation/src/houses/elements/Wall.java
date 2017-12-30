@@ -9,6 +9,7 @@ import houses.bricks.Rectangle;
 import houses.bricks.Slot;
 import houses.stories.Story;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import words.Word;
 import words.WordSetsManager;
 
@@ -176,7 +177,21 @@ public class Wall implements Fillable {
 			drawWords(parent);
 	}
 	
+	public void draw(boolean outline, boolean layers, boolean words, PGraphics parent) {
+		if (outline)
+			drawOutline(parent);
+		if (layers)
+			drawLayers(parent);
+		if (words)
+			drawWords(parent);
+	}
+	
 	private void drawOutline(PApplet parent) {
+		parent.stroke(200);
+		parent.noFill();
+		bounding_box.draw(parent);
+	}
+	private void drawOutline(PGraphics parent) {
 		parent.stroke(200);
 		parent.noFill();
 		bounding_box.draw(parent);
@@ -188,8 +203,18 @@ public class Wall implements Fillable {
 		for (Layer l : layers) 
 			l.draw(parent);
 	}
+	private void drawLayers(PGraphics parent) {
+		parent.noStroke();
+		parent.fill(color.hue(), 100, 100);
+		for (Layer l : layers) 
+			l.draw(parent);
+	}
 	
 	private void drawWords(PApplet parent) {
+		for (Brick b : bricks)
+			b.draw(parent);
+	}
+	private void drawWords(PGraphics parent) {
 		for (Brick b : bricks)
 			b.draw(parent);
 	}
