@@ -7,6 +7,7 @@ import global.Settings;
 import houses.bricks.Brick;
 import houses.vehicles.RollingWord;
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.core.PGraphics;
 import words.WordSetsManager;
 
@@ -29,13 +30,17 @@ public class HouseScene {
 	
 	private float AMOUNT = 2;
 	
-	public HouseScene(float y, float width, PApplet parent) {
+	public HouseScene(float y, float width, PFont font, PApplet parent) {
 		block = new Block(y, width, Settings.SIDEWALK_HEIGHT, parent);
 		
 		featured = new RollingWord(WordSetsManager.getRandomWord(), 60, 200, parent.height-50, 6, parent);
 		
-		pg = parent.createGraphics(parent.width, parent.height);
+		pg = parent.createGraphics(parent.width, parent.height, PApplet.P2D);
+		pg.smooth(4);
 		pg.textAlign(PApplet.LEFT, PApplet.TOP);
+		pg.beginDraw();
+		pg.textFont(font);
+		pg.endDraw();
 	}
 	
 	public void initBlock(boolean visibility, PApplet parent) {

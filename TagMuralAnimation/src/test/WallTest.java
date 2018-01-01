@@ -34,7 +34,7 @@ public class WallTest extends PApplet {
 		colorMode(HSB, 360, 100, 100);
 		initWords();
 
-		hs = new HouseScene(650, width-100, this);
+		hs = new HouseScene(650, width-100, font, this);
 		hs.initBlock(true, this);
 		hs.drawOffscreen();
 		hs.drawFromOffscreen(this);
@@ -60,7 +60,7 @@ public class WallTest extends PApplet {
 		WordSetsManager.init(this);
 		
 		font = createFont("American Typewriter", font_size);
-		textFont(font, font_size);  
+		textFont(font);  
 	}
 	
 	public void keyPressed() {
