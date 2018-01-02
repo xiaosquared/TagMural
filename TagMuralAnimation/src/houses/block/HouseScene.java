@@ -3,12 +3,14 @@ package houses.block;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import de.looksgood.ani.Ani;
 import global.Settings;
 import houses.bricks.Brick;
 import houses.vehicles.RollingWord;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PGraphics;
+import processing.core.PVector;
 import words.WordSetsManager;
 
 public class HouseScene {
@@ -17,18 +19,20 @@ public class HouseScene {
 	
 	private Block block;
 	private RollingWord featured;
+	private float AMOUNT = 1;
 	
+	// Fading
 	private Iterator<Brick> bricks;
 	private float total_bricks;
 	private float fade_count;
-	
 	private boolean fadeIn = false;
 	private boolean isPaused = false;
 	private int NUM_TO_FADE = 20; 
 	private int PAUSE_TIME = 2000;
 	private int pause_start = 0;
 	
-	private float AMOUNT = 2;
+	private static PVector trans = new PVector(0, 0);
+	
 	
 	public HouseScene(float y, float width, PFont font, PApplet parent) {
 		block = new Block(y, width, Settings.SIDEWALK_HEIGHT, parent);
@@ -49,10 +53,10 @@ public class HouseScene {
 
 		HashSet<Brick> bricks_hash = block.getAllBricks();
 		total_bricks = bricks_hash.size();
-		fade_count = 0;
 		bricks = bricks_hash.iterator();
 		
 		fadeIn = !visibility;
+		fade_count = fadeIn ? 0 : total_bricks;
 	}
 	
 	public void updateVehicle(PApplet parent) {
@@ -62,12 +66,7 @@ public class HouseScene {
 		else if (featured.offScreenRight(parent))
 			AMOUNT = -2;
 	}
-	
-	public boolean isFading() {
-		return !isPaused;
-	}
-	
-	
+
 	// return false if paused, true if fading
 	public boolean fadeInAndOut(PApplet parent) {
 		if (isPaused) {
@@ -119,11 +118,21 @@ public class HouseScene {
 		return true;
 	}
 	
+	public static void translateUp() {
+		Ani.to(trans, 10, "y", -400, Ani.SINE_IN_OUT);
+	}
+	
+	public static void translateDown() {
+		Ani.to(trans, 10, "y", 0, Ani.SINE_IN_OUT);
+	}
+	
 	public void draw(PApplet parent) {
 		parent.background(0);
-		block.draw(false, false, true, parent);
-		
+		parent.pushMatrix();
+		parent.translate(trans.x, trans.y);
+		parent.image(pg, 0, 0);
 		featured.draw(fade_count/(total_bricks + 1), parent);
+		parent.popMatrix();
 	}
 	
 	public void drawOffscreen() {
@@ -131,15 +140,9 @@ public class HouseScene {
 		pg.background(0);
 		block.draw(false, false, true, pg);
 		pg.endDraw();
-		//featured.draw(fade_count/(total_bricks + 1), pg);
 	}
 	
 	public void drawFromOffscreen(PApplet parent) {
 		parent.image(pg, 0, 0);
-	}
-	
-	private void clearScreen(PApplet parent) {
-		parent.fill(0);
-		parent.rect(0, 0, parent.width, parent.height);
 	}
 }

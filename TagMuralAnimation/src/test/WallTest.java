@@ -2,6 +2,7 @@ package test;
 
 import java.util.Iterator;
 
+import de.looksgood.ani.Ani;
 import houses.block.HouseScene;
 import houses.bricks.Brick;
 import houses.vehicles.RollingWord;
@@ -23,7 +24,7 @@ public class WallTest extends PApplet {
 	int pause_time = 2000;
 	int pause_start = 0;
 	
-	public void settings(){
+	public void settings() {
 		//size(1400,1000, P2D);
 		fullScreen(P2D);
 		smooth(4);
@@ -38,22 +39,17 @@ public class WallTest extends PApplet {
 		hs.initBlock(true, this);
 		hs.drawOffscreen();
 		hs.drawFromOffscreen(this);
+		
+		Ani.init(this);
 	}
 	
 	public void draw() {
-//		boolean isFading = hs.fadeInAndOut(this);
-//		hs.drawOffscreen();
-//		hs.drawFromOffscreen(this);
-		
-//		if (isFading) {
-//			//hs.draw(this);
-//			hs.drawOffscreen();
-//			hs.drawFromOffscreen(this);
-//		} 
-//		//else {
-//			//hs.drawFromOffscreen(this);
-//		//}
-//		hs.updateVehicle(this);
+		//boolean isFading = hs.fadeInAndOut(this);
+	//	if (isFading) {
+	//		hs.drawOffscreen();
+	//	} 
+		hs.updateVehicle(this);
+		hs.draw(this);
 	}
 	
 	private void initWords() {
@@ -64,11 +60,12 @@ public class WallTest extends PApplet {
 	}
 	
 	public void keyPressed() {
-//		if (keyCode == 39) {
-//			rw.translateX(2);
-//		} else if (keyCode == 37) {
-//			rw.translateX(-2);
-//		} 
+		println(keyCode);
+		if (keyCode == 38) {
+			HouseScene.translateUp();
+		} else if (keyCode == 40) {
+			HouseScene.translateDown();
+		} 
 		
 		switch(key) {
 		case ' ':
