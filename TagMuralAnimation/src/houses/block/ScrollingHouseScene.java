@@ -2,11 +2,17 @@ package houses.block;
 
 import global.Settings;
 import houses.block.BlockDissolver.DissolveState;
+import houses.vehicles.RollingWord;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PGraphics;
+import words.WordSetsManager;
 
 public class ScrollingHouseScene {
+	PApplet parent;
+	private float y;
+	private float width;
+	
 	private PGraphics b1_drawing;
 	private PGraphics b2_drawing;
 
@@ -14,15 +20,13 @@ public class ScrollingHouseScene {
 	private Block block2;
 	BlockDissolver dissolver;
 	
-	private float y;
-	private float width;
-	
 	static float trans_x = 0;
 	static float trans_y = 0;
 	float MOVE_AMOUNT = 1.5f;	
 	boolean isScrolling = true;
 	
-	PApplet parent;
+	RollingWord featured_word;
+	float FEATURED_MOVE_AMOUNT = -2;
 	
 	public ScrollingHouseScene(float y, float width, PFont font, boolean visibility, PApplet parent) {
 		block1 = initBlock(y, width, visibility, parent);
@@ -38,6 +42,8 @@ public class ScrollingHouseScene {
 		this.parent = parent;
 		this.y = y;
 		this.width = width;
+		
+		featured_word = new RollingWord(WordSetsManager.getRandomWord(), 60, parent.width, parent.height-50, 6, parent);
 	}
 	
 	private PGraphics setupPGraphics(PGraphics pg, PFont font, PApplet parent) {
@@ -70,10 +76,21 @@ public class ScrollingHouseScene {
 	public boolean isScrolling() { return isScrolling; } 
 	public void setIsScrolling(boolean scrolling) { isScrolling = scrolling; }
 	
+	public void updateVehicle(PApplet parent) {
+		featured_word.translateX(FEATURED_MOVE_AMOUNT);
+		if (featured_word.offScreenLeft(parent)) {
+			FEATURED_MOVE_AMOUNT = -2;
+			
+			featured_word = new RollingWord(WordSetsManager.getRandomWord(), 60, parent.width, parent.height-50, 6, parent);
+			parent.println(featured_word.getText());
+		}
+	}
+	
 	public void draw(PApplet parent) {
 		parent.background(0);
 		parent.image(b1_drawing, trans_x, trans_y);
 		parent.image(b2_drawing, trans_x + b1_drawing.width, trans_y);
+		featured_word.draw(1, parent);
 	}
 	
 	public void moveLeft() {

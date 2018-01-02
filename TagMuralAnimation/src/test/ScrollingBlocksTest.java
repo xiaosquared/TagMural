@@ -23,7 +23,7 @@ public class ScrollingBlocksTest extends PApplet {
 		textAlign(LEFT, TOP);
 		initWords();
 		
-		hs = new ScrollingHouseScene(650, width-100, font, true, this);
+		hs = new ScrollingHouseScene(600, width-100, font, true, this);
 		hs.drawOffscreen();
 		hs.draw(this);
 	}
@@ -46,6 +46,8 @@ public class ScrollingBlocksTest extends PApplet {
 		if (hs.isScrolling()) {
 			hs.moveLeft();
 		}
+		
+		hs.updateVehicle(this);
 		hs.draw(this);
 	}
 	

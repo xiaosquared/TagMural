@@ -31,6 +31,10 @@ public class RollingWord {
 		right_wheel.setup(parent);
 	}
 	
+	public String getText() {
+		return word.getText();
+	}
+	
 	public boolean offScreenRight(PApplet parent) {
 		return bottom_left.x > parent.width;
 	}
