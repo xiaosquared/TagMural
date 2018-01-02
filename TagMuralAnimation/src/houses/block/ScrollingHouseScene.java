@@ -1,6 +1,7 @@
 package houses.block;
 
 import global.Settings;
+import houses.block.BlockDissolver.DissolveState;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PGraphics;
@@ -11,6 +12,7 @@ public class ScrollingHouseScene {
 
 	private Block block1;
 	private Block block2;
+	BlockDissolver dissolver;
 	
 	private float y;
 	private float width;
@@ -18,12 +20,17 @@ public class ScrollingHouseScene {
 	static float trans_x = 0;
 	static float trans_y = 0;
 	float MOVE_AMOUNT = 1.5f;	
+	boolean isScrolling = true;
 	
 	PApplet parent;
 	
 	public ScrollingHouseScene(float y, float width, PFont font, boolean visibility, PApplet parent) {
 		block1 = initBlock(y, width, visibility, parent);
 		block2 = initBlock(y, width, visibility, parent);
+		
+		dissolver = new BlockDissolver(visibility);
+		dissolver.addBlock(block1);
+		dissolver.addBlock(block2);
 		
 		b1_drawing = setupPGraphics(b1_drawing, font, parent);
 		b2_drawing = setupPGraphics(b2_drawing, font, parent);
@@ -50,6 +57,19 @@ public class ScrollingHouseScene {
 		return block;
 	}
 	
+	public float getPercentageVisible() { return dissolver.getPercentageVisible(); }
+	
+	public void startDissolve() { dissolver.startDissolve(); }
+	public DissolveState runDissolve() { return dissolver.runDissolve(); }
+	public boolean isDissolving() { return dissolver.isDissolving(); }
+	
+	public boolean doneFadingOut(DissolveState ds) {
+			return ds == DissolveState.DONE_FADING_OUT;
+	}
+	
+	public boolean isScrolling() { return isScrolling; } 
+	public void setIsScrolling(boolean scrolling) { isScrolling = scrolling; }
+	
 	public void draw(PApplet parent) {
 		parent.background(0);
 		parent.image(b1_drawing, trans_x, trans_y);
@@ -59,10 +79,10 @@ public class ScrollingHouseScene {
 	public void moveLeft() {
 		trans_x -= MOVE_AMOUNT;
 		if (trans_x < -b1_drawing.width)
-			reset();
+			resetForScroll();
 	}
 	
-	public void reset() {
+	public void resetForScroll() {
 		b1_drawing.beginDraw();
 		b1_drawing.image(b2_drawing, 0, 0);
 		b1_drawing.endDraw();
@@ -71,6 +91,17 @@ public class ScrollingHouseScene {
 		
 		block2 = initBlock(y, width, true, parent);
 		drawOffscreenB2();
+	}
+	
+	public void resetBlocks(boolean visibility) {
+		block1 = initBlock(y, width, visibility, parent);
+		block2 = initBlock(y, width, visibility, parent);
+	}
+	
+	public void resetDissolver() {
+		dissolver.clearBricks();
+		dissolver.addBlock(block1);
+		dissolver.addBlock(block2);
 	}
 	
 	private void drawOffscreenB2() {

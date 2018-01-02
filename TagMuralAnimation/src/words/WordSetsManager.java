@@ -41,7 +41,7 @@ public class WordSetsManager {
 		
 		keys.addAll(word_sets.keySet());
 		current_words = ws1;
-		current_key_index = 0;
+		current_key_index = 1;
 	}
 	
 	public static WordSet getCurrentWordSet() {

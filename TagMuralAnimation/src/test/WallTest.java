@@ -1,10 +1,7 @@
 package test;
 
-import java.util.Iterator;
-
 import de.looksgood.ani.Ani;
 import houses.block.HouseScene;
-import houses.bricks.Brick;
 import houses.vehicles.RollingWord;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -17,13 +14,7 @@ public class WallTest extends PApplet {
 	
 	PFont font;
 	int font_size = 100;
-	Iterator<Brick> bricks;
-	
-	boolean fadeIn = false;
-	boolean isPaused = false;
-	int pause_time = 2000;
-	int pause_start = 0;
-	
+		
 	public void settings() {
 		//size(1400,1000, P2D);
 		fullScreen(P2D);
@@ -44,10 +35,10 @@ public class WallTest extends PApplet {
 	}
 	
 	public void draw() {
-		//boolean isFading = hs.fadeInAndOut(this);
-	//	if (isFading) {
-	//		hs.drawOffscreen();
-	//	} 
+		boolean isFading = hs.fadeInAndOut(this);
+		if (isFading) {
+			hs.drawOffscreen();
+		} 
 		hs.updateVehicle(this);
 		hs.draw(this);
 	}

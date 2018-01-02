@@ -1,6 +1,7 @@
 package test;
 
-import de.looksgood.ani.Ani;
+import houses.block.BlockDissolver;
+import houses.block.BlockDissolver.DissolveState;
 import houses.block.ScrollingHouseScene;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -25,12 +26,26 @@ public class ScrollingBlocksTest extends PApplet {
 		hs = new ScrollingHouseScene(650, width-100, font, true, this);
 		hs.drawOffscreen();
 		hs.draw(this);
-
-		Ani.init(this);
 	}
 	
 	public void draw() {
-		hs.moveLeft();
+		if (hs.isDissolving()) {
+			BlockDissolver.DissolveState ds = hs.runDissolve();
+			if (ds == DissolveState.DONE_FADING_OUT) {
+				WordSetsManager.switchWordSet();
+				hs.resetBlocks(false);
+				hs.resetDissolver();
+				hs.startDissolve();
+			} 
+			if (ds == DissolveState.DONE_FADING_IN) {
+				hs.setIsScrolling(true);
+			}
+			hs.drawOffscreen();
+		}
+		
+		if (hs.isScrolling()) {
+			hs.moveLeft();
+		}
 		hs.draw(this);
 	}
 	
@@ -42,8 +57,10 @@ public class ScrollingBlocksTest extends PApplet {
 	}
 	
 	public void keyPressed() {
-		if (keyCode == 37) {
-			
+		if (key == 'f') {
+			hs.setIsScrolling(false);
+			hs.resetDissolver();
+			hs.startDissolve();
 		}
 	}
 	
