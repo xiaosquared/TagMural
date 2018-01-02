@@ -82,8 +82,30 @@ public class ScrollingHouseScene {
 			FEATURED_MOVE_AMOUNT = -2;
 			
 			featured_word = new RollingWord(WordSetsManager.getRandomWord(), 60, parent.width, parent.height-50, 6, parent);
-			parent.println(featured_word.getText());
 		}
+	}
+	
+	public void run() {
+		if (isDissolving()) {
+			BlockDissolver.DissolveState ds = runDissolve();
+			if (ds == DissolveState.DONE_FADING_OUT) {
+				WordSetsManager.switchWordSet();
+				resetBlocks(false);
+				resetDissolver();
+				startDissolve();
+			} 
+			if (ds == DissolveState.DONE_FADING_IN) {
+				setIsScrolling(true);
+			}
+			drawOffscreen();
+		}
+		
+		if (isScrolling()) {
+			moveLeft();
+		}
+		
+		updateVehicle(parent);
+		draw(parent);
 	}
 	
 	public void draw(PApplet parent) {

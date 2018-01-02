@@ -19,8 +19,10 @@ public class WaveScene {
 	
 	private static PVector trans = new PVector(0, 0);
 	
+	private static boolean isFading = false; 
+	
 	public static void init(PApplet parent, String[] words) {
-		waves = new WaveGroup(5, new PVector(-20, parent.height-220), new PVector(parent.width+200, parent.height-20), 4, 220, 50, parent);
+		waves = new WaveGroup(5, new PVector(-20, parent.height-265), new PVector(parent.width+200, parent.height-65), 4, 220, 50, parent);
 		waves.initText(words, MIN_FONT_SIZE, MAX_FONT_SIZE);
 		splash = new Splash(parent);
 		rains = new RainGroup(waves, splash, words, RAIN_FONT_SIZE, parent);
@@ -36,6 +38,8 @@ public class WaveScene {
 	}
 	
 	public static void run(PApplet parent) {
+		parent.background(0);
+		
 		rains.run(true, isRaining);
 		
 		if (trans.y >= DOWN_POSITION)

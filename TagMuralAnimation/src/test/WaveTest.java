@@ -9,7 +9,6 @@ import words.WordSetsManager;
 
 public class WaveTest extends PApplet {
 
-	String[] words = new String[20];
 	PFont font;
 	int font_size = 100;
 
@@ -21,18 +20,13 @@ public class WaveTest extends PApplet {
 	}
 
 	public void setup(){    	
-		background(0);
-
 		Ani.init(this);
 		initWords();
-		WaveScene.init(this, words);
 		
 		//initClient();		
 	}
 
 	public void draw(){
-		background(0);
-
 		WaveScene.run(this);
 		//WaveScene.updateFeaturedWord(this);
 	}
@@ -50,7 +44,6 @@ public class WaveTest extends PApplet {
 
 	void initWords() {
 		WordSetsManager.init(this);
-		words = WordSetsManager.getCurrentWordSet().getTexts();   
 		
 		font = createFont("American Typewriter", font_size);
 		textFont(font, font_size);  

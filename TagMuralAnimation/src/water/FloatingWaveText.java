@@ -8,7 +8,8 @@ public class FloatingWaveText extends WaveText{
 	boolean inWater = false;
 	PVector acc;
 	float text_width;
-
+	float text_height;
+	
 	Wave target_wave;
 	float[] prev_heights;
 	float lifespan = 8;
@@ -21,6 +22,7 @@ public class FloatingWaveText extends WaveText{
 		vel = new PVector(0, 5);
 
 		parent.textSize(fs);
+		text_height = fs;
 		text_width = parent.textWidth(t);
 		this.target_wave = target_wave;
 		if (text_width + start_pos.x > parent.width)
@@ -38,7 +40,7 @@ public class FloatingWaveText extends WaveText{
 	}
 	
 	public boolean hittingWater() {
-		return start_pos.y >= target_wave.target_height && !inWater;
+		return start_pos.y >= target_wave.target_height - text_height/2 && !inWater;
 	}
 
 	public void hitWater(Splash sp) {
