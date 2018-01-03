@@ -1,5 +1,7 @@
 package houses.block;
 
+import java.util.ArrayList;
+
 import global.Settings;
 import houses.block.BlockDissolver.DissolveState;
 import houses.vehicles.RollingWord;
@@ -25,7 +27,9 @@ public class ScrollingHouseScene {
 	float MOVE_AMOUNT = 1.5f;	
 	boolean isScrolling = true;
 	
-	RollingWord featured_word;
+	ArrayList<RollingWord> featured_words;
+	float FEATURED_FONT_SIZE = 60;
+	//RollingWord featured_word;
 	float FEATURED_MOVE_AMOUNT = -2;
 	
 	public ScrollingHouseScene(float y, float width, PFont font, boolean visibility, PApplet parent) {
@@ -43,7 +47,9 @@ public class ScrollingHouseScene {
 		this.y = y;
 		this.width = width;
 		
-		featured_word = new RollingWord(WordSetsManager.getRandomWord(), 60, parent.width, parent.height-50, 6, parent);
+		featured_words = new ArrayList<RollingWord>();
+		
+		//featured_word = new RollingWord(WordSetsManager.getRandomWord(), 60, parent.width, parent.height-50, 6, parent);
 	}
 	
 	private PGraphics setupPGraphics(PGraphics pg, PFont font, PApplet parent) {
@@ -76,13 +82,29 @@ public class ScrollingHouseScene {
 	public boolean isScrolling() { return isScrolling; } 
 	public void setIsScrolling(boolean scrolling) { isScrolling = scrolling; }
 	
+	public void addFeaturedWord() {
+		float y = parent.random(block1.getBaseY() + FEATURED_FONT_SIZE + 100, parent.height - 10);
+		float font_size = parent.random(FEATURED_FONT_SIZE - 10, FEATURED_FONT_SIZE + 10);
+		float dx = parent.random(-3, -2);
+		featured_words.add(new RollingWord(WordSetsManager.getRandomWord(), font_size, parent.width, y, 6, dx, parent));
+	}
+ 	
 	public void updateVehicle(PApplet parent) {
-		featured_word.translateX(FEATURED_MOVE_AMOUNT);
-		if (featured_word.offScreenLeft(parent)) {
-			FEATURED_MOVE_AMOUNT = -2;
-			
-			featured_word = new RollingWord(WordSetsManager.getRandomWord(), 60, parent.width, parent.height-50, 6, parent);
+		for (RollingWord w : featured_words) {
+			w.translateX();
+//			if (w.offScreenLeft(parent)) {
+//				FEATURED_MOVE_AMOUNT = -2;
+//				
+//				featured_word = new RollingWord(WordSetsManager.getRandomWord(), 60, parent.width, parent.height-50, 6, parent);
+//			}
 		}
+		
+//		featured_word.translateX(FEATURED_MOVE_AMOUNT);
+//		if (featured_word.offScreenLeft(parent)) {
+//			FEATURED_MOVE_AMOUNT = -2;
+//			
+//			featured_word = new RollingWord(WordSetsManager.getRandomWord(), 60, parent.width, parent.height-50, 6, parent);
+//		}
 	}
 	
 	public void run() {
@@ -112,7 +134,9 @@ public class ScrollingHouseScene {
 		parent.background(0);
 		parent.image(b1_drawing, trans_x, trans_y);
 		parent.image(b2_drawing, trans_x + b1_drawing.width, trans_y);
-		featured_word.draw(1, parent);
+		for (RollingWord w : featured_words)
+			w.draw(1, parent);
+//		featured_word.draw(1, parent);
 	}
 	
 	public void moveLeft() {

@@ -29,7 +29,7 @@ public class HousesAndWaterTest extends PApplet {
 		initWords();
 		WaveScene.init(this, WordSetsManager.getCurrentWordSet().getTexts());
 		
-		hs = new ScrollingHouseScene(600, width-100, font, true, this);
+		hs = new ScrollingHouseScene(630, width-100, font, true, this);
 		hs.drawOffscreen();
 	}
 	
@@ -48,7 +48,10 @@ public class HousesAndWaterTest extends PApplet {
 	
 	public void keyPressed() {
 		if (key == 'w') {
-			WaveScene.initFeaturedWord(this);
+			if (current_scene == SceneState.WAVE) 
+				WaveScene.initFeaturedWord(this);
+			else
+				hs.addFeaturedWord();
 		}
 		else if (key == 'f') {
 			if (current_scene == SceneState.WAVE) {

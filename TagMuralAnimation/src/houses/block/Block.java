@@ -14,9 +14,6 @@ import processing.core.PVector;
 
 public class Block {
 	
-	private int MIN_UNITS = 2;
-	private int MAX_UNITS = 5;
-	
 	private PVector origin;
 	private	ArrayList<House> houses;
 	private Wall sidewalk;
@@ -32,6 +29,8 @@ public class Block {
 	}
 	
 	public float getSidewalkWidth() { return sidewalk.getWidth();	}
+	
+	public float getBaseY() { return origin.y; }
 	
 	public void clear() { houses.clear(); }
 	

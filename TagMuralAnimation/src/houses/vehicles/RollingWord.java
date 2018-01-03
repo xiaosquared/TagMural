@@ -12,8 +12,13 @@ public class RollingWord {
 	private float word_width;
 	
 	private PVector bottom_left; // bottom left corner
+	private float dx;
 	
 	public RollingWord(Word word, float word_height, float base_x, float base_y, float thickness, PApplet parent) {
+		this(word, word_height, base_x, base_y, thickness, -2, parent);
+	}
+	
+	public RollingWord(Word word, float word_height, float base_x, float base_y, float thickness, float dx, PApplet parent) {
 		this.word = word;
 		this.word_height = word_height;
 		parent.textSize(word_height);
@@ -29,6 +34,8 @@ public class RollingWord {
 		
 		left_wheel.setup(parent);
 		right_wheel.setup(parent);
+		
+		this.dx = dx; // amount to move by
 	}
 	
 	public String getText() {
@@ -41,6 +48,13 @@ public class RollingWord {
 	
 	public boolean offScreenLeft(PApplet parent) {
 		return bottom_left.x < - word_width;
+	}
+	
+	public void translateX() {
+		bottom_left.x += dx;
+		float d_ang = dx / left_wheel.getRadius();
+		left_wheel.turnWheelBy(d_ang);
+		right_wheel.turnWheelBy(d_ang);
 	}
 	
 	public void translateX(float dx) {
