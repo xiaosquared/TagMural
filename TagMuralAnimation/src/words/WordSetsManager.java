@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import processing.core.PApplet;
+import processing.data.Table;
 
 public class WordSetsManager {
 	private static final String transport = "Mississippi River\nCrescent City\nstreetcar\nrailroads\nhighways\nwaterways\ncommerce\nport\ncotton\ntobacco\nmolasses\nsugar\nslave trade\nroadways\nautomobile\nCarrolton Railroad Company\nRoyal Street\nBourbon Street\nCanal Street\nRampart Street\nriverfront\nNOPSI\nsteamboats";
@@ -18,30 +19,33 @@ public class WordSetsManager {
 	private static int current_key_index = 0;
 	private static WordSet current_words;
 	
+	private static Table table;
+	
 	public static void init(PApplet parent) {
+
+		table = parent.loadTable("data/nola.csv");
+	  
 		word_sets = new HashMap<String, WordSet>();
 		keys = new ArrayList<String>();
 		
-		WordSet ws1 = new WordSet(parent);
-		current_key = "transport";
-		ws1.addAllWords(transport);
-		word_sets.put(current_key, ws1);
-		
-		WordSet ws2 = new WordSet(parent);
-		ws2.addAllWords(arts);
-		word_sets.put("arts", ws2);
-		
-		WordSet ws3 = new WordSet(parent);
-		ws3.addAllWords(music);
-		word_sets.put("music", ws3);
-		
-		WordSet ws4 = new WordSet(parent);
-		ws4.addAllWords(populations);
-		word_sets.put("populations", ws4);
-		
-		keys.addAll(word_sets.keySet());
-		current_words = ws1;
-		current_key_index = 1;
+		WordSet ws;
+		String key;
+		int row;
+		for (row = 0; row < table.getRowCount(); row++) { 
+			
+			key = table.getString(row, 0);
+			ws = new WordSet(parent);
+			for (int col = 1; col < table.getColumnCount(); col++) {
+				String word = table.getString(row, col);
+				if (word != null)
+					ws.addWord(word);
+			}
+			word_sets.put(key, ws);
+			keys.add(key);
+			
+			current_words = ws;
+			current_key_index = row ;
+		} 
 	}
 	
 	public static WordSet getCurrentWordSet() {

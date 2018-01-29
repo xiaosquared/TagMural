@@ -28,6 +28,13 @@ public class Block {
 		this((parent.width - sidewalk_width)/2, y, sidewalk_width, sidewalk_height);
 	}
 	
+	public Block(Block another) {
+		this.origin = another.origin;
+		this.houses = another.houses;
+		this.sidewalk = another.sidewalk;
+	}
+	
+	
 	public float getSidewalkWidth() { return sidewalk.getWidth();	}
 	
 	public float getBaseY() { return origin.y; }

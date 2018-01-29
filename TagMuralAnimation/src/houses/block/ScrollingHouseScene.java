@@ -1,6 +1,7 @@
 package houses.block;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import global.Settings;
 import houses.block.BlockDissolver.DissolveState;
@@ -92,19 +93,7 @@ public class ScrollingHouseScene {
 	public void updateVehicle(PApplet parent) {
 		for (RollingWord w : featured_words) {
 			w.translateX();
-//			if (w.offScreenLeft(parent)) {
-//				FEATURED_MOVE_AMOUNT = -2;
-//				
-//				featured_word = new RollingWord(WordSetsManager.getRandomWord(), 60, parent.width, parent.height-50, 6, parent);
-//			}
 		}
-		
-//		featured_word.translateX(FEATURED_MOVE_AMOUNT);
-//		if (featured_word.offScreenLeft(parent)) {
-//			FEATURED_MOVE_AMOUNT = -2;
-//			
-//			featured_word = new RollingWord(WordSetsManager.getRandomWord(), 60, parent.width, parent.height-50, 6, parent);
-//		}
 	}
 	
 	public void run() {
@@ -122,7 +111,7 @@ public class ScrollingHouseScene {
 			drawOffscreen();
 		}
 		
-		if (isScrolling()) {
+		else if (isScrolling()) {
 			moveLeft();
 		}
 		
@@ -134,8 +123,16 @@ public class ScrollingHouseScene {
 		parent.background(0);
 		parent.image(b1_drawing, trans_x, trans_y);
 		parent.image(b2_drawing, trans_x + b1_drawing.width, trans_y);
-		for (RollingWord w : featured_words)
-			w.draw(1, parent);
+		Iterator<RollingWord> rit = featured_words.iterator();
+		while (rit.hasNext()) {
+			try { 
+				rit.next().draw(1, parent);
+			} catch (Exception e) {
+				PApplet.println("Exception... continuing");
+			}
+		}
+//		for (RollingWord w : featured_words)
+//			w.draw(1, parent);
 //		featured_word.draw(1, parent);
 	}
 	
@@ -146,14 +143,10 @@ public class ScrollingHouseScene {
 	}
 	
 	public void resetForScroll() {
-		b1_drawing.beginDraw();
-		b1_drawing.image(b2_drawing, 0, 0);
-		b1_drawing.endDraw();
-		
+		block1 = new Block(block2);
 		trans_x += b1_drawing.width;
-		
 		block2 = initBlock(y, width, true, parent);
-		drawOffscreenB2();
+		drawOffscreen();
 	}
 	
 	public void resetBlocks(boolean visibility) {
@@ -165,13 +158,6 @@ public class ScrollingHouseScene {
 		dissolver.clearBricks();
 		dissolver.addBlock(block1);
 		dissolver.addBlock(block2);
-	}
-	
-	private void drawOffscreenB2() {
-		b2_drawing.beginDraw();
-		b2_drawing.background(0);
-		block2.draw(false, false, true, b2_drawing);
-		b2_drawing.endDraw();
 	}
 	
 	public void drawOffscreen() {

@@ -5,6 +5,7 @@ import houses.block.ScrollingHouseScene;
 import processing.core.PApplet;
 import processing.core.PFont;
 import water.WaveScene;
+import websockets.WebsocketClient;
 import words.WordSetsManager;
 
 public class HousesAndWaterTest extends PApplet {
@@ -16,6 +17,8 @@ public class HousesAndWaterTest extends PApplet {
 	
 	public enum SceneState { WAVE, HOUSES; }
 	SceneState current_scene = SceneState.HOUSES;
+	
+	WebsocketClient client;
 	
 	public void settings() {
 		fullScreen(P2D);
@@ -31,6 +34,8 @@ public class HousesAndWaterTest extends PApplet {
 		
 		hs = new ScrollingHouseScene(630, width-100, font, true, this);
 		hs.drawOffscreen();
+		
+//		initClient();
 	}
 	
 	public void draw() {
@@ -44,6 +49,31 @@ public class HousesAndWaterTest extends PApplet {
 		WordSetsManager.init(this);
 		font = createFont("American Typewriter", font_size);
 		textFont(font);  
+	}
+	
+	void initClient() {
+		try {
+			client = new WebsocketClient(this, "ws://138.197.115.126:3333");
+		} catch (Exception e) {
+			println("unable to connect to server");
+		} finally {
+			println("connected!");
+		}
+	}
+	
+	public void webSocketEvent(String msg) {
+		try {
+			println("received msg: " + msg);
+
+			if (current_scene == SceneState.WAVE) {
+				WaveScene.initFeaturedWord(this);
+			} else {
+				hs.addFeaturedWord();
+			}
+		} catch(Exception e) {
+			println(e);
+			initClient();
+		}
 	}
 	
 	public void keyPressed() {

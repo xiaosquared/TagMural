@@ -27,6 +27,7 @@ public class RollingWord {
 		bottom_left = new PVector(base_x, base_y);
 		
 		float radius = PApplet.min(word_height * 0.7f, word_width/6);
+		radius = PApplet.max(20, radius);
 		float edge = word_width/10;
 		
 		left_wheel = new Wheel(radius + edge, -radius, radius, thickness, 6, parent);
