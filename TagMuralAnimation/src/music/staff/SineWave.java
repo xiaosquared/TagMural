@@ -75,6 +75,10 @@ public class SineWave {
 	/////////////////////////////////////////////////////////////////////
 	
 	public SineTerm[] getSineTerms() { return terms; }
+	public int getNumPoints() { return points.length; }
+	float getTransY() { return origin.y; }
+	public float getMaxX() { return origin.x + width; }
+	public float getFontSize() { return font_size; }
 	
 	/////////////////////////////////////////////////////////////////////
 	

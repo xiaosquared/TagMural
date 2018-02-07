@@ -2,6 +2,8 @@ package music.staff;
 
 import java.util.ArrayList;
 
+import music.notes.Note;
+import music.notes.WordNote;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -11,10 +13,15 @@ public class SineStaff {
 	int main_line_id = 2;
 	float space_between_lines;
 	
+	ArrayList<WordNote> word_notes;
+	float word_start_x = 300; // where to place the next word
+	float word_end_x;
+	
 	float TAPER_WIDTH = 300;
 	float MIN_TAPER = 10;
 
 	public SineStaff(PVector origin, float width, float height, float angle, float font_size, PApplet parent) {
+		word_end_x = parent.width;
 		this.angle = angle;
 		staff_lines = new ArrayList<SineWave>();
 		SineWave main_line = new SineWave(origin, width, font_size, parent);
@@ -27,11 +34,26 @@ public class SineStaff {
 			} else
 				staff_lines.add(main_line);
 		}
+		
+		word_notes = new ArrayList<WordNote>();
 	}
 
 	/////////////////////////////////////////////////////////////////////
 	
-	public void update() {
+	public int getNumPoints() { return staff_lines.get(2).getNumPoints(); }
+	public PVector getPoint(int which_line, int index) { return staff_lines.get(which_line).points[index];	}
+	public float getLineSpacing(int x) { return staff_lines.get(0).points[x].y - staff_lines.get(1).points[x].y; }
+	public float getTransY() { return staff_lines.get(2).getTransY();	 }
+	public float getMaxX() { return staff_lines.get(main_line_id).getMaxX(); }
+	public float getStaffFontSize() { return staff_lines.get(main_line_id).getFontSize(); }
+	
+	/////////////////////////////////////////////////////////////////////
+		
+	public void update() {		
+		for (WordNote wn : word_notes) {
+			wn.update();
+		}
+		
 		updateStaffLines();
 	}
 	
@@ -58,6 +80,25 @@ public class SineStaff {
 		}
 	}
 	
+	public boolean addWordNote(String text, float font_size, PApplet parent) {
+		parent.textSize(font_size);
+		float word_width = parent.textWidth(text);
+		if (word_start_x + word_width >= PApplet.min(word_end_x, getMaxX())) {
+			word_end_x = word_start_x;
+			return false;
+		}
+		float y_offset = getStaffFontSize()/2;
+		WordNote wn = new WordNote(text, font_size, word_start_x, y_offset, parent);
+		word_notes.add(wn);
+		word_start_x += word_width + font_size*3;
+		return true;
+	}
+	
+	public void clearWordNotes() { 
+		word_notes.clear(); 
+		word_start_x = 300;
+	}
+	
 	/////////////////////////////////////////////////////////////////////
 	
 	public void draw(PApplet parent) {
@@ -66,6 +107,13 @@ public class SineStaff {
 		for (SineWave line : staff_lines) {
 			line.draw(TAPER_WIDTH, parent);
 		}
+		
+		parent.pushMatrix();
+		parent.translate(0, getTransY());
+		for (WordNote wn: word_notes) {
+			wn.draw(this, parent);
+		}
+		parent.popMatrix();
 		parent.popMatrix();
 	}
 }

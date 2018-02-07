@@ -14,7 +14,7 @@ public class SineText {
 	
 	int start_point_index; // index of point on the SineWave
 	
-	float SHADE = 200;
+	float SHADE = 250;
 	
 	public SineText(String t, float fs, int start) {
 		text = t;
