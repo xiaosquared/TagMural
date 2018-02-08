@@ -1,8 +1,6 @@
 package music.staff;
 
 import java.util.ArrayList;
-
-import music.notes.Note;
 import music.notes.WordNote;
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -16,7 +14,7 @@ public class SineStaff {
 	ArrayList<WordNote> word_notes;
 	float word_start_x = 300; // where to place the next word
 	float word_end_x;
-	
+
 	float TAPER_WIDTH = 300;
 	float MIN_TAPER = 10;
 

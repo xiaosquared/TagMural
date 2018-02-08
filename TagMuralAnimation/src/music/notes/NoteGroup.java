@@ -15,6 +15,7 @@ public class NoteGroup {
 	PVector connector_start = new PVector(0, 0);
 	
 	float MIN_BETWEEN = 60;
+	float stem_font_size = 6;
 	
 	public NoteGroup(float width, float start_x, float y_offset) {
 		this.width = width;
@@ -107,15 +108,34 @@ public class NoteGroup {
 			float x = note_position.x - note_r;
 			float y = evaluateLine(start, end, x);
 			
-			float start_adjust = staff.getStaffFontSize();
+			float start_adjust = 0;
 			float end_adjust = -big_word_size*0.25f;
-			if (direction_count < 0) {
+			if (staffAbove) {
 				end_adjust = big_word_size*0.1f;
-				start_adjust = 0;
+				start_adjust = stem_font_size * 2;
 			}
 			 
-			parent.line(x, note_position.y + start_adjust, x, y + end_adjust);
+			//parent.line(x, note_position.y + start_adjust, x, y + end_adjust);
+			drawTextStems(x, note_position.y + start_adjust, y + end_adjust, staffAbove, parent);
 		}
+	}
+	
+	private void drawTextStems(float x, float start_y, float end_y, boolean staff_above, PApplet parent) {
+		parent.textSize(stem_font_size);
+		char letter = 'x';
+		
+		float stem_len = PApplet.abs(start_y - end_y);
+		float letter_width = parent.textWidth(letter);
+		float filled_len = letter_width;
+		parent.pushMatrix();
+		parent.translate(x - (staff_above ? stem_font_size : 0), start_y);
+		parent.rotate(-PApplet.PI/2);
+		
+		while(filled_len <= stem_len) {
+			parent.text(letter,  staff_above? filled_len : -filled_len, 0);
+			filled_len += letter_width;
+		}
+		parent.popMatrix();
 	}
 	
 	// find y of line between p1 & P2 at x
