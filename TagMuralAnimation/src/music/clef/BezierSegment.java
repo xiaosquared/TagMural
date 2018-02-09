@@ -3,7 +3,7 @@ package music.clef;
 import processing.core.PApplet;
 import processing.core.PShape;
 
-class BezierSegment {
+public class BezierSegment {
 	PShape bez;
 	BPoint a0;
 	BPoint c0;

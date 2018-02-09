@@ -2,6 +2,7 @@ package music.staff;
 
 import java.util.ArrayList;
 import music.notes.WordNote;
+import music.clef.TrebleClef;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -14,9 +15,13 @@ public class SineStaff {
 	ArrayList<WordNote> word_notes;
 	float word_start_x = 300; // where to place the next word
 	float word_end_x;
-
+	boolean bFull = false;
+	
+	TrebleClef clef;
+	
 	float TAPER_WIDTH = 300;
 	float MIN_TAPER = 10;
+	float FEATURED_WORD_SPACING = 60;
 
 	public SineStaff(PVector origin, float width, float height, float angle, float font_size, PApplet parent) {
 		word_end_x = parent.width;
@@ -32,8 +37,10 @@ public class SineStaff {
 			} else
 				staff_lines.add(main_line);
 		}
-		
+
 		word_notes = new ArrayList<WordNote>();
+		
+		clef = new TrebleClef(TAPER_WIDTH * .6f, staff_lines.get(1).points[(int) TAPER_WIDTH/2].y, parent);
 	}
 
 	/////////////////////////////////////////////////////////////////////
@@ -48,11 +55,14 @@ public class SineStaff {
 	/////////////////////////////////////////////////////////////////////
 		
 	public void update() {		
+		clef.update();
+		
 		for (WordNote wn : word_notes) {
 			wn.update();
 		}
 		
 		updateStaffLines();
+		clef.setOriginY(staff_lines.get(1).points[(int)TAPER_WIDTH/2].y);
 	}
 	
 	private void updateStaffLines() {
@@ -82,19 +92,30 @@ public class SineStaff {
 		parent.textSize(font_size);
 		float word_width = parent.textWidth(text);
 		if (word_start_x + word_width >= PApplet.min(word_end_x, getMaxX())) {
-			word_end_x = word_start_x;
+			bFull = true;
 			return false;
 		}
 		float y_offset = getStaffFontSize()/2;
 		WordNote wn = new WordNote(text, font_size, word_start_x, y_offset, parent);
 		word_notes.add(wn);
-		word_start_x += word_width + font_size*3;
+		word_start_x += word_width + FEATURED_WORD_SPACING;
 		return true;
 	}
 	
 	public void clearWordNotes() { 
 		word_notes.clear(); 
 		word_start_x = 300;
+		bFull = false;
+	}
+	
+	public boolean isFull() {
+		return bFull;
+	}
+	
+	public void fadeWordNotes(float fade_time) {
+		for (WordNote wn : word_notes) {
+			wn.fade(fade_time);
+		}
 	}
 	
 	/////////////////////////////////////////////////////////////////////
@@ -111,6 +132,7 @@ public class SineStaff {
 		for (WordNote wn: word_notes) {
 			wn.draw(this, parent);
 		}
+		clef.draw(parent);
 		parent.popMatrix();
 		parent.popMatrix();
 	}

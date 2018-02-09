@@ -1,7 +1,9 @@
 package test;
 
+import de.looksgood.ani.Ani;
 import music.notes.Note;
 import music.notes.NoteName;
+import music.staff.MusicScene;
 import music.staff.SineStaff;
 import music.staff.SineWave;
 import processing.core.PApplet;
@@ -11,8 +13,7 @@ import words.WordSetsManager;
 
 public class StaffTest extends PApplet {
 	
-	SineWave sw;
-	SineStaff ss;
+	MusicScene music;
 	PFont font;
 	
 	Note note;
@@ -28,9 +29,9 @@ public class StaffTest extends PApplet {
 		textAlign(LEFT, TOP);
 		background(0);
 		initWords();
+		Ani.init(this);
 		
-		ss = new SineStaff(new PVector(0, height/2), width, 100, -PI/15, 10, this);
-		ss.addWordNote(WordSetsManager.getRandomWord().getText(), 60, this);
+		music = new MusicScene(this, 6);
 	}
 	
 	private void initWords() {
@@ -42,10 +43,7 @@ public class StaffTest extends PApplet {
 	
 	public void draw() {
 		background(0);
-		//sw.update();
-		//sw.draw(200, this);
-		ss.update();
-		ss.draw(this);
+		music.run();
 	}
 	
 	public void mousePressed() {
@@ -53,8 +51,7 @@ public class StaffTest extends PApplet {
 	}
 	
 	public void keyPressed() {
-		ss.clearWordNotes();
-		ss.addWordNote(WordSetsManager.getRandomWord().getText(), 60, this);
+		music.addFeaturedWord (WordSetsManager.getRandomWord().getText());
 	}
 	
 	public static void main(String[] args) { 

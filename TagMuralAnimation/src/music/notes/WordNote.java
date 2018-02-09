@@ -1,5 +1,6 @@
 package music.notes;
 
+import de.looksgood.ani.Ani;
 import music.staff.SineStaff;
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -15,6 +16,10 @@ public class WordNote {
 		this.font_size = font_size;
 		parent.textSize(font_size);
 		notes = new NoteGroup(parent.textWidth(text), start_x, y_offset);
+	}
+
+	public void fade(float fade_time) {
+		Ani.to(this, fade_time, "opacity", 0);
 	}
 	
 	public void update() {

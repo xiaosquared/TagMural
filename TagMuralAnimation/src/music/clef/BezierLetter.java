@@ -3,7 +3,7 @@ package music.clef;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-class BezierLetter {
+public class BezierLetter {
 	char letter;
 	float size;
 	boolean isVisible = true;
@@ -31,7 +31,7 @@ class BezierLetter {
 
 		parent.textSize(size);
 		parent.pushMatrix();
-		parent.translate(position.x, position.y);
+		parent.translate(position.x, position.y + size);
 		parent.rotate(angle);
 		parent.text(letter, 0, 0);
 		parent.popMatrix();

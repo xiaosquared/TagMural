@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
+import words.WordSetsManager;
 
-class BezierCurve {
+public class BezierCurve {
 
 	ArrayList<BPoint> points;
 	boolean bViewControlPts = true;
@@ -68,9 +69,9 @@ class BezierCurve {
 		return false;
 	}
 
-	public void fillWithLetters(String phrase, PApplet parent) { fillWithLetters(phrase, 16, parent); }
+	public void fillWithLetters(PApplet parent) { fillWithLetters(16, parent); }
 
-	public void fillWithLetters(String phrase, float font_size, PApplet parent) {
+	public void fillWithLetters(float font_size, PApplet parent) {
 		float size = font_size;
 		int letter_index = 0;
 
@@ -85,6 +86,8 @@ class BezierCurve {
 
 		int count = 0;
 
+		String phrase = WordSetsManager.getRandomWord().getText();
+		
 		for (BezierSegment s : segments) {
 			if (current_length > 0) 
 				current_length -= segment_length;
@@ -118,10 +121,15 @@ class BezierCurve {
 				letters.add(new BezierLetter(l, letter_size, x, y, new_angle));
 				//textSize(letter_size);
 
-
-				current_length += parent.textWidth(l) * 1.1;
-				letter_index ++; letter_index %= phrase.length();
 				angle = new_angle;
+				
+				current_length += parent.textWidth(l) * 1.1;
+				letter_index ++; 
+				
+				if (letter_index == phrase.length()) {
+					phrase = WordSetsManager.getRandomWord().getText();
+					letter_index = 0;
+				}
 			}
 			count++;
 		}

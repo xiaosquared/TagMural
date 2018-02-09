@@ -3,7 +3,7 @@ package music.clef;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-class BPoint {
+public class BPoint {
 	PVector pt;
 	boolean isAnchor;
 	boolean isSelected = false;
