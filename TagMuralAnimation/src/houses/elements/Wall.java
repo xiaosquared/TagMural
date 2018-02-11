@@ -51,6 +51,13 @@ public class Wall implements Fillable {
 		}
 	}
 	
+	public Wall(ArrayList<Layer> layers, ColorPalette color) {
+		this.layers = layers;
+		this.layer_thickness = layers.get(0).getThickness();
+		this.color = color;
+		bricks = new ArrayList<Brick>();
+	}
+	
 	// TODO: SET & GET Methods!!
 	// if I want to reset color, don't forget to change all the bricks
 	public ArrayList<Layer> getLayers() { return layers; }

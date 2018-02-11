@@ -41,6 +41,16 @@ public class Layer {
 		this(lower_bound, upper_bound, position, thickness, false);
 	}
 	
+	public Layer(ArrayList<Slot> slots, float position, float thickness) {
+		this.slots = slots;
+		this.position = position;
+		this.thickness = thickness;
+
+		lower_bound = slots.get(0).getLeft();
+		upper_bound = slots.get(slots.size()-1).getRight();
+	}
+
+	
 	public float getLowerBound() { return lower_bound; }
 	public float getUpperBound() { return upper_bound; }
 	public float getPosition() { return position; }
