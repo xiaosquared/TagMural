@@ -21,7 +21,8 @@ public class WordImage {
 	ColorPalette color;
 	float x_unit;
 	float y_unit;
-	float scale = 1f;
+	float x_scale = 1f;
+	float y_scale = 1f;
 	
 	int current_img = 0;
 	
@@ -50,7 +51,10 @@ public class WordImage {
 		trans.x = x; trans.y = y;
 	}
 	
-	public void setScale(float scale) { this.scale = scale; }
+	public void setScale(float x_scale, float y_scale) { 
+		this.x_scale = x_scale;
+		this.y_scale = y_scale;
+	}
 	
 	private ArrayList<Layer> imgToLayers(PImage img, float x_unit, float y_unit) {
 		ArrayList<Layer> layers = new ArrayList<Layer>();
@@ -105,7 +109,7 @@ public class WordImage {
 	public void draw(PApplet parent) {
 		parent.pushMatrix();
 		parent.translate(trans.x, trans.y);
-		parent.scale(scale, scale);
+		parent.scale(x_scale, y_scale);
 		imgWalls.get(current_img).draw(false, false, true, parent);
 		parent.popMatrix();
 	}

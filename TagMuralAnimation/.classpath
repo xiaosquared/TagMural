@@ -11,20 +11,13 @@
 	<classpathentry kind="lib" path="lib/eclipse-collections-api-9.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/eclipse-collections-9.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/net.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/webSockets.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/websocket-client-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/websocket-common-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/jetty-http-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/jetty-io-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/jetty-security-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/jetty-server-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/jetty-servlet-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/jetty-util-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/javax.servlet-api-3.1.0.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/slf4j-api-1.7.13.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/slf4j-simple-1.7.13.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/websocket-api-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/websocket-server-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="lib/websockets/websocket-servlet-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/http/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/http/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/http/httpclient-4.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/http/httpclient-cache-4.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/http/httpcore-4.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/http/httpmime-4.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/http/httprequests_processing.jar"/>
+	<classpathentry kind="lib" path="lib/java_websocket.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

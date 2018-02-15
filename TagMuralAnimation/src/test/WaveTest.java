@@ -4,15 +4,12 @@ import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 import processing.core.PFont;
 import water.WaveScene;
-import websockets.WebsocketClient;
 import words.WordSetsManager;
 
 public class WaveTest extends PApplet {
 
 	PFont font;
 	int font_size = 100;
-
-	WebsocketClient client;
 
 	public void settings(){
 		//size(1200,800, P2D);
@@ -29,17 +26,6 @@ public class WaveTest extends PApplet {
 	public void draw(){
 		WaveScene.run(this);
 		//WaveScene.updateFeaturedWord(this);
-	}
-
-	void initClient() {
-		try {
-			client = new WebsocketClient(this, "ws://dndrk.media.mit.edu:3333");
-		} catch (Exception e) {
-			println("unable to connect to server");
-		} finally {
-			client.sendMessage("jtm dd");
-			println("connected!");
-		}
 	}
 
 	void initWords() {

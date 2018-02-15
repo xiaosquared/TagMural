@@ -23,8 +23,8 @@ public class MusicScene {
 	
 	public MusicScene(PApplet parent, float staff_font_size) {
 		this.parent = parent;
-		staff = new SineStaff(new PVector(0, parent.height*0.45f), parent.width,
-								staff_height, -PApplet.PI/15, staff_font_size, parent);
+		staff = new SineStaff(new PVector(0, parent.height*0.35f), parent.width,
+								staff_height, -PApplet.PI/20, staff_font_size, parent);
 		
 		featured_word_queue = new LinkedList<String>();
 	}
