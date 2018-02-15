@@ -2,6 +2,8 @@ package music.staff;
 
 import java.util.LinkedList;
 
+import global.ColorPalette;
+import music.musicians.WordImage;
 import processing.core.PApplet;
 import processing.core.PVector;
 import words.WordSetsManager;
@@ -9,8 +11,9 @@ import words.WordSetsManager;
 public class MusicScene {
 	PApplet parent;
 	SineStaff staff;
-	
 	float staff_height = 100;
+	
+	WordImage trumpeter, pianist, piano, bench;
 	
 	LinkedList<String> featured_word_queue;
 	float WORD_FONT_SIZE = 60;
@@ -21,12 +24,49 @@ public class MusicScene {
 	float ADD_WORD_INTERVAL = 2000;
 	float last_add_time = 0;
 	
+	float NEXT_FRAME_INTERVAL = 500;
+	float last_change_frame = 0;
+	
 	public MusicScene(PApplet parent, float staff_font_size) {
 		this.parent = parent;
 		staff = new SineStaff(new PVector(0, parent.height*0.35f), parent.width,
 								staff_height, -PApplet.PI/20, staff_font_size, parent);
 		
 		featured_word_queue = new LinkedList<String>();
+		
+		initMusicians(parent);
+	}
+	
+	private void initMusicians(PApplet parent) {
+		trumpeter = new WordImage(parent.loadImage("data/musicians/trumpet/trumpet1.jpg"), 5, 8, ColorPalette.CYAN, parent);
+		trumpeter.addImage(parent.loadImage("data/musicians/trumpet/trumpet2.jpg"), parent);
+		trumpeter.addImage(parent.loadImage("data/musicians/trumpet/trumpet3.jpg"), parent);
+		trumpeter.addImage(parent.loadImage("data/musicians/trumpet/trumpet4.jpg"), parent);
+		trumpeter.addImage(parent.loadImage("data/musicians/trumpet/trumpet5.jpg"), parent);
+		trumpeter.addImage(parent.loadImage("data/musicians/trumpet/trumpet6.jpg"), parent);
+		trumpeter.addImage(parent.loadImage("data/musicians/trumpet/trumpet7.jpg"), parent);
+		trumpeter.addImage(parent.loadImage("data/musicians/trumpet/trumpet8.jpg"), parent);
+		
+		piano = new WordImage(parent.loadImage("data/musicians/piano.jpg"), 5, 4, ColorPalette.BLUE, parent);
+		bench = new WordImage(parent.loadImage("data/musicians/bench.jpg"), 5, 3, ColorPalette.BLUE, parent);
+		
+		pianist = new WordImage(parent.loadImage("data/musicians/piano/pianist1.jpg"), 10, 8, ColorPalette.CYAN, parent);
+		pianist.addImage(parent.loadImage("data/musicians/piano/pianist2.jpg"), parent);
+		pianist.addImage(parent.loadImage("data/musicians/piano/pianist3.jpg"), parent);
+		pianist.addImage(parent.loadImage("data/musicians/piano/pianist4.jpg"), parent);
+		pianist.addImage(parent.loadImage("data/musicians/piano/pianist5.jpg"), parent);
+		pianist.addImage(parent.loadImage("data/musicians/piano/pianist6.jpg"), parent);
+		pianist.addImage(parent.loadImage("data/musicians/piano/pianist7.jpg"), parent);
+		pianist.addImage(parent.loadImage("data/musicians/piano/pianist8.jpg"), parent);
+		
+		trumpeter.setTranslation(1000,  320);
+		piano.setTranslation(200, 550);
+		bench.setTranslation(730, 700);
+		pianist.setTranslation(610, 480);
+
+		trumpeter.setScale(0.4f, 0.4f);
+		pianist.setScale(0.39f, 0.39f);
+		last_change_frame = parent.millis();
 	}
 	
 	public void addFeaturedWord(String word) {
@@ -72,6 +112,17 @@ public class MusicScene {
 		parent.background(0);
 		staff.update();
 		staff.draw(parent);
+		
+		trumpeter.draw(parent);
+		piano.draw(parent);
+		bench.draw(parent);
+		pianist.draw(parent);
+		
+		if (current_time - last_change_frame > NEXT_FRAME_INTERVAL) {
+			pianist.nextFrame();
+			trumpeter.nextFrame();
+			last_change_frame = current_time;
+		}
 	}
 	
 }
