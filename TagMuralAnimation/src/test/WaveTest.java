@@ -19,8 +19,7 @@ public class WaveTest extends PApplet {
 	public void setup(){    	
 		Ani.init(this);
 		initWords();
-		
-		//initClient();		
+		WaveScene.init(this, WordSetsManager.getCurrentWordSet().getTexts());
 	}
 
 	public void draw(){

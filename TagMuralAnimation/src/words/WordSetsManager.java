@@ -3,14 +3,16 @@ package words;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import http.requests.GetRequest;
 import processing.core.PApplet;
+import processing.data.JSONArray;
+import processing.data.JSONObject;
 import processing.data.Table;
 
 public class WordSetsManager {
-	private static final String transport = "Mississippi River\nCrescent City\nstreetcar\nrailroads\nhighways\nwaterways\ncommerce\nport\ncotton\ntobacco\nmolasses\nsugar\nslave trade\nroadways\nautomobile\nCarrolton Railroad Company\nRoyal Street\nBourbon Street\nCanal Street\nRampart Street\nriverfront\nNOPSI\nsteamboats";
-	private static final String arts = "painters\ncanvases\ntextiles\njewelry\nartisans\ndecorative arts\nfurnishings\narchitecture\nPaul Morphy\nchess\nwriter\nperformer\nbohemian\nArts and Crafts Club\nSherwood Anderson\nWilliam Faulkner\nTennessee Williams\nJon Webb\nLoujon Press\npublishing\nliterary\nThe Green Shutter\nmodernism\npatron\nsilversmith\nmolding\nSeignouret\nRudolph T. Lux\nporcelain\nenamel\ngilding\ncrasftsmanship\nEuropean Styles\nCarribean\ntownhouses\ncreole cottages\nbrick mansions\nvernacular\nbalconies\nneoclassical\nfilmmakers";
-	private static final String music = "ceremonial\ndrumming\nparading\nmilitary bands\nrhythm\nspectacle\ntradition\nAfricans\nCongo Square\njazz\nR&B\nrock & roll\nCosimo Matassa\nJ&M Recording Studio\nFats Domino\nIrma Thomas\nDr. John\nAllen Toussaint\nOpera\nThreatre District\nmusic shops\ncomposers\nLouis Moreau Gottschalk\nErnest Guiraud\nLouis Varney\nEdmond Dédé\nDevriès\nSociété Philharmonique\nGerman singing societies\nFrench Opera House\nBunk Johnson\nGeorge Lewis\nPercy Humphrey\nBill Russell\nLarry Borenstein\nSweet Emma Barret\nPreservation Hall\nRoy Brown\nRay Charles\nLittle Richard\nDave Bartholomew\nGuitar Slim\nrecording";
-	private static final String populations = "Plaquemine\nNatchez\nnative Americans\ncolonial\nSenegambian\nenslaved\nAfricans\nSpanish\nCanary Islanders\nAcadians\nCajuns\nAnglo\nHatian revolution\nfaubourgs\ndiversity\nfree people of color\nport\ncreole\nGerman\nIrish\nSicilian\nEastern European\nChinese\nworking class\nLGBTQ";
+
+	private static String[] nodes = {"0x0001", "0x0002"};
+	private static String url = "http://138.197.115.126:3000/api/w";
 	
 	private static HashMap<String, WordSet> word_sets;
 	private static ArrayList<String> keys;
@@ -19,15 +21,47 @@ public class WordSetsManager {
 	private static int current_key_index = 0;
 	private static WordSet current_words;
 	
-	private static Table table;
 	
 	public static void init(PApplet parent) {
-
-		table = parent.loadTable("data/nola.csv");
-	  
 		word_sets = new HashMap<String, WordSet>();
 		keys = new ArrayList<String>();
 		
+		try {
+			GetRequest get = new GetRequest(url);
+			get.send();
+			parseJSON(get, parent);
+		} catch (Exception e) {
+			System.out.println("Can't connect to server. Loading local stuff...");
+			loadLocalWords(parent);
+		}
+	}
+	
+	private static void parseJSON(GetRequest get, PApplet parent) {
+		JSONObject json = parent.parseJSONObject(get.getContent());
+		for (int i = 0; i < nodes.length; i++) {
+			String key = nodes[i];
+			JSONObject nodeData = (JSONObject) json.get(key);
+			JSONArray words = nodeData.getJSONArray("words");
+			
+			WordSet ws = new WordSet(parent);
+			
+			for (int k = 0; k < words.size(); k++) {
+				ws.addWord(words.getString(k));
+			}
+			
+			word_sets.put(key, ws);
+			keys.add(key);
+			
+			current_words = ws;
+			current_key_index = i;
+		}
+	}
+	
+
+	private static void loadLocalWords(PApplet parent) {
+	
+		Table table = parent.loadTable("data/nola.csv");
+	  
 		WordSet ws;
 		String key;
 		int row;
