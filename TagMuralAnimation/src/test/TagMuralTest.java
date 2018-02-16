@@ -2,6 +2,7 @@ package test;
 
 import de.looksgood.ani.Ani;
 import houses.block.ScrollingHouseScene;
+import music.staff.MusicScene;
 import processing.core.PApplet;
 import processing.core.PFont;
 import water.WaveScene;
@@ -13,8 +14,9 @@ public class TagMuralTest extends PApplet {
 	int font_size = 100;
 	
 	ScrollingHouseScene hs;
+	MusicScene ms;
 	
-	public enum SceneState { WAVE, HOUSES; }
+	public enum SceneState { WAVE, HOUSES, MUSIC; }
 	SceneState current_scene = SceneState.HOUSES;
 		
 	public void settings() {
@@ -32,7 +34,7 @@ public class TagMuralTest extends PApplet {
 		hs = new ScrollingHouseScene(630, width-100, font, true, this);
 		hs.drawOffscreen();
 		
-		//initClient();
+		ms = new MusicScene(this, 6);
 	}
 	
 	public void draw() {
@@ -40,6 +42,8 @@ public class TagMuralTest extends PApplet {
 			hs.run();
 		else if (current_scene == SceneState.WAVE)
 			WaveScene.run(this);
+		else if (current_scene == SceneState.MUSIC)
+			ms.run();
 	}
 	
 	private void initWords() {
@@ -49,49 +53,90 @@ public class TagMuralTest extends PApplet {
 	}
 	
 
-	public void webSocketEvent(String msg) {
-		try {
-			println("received msg: " + msg);
-
-			if (current_scene == SceneState.WAVE) {
-				WaveScene.initFeaturedWord(this);
-			} else {
-				hs.addFeaturedWord();
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public void webSocketEvent(String msg) {
+//		try {
+//			println("received msg: " + msg);
+//
+//			if (current_scene == SceneState.WAVE) {
+//				WaveScene.initFeaturedWord(this);
+//			} else {
+//				hs.addFeaturedWord();
+//			}
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	public void keyPressed() {
-		if (key == 'w') {
-			if (current_scene == SceneState.WAVE) 
-				WaveScene.initFeaturedWord(this);
-			else
-				hs.addFeaturedWord();
+		switch(key) {
+			case 'w':
+				if (current_scene == SceneState.WAVE) 
+					WaveScene.initFeaturedWord(this);
+				else
+					hs.addFeaturedWord();
+			break;
+			
+			case 'f':
+				if (current_scene == SceneState.WAVE) {
+					WordSetsManager.switchWordSet();
+					WaveScene.fadeToSwitchWordSet();
+				}
+				else if (current_scene == SceneState.HOUSES) {
+					hs.setIsScrolling(false);
+					hs.resetDissolver();
+					hs.startDissolve();
+				} else {
+					ms.fade();
+				}
+			break;
+			
+			case 'r':
+				if (WaveScene.toggleRain()) {
+					WaveScene.restartRain();
+				}
+			break;
+			
+			default:
+				if (current_scene == SceneState.HOUSES)
+					current_scene = SceneState.WAVE;
+				else if (current_scene == SceneState.WAVE)
+					current_scene = SceneState.MUSIC;
+				else
+					current_scene = SceneState.HOUSES;
+			break;
 		}
-		else if (key == 'f') {
-			if (current_scene == SceneState.WAVE) {
-				WordSetsManager.switchWordSet();
-				WaveScene.fadeToSwitchWordSet();
-			}
-			else {
-				hs.setIsScrolling(false);
-				hs.resetDissolver();
-				hs.startDissolve();
-			}
-		} 
-		else if (key == 'r') {
-			if (WaveScene.toggleRain()) {
-				WaveScene.restartRain();
-			}
-		}
-		else if (key == 32) {
-			if (current_scene == SceneState.HOUSES)
-				current_scene = SceneState.WAVE;
-			else 
-				current_scene = SceneState.HOUSES;
-		}
+		
+		
+		//
+		
+//		if (key == 'w') {
+//			if (current_scene == SceneState.WAVE) 
+//				WaveScene.initFeaturedWord(this);
+//			else
+//				hs.addFeaturedWord();
+//		}
+//		else if (key == 'f') {
+//			if (current_scene == SceneState.WAVE) {
+//				WordSetsManager.switchWordSet();
+//				WaveScene.fadeToSwitchWordSet();
+//			}
+//			else {
+//				hs.setIsScrolling(false);
+//				hs.resetDissolver();
+//				hs.startDissolve();
+//			}
+//		} 
+//		else if (key == 'r') {
+//			if (WaveScene.toggleRain()) {
+//				WaveScene.restartRain();
+//			}
+//		}
+//		else if (key == 32) {
+//			if (current_scene == SceneState.HOUSES)
+//				current_scene = SceneState.WAVE;
+//			else 
+//				current_scene = SceneState.HOUSES;
+//		}
 	}
 	
 	public static void main(String[] args) { 
