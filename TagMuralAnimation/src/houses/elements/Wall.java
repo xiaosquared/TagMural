@@ -148,9 +148,6 @@ public class Wall implements Fillable {
 	public void unfill() {
 		if (bricks.size() > 0)
 			bricks.remove(0);
-//		for (Brick b : bricks) {
-//			b.setVisibility(false);
-//		}
 	}
 	
 	private void addWord(PApplet parent, boolean visibility) {
@@ -173,6 +170,10 @@ public class Wall implements Fillable {
 			isFilled = true;
 		else
 			layer_index++;
+	}
+	
+	public void draw(PApplet parent, float opacity) {
+		drawWords(parent, opacity);
 	}
 	
 	public void draw(boolean outline, boolean layers, boolean words, PApplet parent) {
@@ -218,9 +219,14 @@ public class Wall implements Fillable {
 	}
 	
 	private void drawWords(PApplet parent) {
-		for (Brick b : bricks)
-			b.draw(parent);
+		drawWords(parent, 255);
 	}
+	
+	private void drawWords(PApplet parent, float opacity) {
+		for (Brick b : bricks)
+			b.draw(parent, opacity);
+	}
+	
 	private void drawWords(PGraphics parent) {
 		for (Brick b : bricks)
 			b.draw(parent);

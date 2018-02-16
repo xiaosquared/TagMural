@@ -1,7 +1,9 @@
 package music.staff;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
+import de.looksgood.ani.Ani;
 import global.ColorPalette;
 import music.musicians.WordImage;
 import processing.core.PApplet;
@@ -13,7 +15,7 @@ public class MusicScene {
 	SineStaff staff;
 	float staff_height = 100;
 	
-	WordImage trumpeter, pianist, piano, bench;
+	ArrayList<WordImage> musicians; 
 	
 	LinkedList<String> featured_word_queue;
 	float WORD_FONT_SIZE = 60;
@@ -27,6 +29,8 @@ public class MusicScene {
 	float NEXT_FRAME_INTERVAL = 500;
 	float last_change_frame = 0;
 	
+	float opacity = 255;
+	
 	public MusicScene(PApplet parent, float staff_font_size) {
 		this.parent = parent;
 		staff = new SineStaff(new PVector(0, parent.height*0.35f), parent.width,
@@ -38,7 +42,9 @@ public class MusicScene {
 	}
 	
 	private void initMusicians(PApplet parent) {
-		trumpeter = new WordImage(parent.loadImage("data/musicians/trumpet/trumpet1.jpg"), 5, 8, ColorPalette.CYAN, parent);
+		musicians = new ArrayList<WordImage>();
+		
+		WordImage trumpeter = new WordImage(parent.loadImage("data/musicians/trumpet/trumpet1.jpg"), 5, 8, ColorPalette.CYAN, parent);
 		trumpeter.addImage(parent.loadImage("data/musicians/trumpet/trumpet2.jpg"), parent);
 		trumpeter.addImage(parent.loadImage("data/musicians/trumpet/trumpet3.jpg"), parent);
 		trumpeter.addImage(parent.loadImage("data/musicians/trumpet/trumpet4.jpg"), parent);
@@ -46,11 +52,11 @@ public class MusicScene {
 		trumpeter.addImage(parent.loadImage("data/musicians/trumpet/trumpet6.jpg"), parent);
 		trumpeter.addImage(parent.loadImage("data/musicians/trumpet/trumpet7.jpg"), parent);
 		trumpeter.addImage(parent.loadImage("data/musicians/trumpet/trumpet8.jpg"), parent);
-		
-		piano = new WordImage(parent.loadImage("data/musicians/piano.jpg"), 5, 4, ColorPalette.BLUE, parent);
-		bench = new WordImage(parent.loadImage("data/musicians/bench.jpg"), 5, 3, ColorPalette.BLUE, parent);
-		
-		pianist = new WordImage(parent.loadImage("data/musicians/piano/pianist1.jpg"), 10, 8, ColorPalette.CYAN, parent);
+
+		WordImage piano = new WordImage(parent.loadImage("data/musicians/piano.jpg"), 5, 4, ColorPalette.BLUE, parent);
+		WordImage bench = new WordImage(parent.loadImage("data/musicians/bench.jpg"), 5, 3, ColorPalette.BLUE, parent);
+				
+		WordImage pianist = new WordImage(parent.loadImage("data/musicians/piano/pianist1.jpg"), 10, 8, ColorPalette.CYAN, parent);
 		pianist.addImage(parent.loadImage("data/musicians/piano/pianist2.jpg"), parent);
 		pianist.addImage(parent.loadImage("data/musicians/piano/pianist3.jpg"), parent);
 		pianist.addImage(parent.loadImage("data/musicians/piano/pianist4.jpg"), parent);
@@ -58,6 +64,11 @@ public class MusicScene {
 		pianist.addImage(parent.loadImage("data/musicians/piano/pianist6.jpg"), parent);
 		pianist.addImage(parent.loadImage("data/musicians/piano/pianist7.jpg"), parent);
 		pianist.addImage(parent.loadImage("data/musicians/piano/pianist8.jpg"), parent);
+		
+		musicians.add(trumpeter);
+		musicians.add(piano);
+		musicians.add(bench);
+		musicians.add(pianist);
 		
 		trumpeter.setTranslation(1000,  320);
 		piano.setTranslation(200, 550);
@@ -89,6 +100,19 @@ public class MusicScene {
 			addFeaturedWord(popWordFromQueue());
 	}
 	
+	public void fade() {
+		Ani.to(this, 5, "opacity", 0, Ani.SINE_IN_OUT, "onEnd:changeWordSet");
+		staff.fadeWordNotes(WORD_FADE_TIME/1000);
+	}
+	
+	public void changeWordSet() {
+		WordSetsManager.switchWordSet();
+		for (WordImage m : musicians) {
+			m.reset(parent);
+		}
+		Ani.to(this, 5, "opacity", 255, Ani.SINE_IN_OUT);
+	}
+	
 	public void run() {
 		float current_time = parent.millis();
 		
@@ -113,14 +137,14 @@ public class MusicScene {
 		staff.update();
 		staff.draw(parent);
 		
-		trumpeter.draw(parent);
-		piano.draw(parent);
-		bench.draw(parent);
-		pianist.draw(parent);
+		for (WordImage m : musicians)
+			m.draw(parent, opacity);
 		
 		if (current_time - last_change_frame > NEXT_FRAME_INTERVAL) {
-			pianist.nextFrame();
-			trumpeter.nextFrame();
+			for (WordImage m : musicians) {
+				if (m.isAnimated())
+					m.nextFrame();
+			}
 			last_change_frame = current_time;
 		}
 	}

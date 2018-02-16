@@ -17,6 +17,7 @@ import processing.core.PVector;
 public class WordImage {
 	PVector trans = new PVector(0, 0);
 	
+	ArrayList<PImage> imgs;
 	ArrayList<Wall> imgWalls;
 	ColorPalette color;
 	float x_unit;
@@ -26,20 +27,38 @@ public class WordImage {
 	
 	int current_img = 0;
 	
+	boolean bAnimate = false;
+	
 	public WordImage(PImage img, float x_unit, float y_unit, ColorPalette color, PApplet parent) {
+		imgs = new ArrayList<PImage>();
 		imgWalls = new ArrayList<Wall>();
 		this.color = color;
 		this.x_unit = x_unit;
 		this.y_unit = y_unit;
 		Wall w = new Wall(imgToLayers(img, x_unit, y_unit), color);
 		w.fillAll(parent);
+		
+		imgs.add(img);
 		imgWalls.add(w);
 	}
 	
 	public void addImage(PImage img, PApplet parent) {
 		Wall w = new Wall(imgToLayers(img, x_unit, y_unit), color);
 		w.fillAll(parent);
+		imgs.add(img);
 		imgWalls.add(w);
+		bAnimate = true;
+	}
+	
+	public boolean isAnimated() { return bAnimate; }
+	
+	public void reset(PApplet parent) {
+		imgWalls.clear();
+		for (int i = 0; i < imgs.size(); i++) {
+			Wall w = new Wall(imgToLayers(imgs.get(i), x_unit, y_unit), color);
+			w.fillAll(parent);
+			imgWalls.add(w);
+		}
 	}
 	
 	public void nextFrame() {
@@ -102,15 +121,15 @@ public class WordImage {
 		return (c >> 16 & 0xFF) == 0;
 	}
 	
-//	public void fillAll(PApplet parent) {
-//		
-//	}
-	
 	public void draw(PApplet parent) {
+		draw(parent, 255);
+	}
+	
+	public void draw(PApplet parent, float opacity) {
 		parent.pushMatrix();
 		parent.translate(trans.x, trans.y);
 		parent.scale(x_scale, y_scale);
-		imgWalls.get(current_img).draw(false, false, true, parent);
+		imgWalls.get(current_img).draw(parent, opacity);
 		parent.popMatrix();
 	}
 }

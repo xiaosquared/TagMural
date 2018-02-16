@@ -53,7 +53,7 @@ public class StaffTest extends PApplet {
 	}
 	
 	public void keyPressed() {
-		pianist.nextFrame();
+		music.fade();
 	}
 	
 	public static void main(String[] args) { 

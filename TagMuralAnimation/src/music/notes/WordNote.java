@@ -32,8 +32,7 @@ public class WordNote {
 		PVector text_origin = notes.getConnectorStart();
 		parent.fill(230, opacity);
 		parent.textSize(font_size);
-		
-		float y_adjust = notes.staffAbove ? -font_size/2 : 0;//font_size/2;
+
 		parent.text(text, text_origin.x, text_origin.y - font_size*0.75f);
 	}
 }

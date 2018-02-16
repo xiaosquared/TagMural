@@ -49,16 +49,27 @@ public class Brick extends Rectangle{
 			color.fill(parent);
 	}
 	
-	public void draw(PApplet parent) {
+	public void setFill(PApplet parent, float opacity) {
+		if (Settings.bw_mode)
+			color.fillBW(parent, opacity);
+		else
+			color.fill(parent, opacity);
+	}
+	
+	public void draw(PApplet parent, float opacity) {
 		if (!isVisible) 
 			return;
 			
-		setFill(parent);
+		setFill(parent, opacity);
 		
 		if (Settings.draw_brick_border) {
 			super.draw(parent);
 		}
 		word.draw(getMinX(), getMinY(), height, parent);
+	}
+	
+	public void draw(PApplet parent) {
+		draw(parent, 255);
 	}
 	
 	public void draw(PGraphics parent) {

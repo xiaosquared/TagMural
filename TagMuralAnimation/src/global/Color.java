@@ -32,9 +32,11 @@ public class Color {
 	
 	public void fill(PApplet parent) { parent.fill(hue, saturation, lightness); }
 	public void fill(PGraphics parent) { parent.fill(hue, saturation, lightness); }
+	public void fill(PApplet parent, float opacity) { parent.fill(hue, saturation, lightness, opacity); }
 	
 	public void fillBW(PApplet parent) { parent.fill(shade); }
 	public void fillBW(PGraphics parent) { parent.fill(shade); }
+	public void fillBW(PApplet parent, float opacity) { parent.fill(shade, opacity); }
 	
 	public void stroke(PApplet parent) { parent.stroke(hue, saturation, lightness); }
 	public void stroke(PGraphics parent) { parent.stroke(hue, saturation, lightness); }
