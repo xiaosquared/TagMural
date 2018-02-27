@@ -45,7 +45,7 @@ public class HouseFactory {
 				else {
 					r_type = HouseInfo.pickRandomRoofType();	
 				}
-				roof = h.addRoof(r_type, false, false);
+				roof = h.addRoof(r_type, false);
 			}
 			
 			// if house is on the edges, must be angled, not pointed
@@ -58,20 +58,20 @@ public class HouseFactory {
 		// if single story, just pick a random roof type
 		else { 
 			r_type = HouseInfo.pickRandomRoofType();
-			roof = h.addRoof(r_type, false, false);
+			roof = h.addRoof(r_type, false);
 		}
 		
 		
 		// Deal with windows
 		if (r_type != HouseInfo.RoofType.POINTED) { 
-			if (info.getNumWindows() > 4) {
-				roof.addWindows(WindowFactory.Type.POINTED, 2, Settings.getTopMarginRoof(), Settings.getBottomMargin(), 
-						Settings.getSideMarginRoof(), Settings.getInBetweenRoof(), ColorPalette.BLUE);
-			}
-			else if (info.getNumWindows() > 2) {
-			roof.addWindows(WindowFactory.Type.POINTED, 1, Settings.getTopMarginRoof(), Settings.getBottomMargin(), 
-					Settings.getSideMarginRoof(), Settings.getInBetweenRoof(), ColorPalette.BLUE);
-			}
+//			if (info.getNumWindows() > 4) {
+//				roof.addWindows(WindowFactory.Type.POINTED, 2, Settings.getTopMarginRoof(), Settings.getBottomMargin(), 
+//						Settings.getSideMarginRoof(), Settings.getInBetweenRoof(), ColorPalette.BLUE);
+//			}
+//			else if (info.getNumWindows() > 2) {
+//			roof.addWindows(WindowFactory.Type.POINTED, 1, Settings.getTopMarginRoof(), Settings.getBottomMargin(), 
+//					Settings.getSideMarginRoof(), Settings.getInBetweenRoof(), ColorPalette.BLUE);
+//			}
 			
 			if (Settings.getRandomBoolean())
 				roof.addChimney(0);

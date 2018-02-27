@@ -21,7 +21,7 @@ public class RoofStory extends PlainStory implements Story {
 	boolean right_incline = true;
 	
 	float CHIMNEY_WIDTH = 20;
-	float CHIMNEY_HEIGHT = 50;
+	float CHIMNEY_HEIGHT = 30;
 	
 	/**
 	 * @param angle - from vertical 16 degrees gives a pretty nice incline
@@ -66,32 +66,32 @@ public class RoofStory extends PlainStory implements Story {
 		}
 	}
 	
-	public Window addWindow(WindowFactory.Type type, float left_margin, float top_margin, float w_width, float w_height, ColorPalette color) {
-		Window w = super.addWindow(type, left_margin, top_margin, w_width, w_height, color);
-		
-		createInclineSides(main, main.getMinX(), main.getMinY(), angle, left_incline, right_incline);
-		if (base != null)
-			createInclineSides((Wall)base, main.getMinX(), main.getMinY(), angle, left_incline, right_incline);
-		
-		w.makeHole(main);
-		return w;
-	}
-	
-	public ArrayList<Window> addWindows(WindowFactory.Type type, int num, float top_margin, float bot_margin, 
-										float side_margin, float in_between, ColorPalette color) {
-		
-		ArrayList<Window> windows = super.addWindows(type, num, top_margin, bot_margin, side_margin, in_between, color);
-		
-		createInclineSides(main, main.getMinX(), main.getMinY(), angle, left_incline, right_incline);
-		if (base != null)
-			createInclineSides((Wall)base, main.getMinX(), main.getMinY(), angle, left_incline, right_incline);
-		
-		for (Window w : windows) {
-			w.makeHole(main);
-		}
-		
-		return windows;
-	}
+//	public Window addWindow(WindowFactory.Type type, float left_margin, float top_margin, float w_width, float w_height, ColorPalette color) {
+//		Window w = super.addWindow(type, left_margin, top_margin, w_width, w_height, color);
+//		
+//		createInclineSides(main, main.getMinX(), main.getMinY(), angle, left_incline, right_incline);
+//		if (base != null)
+//			createInclineSides((Wall)base, main.getMinX(), main.getMinY(), angle, left_incline, right_incline);
+//		
+//		w.makeHole(main);
+//		return w;
+//	}
+//	
+//	public ArrayList<Window> addWindows(WindowFactory.Type type, int num, float top_margin, float bot_margin, 
+//										float side_margin, float in_between, ColorPalette color) {
+//		
+//		ArrayList<Window> windows = super.addWindows(type, num, top_margin, bot_margin, side_margin, in_between, color);
+//		
+//		createInclineSides(main, main.getMinX(), main.getMinY(), angle, left_incline, right_incline);
+//		if (base != null)
+//			createInclineSides((Wall)base, main.getMinX(), main.getMinY(), angle, left_incline, right_incline);
+//		
+//		for (Window w : windows) {
+//			w.makeHole(main);
+//		}
+//		
+//		return windows;
+//	}
 	
 	
 	public void addChimney() {

@@ -18,7 +18,10 @@ public class TagMuralTest extends PApplet {
 	
 	public enum SceneState { WAVE, HOUSES, MUSIC; }
 	SceneState current_scene = SceneState.HOUSES;
-		
+	
+	float lastSceneChange = 0;
+	float changeSceneTime = 30000;
+	
 	public void settings() {
 		fullScreen(P2D);
 		smooth(4);
@@ -38,12 +41,25 @@ public class TagMuralTest extends PApplet {
 	}
 	
 	public void draw() {
+		
+		float currentTime = millis();
+		if (currentTime - lastSceneChange > changeSceneTime) {
+			if (current_scene == SceneState.HOUSES)
+				current_scene = SceneState.WAVE;
+			else {
+				current_scene = SceneState.HOUSES;
+				hs.clearFeaturedWords();
+			}
+			
+			lastSceneChange = currentTime;
+		}
+		
 		if (current_scene == SceneState.HOUSES)
 			hs.run();
 		else if (current_scene == SceneState.WAVE)
 			WaveScene.run(this);
-		else if (current_scene == SceneState.MUSIC)
-			ms.run();
+//		else if (current_scene == SceneState.MUSIC)
+//			ms.run();
 	}
 	
 	private void initWords() {
@@ -53,19 +69,19 @@ public class TagMuralTest extends PApplet {
 	}
 	
 
-//	public void webSocketEvent(String msg) {
-//		try {
-//			println("received msg: " + msg);
-//
-//			if (current_scene == SceneState.WAVE) {
-//				WaveScene.initFeaturedWord(this);
-//			} else {
-//				hs.addFeaturedWord();
-//			}
-//		} catch(Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public void webSocketEvent(String msg) {
+		try {
+			println("received msg: " + msg);
+
+			if (current_scene == SceneState.WAVE) {
+				WaveScene.initFeaturedWord(this);
+			} else {
+				hs.addFeaturedWord();
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void keyPressed() {
 		switch(key) {

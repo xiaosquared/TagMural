@@ -13,7 +13,7 @@ public class WaveScene {
 	
 	private static WaveGroup waves; 
 	private static RainGroup rains;
-	private static boolean isRaining = false;
+	private static boolean isRaining = true;
 	private static Splash splash;
 	private static FloatingWaveText featured_word;
 	
@@ -29,6 +29,7 @@ public class WaveScene {
 		initFeaturedWord(parent);
 		
 		DOWN_POSITION = 320;
+		rains.restart();
 		
 	}
 	 
@@ -40,7 +41,7 @@ public class WaveScene {
 	public static void run(PApplet parent) {
 		parent.background(0);
 		
-		rains.run(true, isRaining);
+		rains.run(true, true);
 		
 		if (trans.y >= DOWN_POSITION)
 			return;
@@ -57,9 +58,9 @@ public class WaveScene {
 	
 	private static void runFeaturedWord(PApplet parent) {
 		if (featured_word != null) {
-//			if (!featured_word.isVisible()) {
-//				initFeaturedWord(parent);
-//			}
+			if (!featured_word.isVisible()) {
+				initFeaturedWord(parent);
+			}
 			featured_word.update();
 			featured_word.draw();
 			if (featured_word.hittingWater())

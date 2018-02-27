@@ -114,7 +114,7 @@ public class House {
 	
 	// ROOF
 	
-	public RoofStory addRoof(HouseInfo.RoofType type, boolean has_overhang, boolean has_windows) {
+	public RoofStory addRoof(HouseInfo.RoofType type, boolean has_overhang) {
 		float roof_height = Settings.getRoofHeight();
 		float overhang = 0;
 		if (has_overhang)

@@ -33,6 +33,10 @@ public class ScrollingHouseScene {
 	//RollingWord featured_word;
 	float FEATURED_MOVE_AMOUNT = -2;
 	
+	float addWordInterval = 2000;
+	float lastAddTime = 0;
+	
+	
 	public ScrollingHouseScene(float y, float width, PFont font, boolean visibility, PApplet parent) {
 		block1 = initBlock(y, width, visibility, parent);
 		block2 = initBlock(y, width, visibility, parent);
@@ -69,6 +73,8 @@ public class ScrollingHouseScene {
 		block.fillAll(parent, visibility);
 		return block;
 	}
+	
+	public void clearFeaturedWords() { featured_words.clear(); }
 	
 	public float getPercentageVisible() { return dissolver.getPercentageVisible(); }
 	
@@ -109,6 +115,13 @@ public class ScrollingHouseScene {
 				setIsScrolling(true);
 			}
 			drawOffscreen();
+		}
+		
+		
+		if (parent.millis() - lastAddTime > addWordInterval) {
+			addFeaturedWord();
+			addWordInterval = parent.random(4000, 8000);
+			lastAddTime = parent.millis();
 		}
 		
 		else if (isScrolling()) {

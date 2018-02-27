@@ -103,7 +103,7 @@ public class Settings {
 	}
 	
 	public static float getRoofHeight() {
-		return DEFAULT_STORY_HEIGHT;
+		return DEFAULT_STORY_HEIGHT * 0.5f;
 	}
 	
 	public static float getRoofOverhang(float building_width) {
