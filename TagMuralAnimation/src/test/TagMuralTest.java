@@ -20,7 +20,7 @@ public class TagMuralTest extends PApplet {
 	SceneState current_scene = SceneState.HOUSES;
 	
 	float lastSceneChange = 0;
-	float changeSceneTime = 30000;
+	float changeSceneTime = 60000;
 	
 	public void settings() {
 		fullScreen(P2D);
@@ -34,7 +34,7 @@ public class TagMuralTest extends PApplet {
 		initWords();
 		WaveScene.init(this, WordSetsManager.getCurrentWordSet().getTexts());
 		
-		hs = new ScrollingHouseScene(630, width-100, font, true, this);
+		hs = new ScrollingHouseScene(580, width-100, font, true, this);
 		hs.drawOffscreen();
 		
 		ms = new MusicScene(this, 6);
@@ -46,7 +46,9 @@ public class TagMuralTest extends PApplet {
 		if (currentTime - lastSceneChange > changeSceneTime) {
 			if (current_scene == SceneState.HOUSES)
 				current_scene = SceneState.WAVE;
-			else {
+			else if (current_scene == SceneState.WAVE) {
+				current_scene = SceneState.MUSIC;
+			} else {
 				current_scene = SceneState.HOUSES;
 				hs.clearFeaturedWords();
 			}
@@ -58,8 +60,8 @@ public class TagMuralTest extends PApplet {
 			hs.run();
 		else if (current_scene == SceneState.WAVE)
 			WaveScene.run(this);
-//		else if (current_scene == SceneState.MUSIC)
-//			ms.run();
+		else if (current_scene == SceneState.MUSIC)
+			ms.run();
 	}
 	
 	private void initWords() {
@@ -112,7 +114,7 @@ public class TagMuralTest extends PApplet {
 				}
 			break;
 			
-			default:
+			case ' ':
 				if (current_scene == SceneState.HOUSES)
 					current_scene = SceneState.WAVE;
 				else if (current_scene == SceneState.WAVE)

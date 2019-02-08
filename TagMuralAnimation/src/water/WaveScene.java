@@ -34,7 +34,9 @@ public class WaveScene {
 	}
 	 
 	public static void initFeaturedWord(PApplet parent) {
-		featured_word = new FloatingWaveText(WordSetsManager.getRandomWord().getText(), 
+		String w = WordSetsManager.getRandomWord().getText();
+		PApplet.println(w);
+		featured_word = new FloatingWaveText(w, 
 				parent.random(70, 90), parent.random(0, parent.width*.66f), -20f, waves.getWave(0), parent);
 	}
 	
@@ -60,6 +62,8 @@ public class WaveScene {
 		if (featured_word != null) {
 			if (!featured_word.isVisible()) {
 				initFeaturedWord(parent);
+				if (featured_word == null)
+					return;
 			}
 			featured_word.update();
 			featured_word.draw();

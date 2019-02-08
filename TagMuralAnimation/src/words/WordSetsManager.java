@@ -27,16 +27,16 @@ public class WordSetsManager {
 	public static void init(PApplet parent) {
 		word_sets = new HashMap<String, WordSet>();
 		keys = new ArrayList<String>();
-		
-		try {
-			GetRequest get = new GetRequest(url);
-			get.send();
-			parseJSON(get, parent);
-			System.out.println("got words");
-		} catch (Exception e) {
-			System.out.println("Can't connect to server. Loading local stuff...");
-			loadLocalWords(parent);
-		}
+		loadLocalWords(parent);
+//		try {
+//			GetRequest get = new GetRequest(url);
+//			get.send();
+//			parseJSON(get, parent);
+//			System.out.println("got words");
+//		} catch (Exception e) {
+//			System.out.println("Can't connect to server. Loading local stuff...");
+//			loadLocalWords(parent);
+//		}
 	}
 	
 	private static void parseJSON(GetRequest get, PApplet parent) {

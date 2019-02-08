@@ -70,10 +70,10 @@ public class MusicScene {
 		musicians.add(bench);
 		musicians.add(pianist);
 		
-		trumpeter.setTranslation(1000,  320);
-		piano.setTranslation(200, 550);
-		bench.setTranslation(730, 700);
-		pianist.setTranslation(610, 480);
+		trumpeter.setTranslation(1000,  280);
+		piano.setTranslation(200, 510);
+		bench.setTranslation(730, 660);
+		pianist.setTranslation(610, 440);
 
 		trumpeter.setScale(0.4f, 0.4f);
 		pianist.setScale(0.39f, 0.39f);
