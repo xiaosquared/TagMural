@@ -7,15 +7,13 @@ import processing.core.PVector;
 
 public class WordNote {
 	String text;
-	float font_size;
+	float font_size = 60;
 	NoteGroup notes;
 	float opacity = 255;
 	
-	public WordNote(String text, float font_size, float start_x, float y_offset, PApplet parent) {
+	public WordNote(String text, float text_width, float start_x, float y_offset, PApplet parent) {
 		this.text = text.trim();
-		this.font_size = font_size;
-		parent.textSize(font_size);
-		notes = new NoteGroup(parent.textWidth(text), start_x, y_offset);
+		notes = new NoteGroup(text_width, start_x, y_offset);
 	}
 
 	public void fade(float fade_time) {

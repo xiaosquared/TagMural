@@ -11,6 +11,8 @@ public class WaveTest extends PApplet {
 	PFont font;
 	int font_size = 100;
 
+	WaveScene ws;
+	
 	public void settings(){
 		//size(1200,800, P2D);
 		fullScreen(P2D);
@@ -19,11 +21,11 @@ public class WaveTest extends PApplet {
 	public void setup(){    	
 		Ani.init(this);
 		initWords();
-		WaveScene.init(this, WordSetsManager.getCurrentWordSet().getTexts());
+		ws = new WaveScene(this, WordSetsManager.getCurrentWordSet().getTexts());
 	}
 
 	public void draw(){
-		WaveScene.run(this);
+		ws.run();
 		//WaveScene.updateFeaturedWord(this);
 	}
 
@@ -43,22 +45,22 @@ public class WaveTest extends PApplet {
 		println(key);
 		switch(key) {
 		case 'r':
-			if (WaveScene.toggleRain()) {
-				WaveScene.restartRain();
+			if (ws.toggleRain()) {
+				ws.restartRain();
 			}
 			break;
 		case 'w':
-			WaveScene.initFeaturedWord(this);
+			ws.addFeaturedWord();
 			break;
 		case 't':
-			WaveScene.translateDown();
+			ws.translateDown();
 			break;
 		case 'y':
-			WaveScene.translateUp();
+			ws.translateUp();
 			break;
 		case 'f':
 			WordSetsManager.switchWordSet();
-			WaveScene.fadeToSwitchWordSet();
+			ws.fadeToSwitchWordSet();
 			break;
 //		default:
 //			client.sendMessage("hello dd!");

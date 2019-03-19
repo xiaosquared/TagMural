@@ -1,6 +1,8 @@
 package music.staff;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import music.notes.WordNote;
 import music.clef.TrebleClef;
 import processing.core.PApplet;
@@ -14,7 +16,6 @@ public class SineStaff {
 	
 	ArrayList<WordNote> word_notes;
 	float word_start_x = 300; // where to place the next word
-	float word_end_x;
 	boolean bFull = false;
 	
 	TrebleClef clef;
@@ -24,7 +25,6 @@ public class SineStaff {
 	float FEATURED_WORD_SPACING = 60;
 
 	public SineStaff(PVector origin, float width, float height, float angle, float font_size, PApplet parent) {
-		word_end_x = parent.width;
 		this.angle = angle;
 		staff_lines = new ArrayList<SineWave>();
 		SineWave main_line = new SineWave(origin, width, font_size, parent);
@@ -57,8 +57,9 @@ public class SineStaff {
 	public void update() {		
 		clef.update();
 		
-		for (WordNote wn : word_notes) {
-			wn.update();
+		Iterator<WordNote> it = word_notes.iterator();
+		while (it.hasNext()) {
+			it.next().update();
 		}
 		
 		updateStaffLines();
@@ -89,14 +90,20 @@ public class SineStaff {
 	}
 	
 	public boolean addWordNote(String text, float font_size, PApplet parent) {
+	
 		parent.textSize(font_size);
 		float word_width = parent.textWidth(text);
-		if (word_start_x + word_width >= PApplet.min(word_end_x, getMaxX())) {
+		System.out.println("Test: " + text);
+		System.out.println("word width: " + word_width);
+		System.out.println("word font size: " + font_size);
+		
+		if (word_start_x + word_width >= getMaxX()) {
 			bFull = true;
 			return false;
 		}
+		
 		float y_offset = getStaffFontSize()/2;
-		WordNote wn = new WordNote(text, font_size, word_start_x, y_offset, parent);
+		WordNote wn = new WordNote(text, word_width, word_start_x, y_offset, parent);
 		word_notes.add(wn);
 		word_start_x += word_width + FEATURED_WORD_SPACING;
 		return true;
@@ -113,8 +120,9 @@ public class SineStaff {
 	}
 	
 	public void fadeWordNotes(float fade_time) {
-		for (WordNote wn : word_notes) {
-			wn.fade(fade_time);
+		Iterator<WordNote> it = word_notes.iterator();
+		while (it.hasNext()) {
+			it.next().fade(fade_time);
 		}
 	}
 	
@@ -129,9 +137,12 @@ public class SineStaff {
 		
 		parent.pushMatrix();
 		parent.translate(0, getTransY());
-		for (WordNote wn: word_notes) {
-			wn.draw(this, parent);
+	
+		Iterator<WordNote> it = word_notes.iterator();
+		while (it.hasNext()) {
+			it.next().draw(this, parent);
 		}
+		
 		clef.draw(parent);
 		parent.popMatrix();
 		parent.popMatrix();

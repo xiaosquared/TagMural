@@ -31,6 +31,8 @@ public class MusicScene {
 	
 	float opacity = 255;
 	
+	String next_word = "";
+	
 	public MusicScene(PApplet parent, float staff_font_size) {
 		this.parent = parent;
 		staff = new SineStaff(new PVector(0, parent.height*0.35f), parent.width,
@@ -80,9 +82,14 @@ public class MusicScene {
 		last_change_frame = parent.millis();
 	}
 	
-	public void addFeaturedWord(String word) {
+	public void addFeaturedWord() {
+		featured_word_queue.add(WordSetsManager.getRandomWord().getText());
+	}
+
+	public void addNextWord(String word) {
 		if (!staff.isFull()) {
 			boolean added = staff.addWordNote(word, WORD_FONT_SIZE, parent);
+			System.out.println("Added word to staff : " + added);
 			if (added) {
 				last_add_time = parent.millis();
 				return;
@@ -97,7 +104,7 @@ public class MusicScene {
 	
 	private void addFromQueue() {
 		if (!featured_word_queue.isEmpty())
-			addFeaturedWord(popWordFromQueue());
+			addNextWord(popWordFromQueue());
 	}
 	
 	public void fade() {
@@ -116,6 +123,8 @@ public class MusicScene {
 	public void run() {
 		float current_time = parent.millis();
 		
+		addFromQueue();
+		
 		if (staff.isFull() && fading == false) {
 			staff.fadeWordNotes(WORD_FADE_TIME/1000);
 			fade_start_time = parent.millis();
@@ -128,10 +137,11 @@ public class MusicScene {
 			addFromQueue();
 		}
 		
-		else if (current_time - last_add_time > ADD_WORD_INTERVAL) {
-			addFeaturedWord(WordSetsManager.getRandomWord().getText());
-			last_add_time = current_time;
-		}
+		// AUTO ADD
+//		else if (current_time - last_add_time > ADD_WORD_INTERVAL) {
+//			addFeaturedWord(WordSetsManager.getRandomWord().getText());
+//			last_add_time = current_time;
+//		}
 		
 		parent.background(0);
 		staff.update();

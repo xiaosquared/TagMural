@@ -53,8 +53,6 @@ public class ScrollingHouseScene {
 		this.width = width;
 		
 		featured_words = new ArrayList<RollingWord>();
-		
-		//featured_word = new RollingWord(WordSetsManager.getRandomWord(), 60, parent.width, parent.height-50, 6, parent);
 	}
 	
 	private PGraphics setupPGraphics(PGraphics pg, PFont font, PApplet parent) {
@@ -117,12 +115,12 @@ public class ScrollingHouseScene {
 			drawOffscreen();
 		}
 		
-		
-		if (parent.millis() - lastAddTime > addWordInterval) {
-			addFeaturedWord();
-			addWordInterval = parent.random(4000, 8000);
-			lastAddTime = parent.millis();
-		}
+		//AUTO ADD
+//		if (parent.millis() - lastAddTime > addWordInterval) {
+//			addFeaturedWord();
+//			addWordInterval = parent.random(4000, 8000);
+//			lastAddTime = parent.millis();
+//		}
 		
 		else if (isScrolling()) {
 			moveLeft();
@@ -156,9 +154,11 @@ public class ScrollingHouseScene {
 	}
 	
 	public void resetForScroll() {
+		Block b = new Block(block1);
 		block1 = new Block(block2);
 		trans_x += b1_drawing.width;
-		block2 = initBlock(y, width, true, parent);
+		block2 = b;
+		//block2 = initBlock(y, width, true, parent);
 		drawOffscreen();
 	}
 	

@@ -8,6 +8,9 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import processing.core.PApplet;
 import processing.data.JSONObject;
+import test.TagMuralTest.SceneState;
+import water.WaveScene;
+import words.WordSetsManager;
 
 public class WebSocketTest extends PApplet {
 
@@ -49,6 +52,14 @@ public class WebSocketTest extends PApplet {
 		}
 		
 		
+	}
+	
+	public void webSocketEvent(String msg) {
+		try {
+			println("received msg: " + msg);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args) { 

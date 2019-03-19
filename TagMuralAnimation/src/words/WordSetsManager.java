@@ -22,21 +22,18 @@ public class WordSetsManager {
 	private static WordSet current_words;
 	
 	
-	
-	
 	public static void init(PApplet parent) {
 		word_sets = new HashMap<String, WordSet>();
 		keys = new ArrayList<String>();
-		loadLocalWords(parent);
-//		try {
-//			GetRequest get = new GetRequest(url);
-//			get.send();
-//			parseJSON(get, parent);
-//			System.out.println("got words");
-//		} catch (Exception e) {
-//			System.out.println("Can't connect to server. Loading local stuff...");
-//			loadLocalWords(parent);
-//		}
+		try {
+			GetRequest get = new GetRequest(url);
+			get.send();
+			parseJSON(get, parent);
+			System.out.println("Got words from server");
+		} catch (Exception e) {
+			System.out.println("Can't connect to server. Loading local stuff...");
+			loadLocalWords(parent);
+		}
 	}
 	
 	private static void parseJSON(GetRequest get, PApplet parent) {
