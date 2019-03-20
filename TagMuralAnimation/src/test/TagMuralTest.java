@@ -50,7 +50,7 @@ public class TagMuralTest extends PApplet {
 		hs = new ScrollingHouseScene(580, width-100, font, true, this);
 		hs.drawOffscreen();
 		
-		current_scene = ws;
+		current_scene = hs;
 		
 		ms = new MusicScene(this, 6);
 	}

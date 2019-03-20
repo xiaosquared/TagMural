@@ -37,7 +37,7 @@ public class HouseScene {
 	public HouseScene(float y, float width, PFont font, PApplet parent) {
 		block = new Block(y, width, Settings.SIDEWALK_HEIGHT, parent);
 		
-		featured = new RollingWord(WordSetsManager.getRandomWord(), 60, 200, parent.height-50, 6, parent);
+		featured = new RollingWord(WordSetsManager.getRandomWord().getText(), 60, 200, parent.height-50, 6, parent);
 		
 		pg = parent.createGraphics(parent.width, parent.height, PApplet.P2D);
 		pg.smooth(4);

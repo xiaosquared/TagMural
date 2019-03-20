@@ -99,13 +99,9 @@ public class MusicScene implements Scene {
 		featured_word_queue.add(word);
 	}
 	
-	private String popWordFromQueue() {
-		return featured_word_queue.pop();
-	}
-	
 	private void addFromQueue() {
 		if (!featured_word_queue.isEmpty())
-			addNextWord(popWordFromQueue());
+			addNextWord(featured_word_queue.pop());
 	}
 	
 	public void fade() {

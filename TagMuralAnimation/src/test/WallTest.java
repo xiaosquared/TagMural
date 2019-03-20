@@ -60,7 +60,7 @@ public class WallTest extends PApplet {
 		
 		switch(key) {
 		case ' ':
-			rw = new RollingWord(WordSetsManager.getRandomWord(), 60, 200, height-80, 6, this);
+			rw = new RollingWord(WordSetsManager.getRandomWord().getText(), 60, 200, height-80, 6, this);
 			break;
 		case 'f':
 			WordSetsManager.switchWordSet();

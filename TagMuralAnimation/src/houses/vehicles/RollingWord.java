@@ -7,22 +7,25 @@ import words.Word;
 public class RollingWord {
 	private Wheel left_wheel;
 	private Wheel right_wheel;
-	private Word word;
+	private String word;
 	private float word_height;
 	private float word_width;
 	
 	private PVector bottom_left; // bottom left corner
 	private float dx;
 	
-	public RollingWord(Word word, float word_height, float base_x, float base_y, float thickness, PApplet parent) {
+	PApplet parent;
+	
+	public RollingWord(String word, float word_height, float base_x, float base_y, float thickness, PApplet parent) {
 		this(word, word_height, base_x, base_y, thickness, -2, parent);
 	}
 	
-	public RollingWord(Word word, float word_height, float base_x, float base_y, float thickness, float dx, PApplet parent) {
+	public RollingWord(String word, float word_height, float base_x, float base_y, float thickness, float dx, PApplet parent) {
+		this.parent = parent;
 		this.word = word;
 		this.word_height = word_height;
 		parent.textSize(word_height);
-		word_width = parent.textWidth(word.getText()); 
+		word_width = parent.textWidth(word); 
 		
 		bottom_left = new PVector(base_x, base_y);
 		
@@ -39,8 +42,12 @@ public class RollingWord {
 		this.dx = dx; // amount to move by
 	}
 	
+	public boolean tooMuchOverlap(float y) {
+		return Math.abs(bottom_left.y - y) < 40 && (bottom_left.x + word_width) > parent.width/2;   
+	}
+	
 	public String getText() {
-		return word.getText();
+		return word;
 	}
 	
 	public boolean offScreenRight(PApplet parent) {
@@ -73,7 +80,7 @@ public class RollingWord {
 		
 		parent.textSize(word_height);
 		parent.fill(255 * fade_amount);
-		parent.text(word.getText(), 0, -left_wheel.getDiameter()-word_height);
+		parent.text(word, 0, -left_wheel.getDiameter()-word_height);
 		parent.popMatrix();
 	}
 	
