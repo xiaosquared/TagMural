@@ -8,7 +8,6 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import processing.core.PApplet;
 import processing.data.JSONObject;
-import test.TagMuralTest.SceneState;
 import water.WaveScene;
 import words.WordSetsManager;
 

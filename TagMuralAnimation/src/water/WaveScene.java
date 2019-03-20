@@ -1,11 +1,12 @@
 package water;
 
 import de.looksgood.ani.Ani;
+import global.Scene;
 import processing.core.PApplet;
 import processing.core.PVector;
 import words.WordSetsManager;
 
-public class WaveScene {
+public class WaveScene implements Scene {
 	private final int MIN_FONT_SIZE = 16;
 	private final int MAX_FONT_SIZE = 36;
 	private final int RAIN_FONT_SIZE = 12;
@@ -94,14 +95,18 @@ public class WaveScene {
 		waves.fadeOut("onEnd:fadeIn");
 	}
 	
-	public void fadeToSwitchWordSet() {
+	public void changeWordSet() {
 		featured_word.fadeOut();
 		waves.fadeOut("onEnd:switchAndFadeIn");
 	}
 	
-	public void switchWordSet(String[] words) {
-		waves.initText(words, MIN_FONT_SIZE, MAX_FONT_SIZE);
-		// TODO: reset text for rain also...
+	public void clearFeaturedWords() {
+		
 	}
+	
+//	public void switchWordSet(String[] words) {
+//		waves.initText(words, MIN_FONT_SIZE, MAX_FONT_SIZE);
+//		// TODO: reset text for rain also...
+//	}
 	
 }

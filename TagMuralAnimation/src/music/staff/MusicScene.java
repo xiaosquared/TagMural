@@ -5,12 +5,13 @@ import java.util.LinkedList;
 
 import de.looksgood.ani.Ani;
 import global.ColorPalette;
+import global.Scene;
 import music.musicians.WordImage;
 import processing.core.PApplet;
 import processing.core.PVector;
 import words.WordSetsManager;
 
-public class MusicScene {
+public class MusicScene implements Scene {
 	PApplet parent;
 	SineStaff staff;
 	float staff_height = 100;
@@ -123,7 +124,10 @@ public class MusicScene {
 	public void run() {
 		float current_time = parent.millis();
 		
-		addFromQueue();
+		if (current_time - last_add_time > ADD_WORD_INTERVAL) {
+			addFromQueue();
+			last_add_time = current_time;
+		}
 		
 		if (staff.isFull() && fading == false) {
 			staff.fadeWordNotes(WORD_FADE_TIME/1000);

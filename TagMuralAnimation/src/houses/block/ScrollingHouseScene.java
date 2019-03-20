@@ -3,6 +3,7 @@ package houses.block;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import global.Scene;
 import global.Settings;
 import houses.block.BlockDissolver.DissolveState;
 import houses.vehicles.RollingWord;
@@ -11,7 +12,7 @@ import processing.core.PFont;
 import processing.core.PGraphics;
 import words.WordSetsManager;
 
-public class ScrollingHouseScene {
+public class ScrollingHouseScene implements Scene {
 	PApplet parent;
 	private float y;
 	private float width;
@@ -134,23 +135,26 @@ public class ScrollingHouseScene {
 		parent.background(0);
 		parent.image(b1_drawing, trans_x, trans_y);
 		parent.image(b2_drawing, trans_x + b1_drawing.width, trans_y);
-		Iterator<RollingWord> rit = featured_words.iterator();
+		Iterator<RollingWord> rit = new ArrayList<>(featured_words).iterator();
 		while (rit.hasNext()) {
 			try { 
 				rit.next().draw(1, parent);
 			} catch (Exception e) {
-				PApplet.println("Exception... continuing");
+				e.printStackTrace();
 			}
 		}
-//		for (RollingWord w : featured_words)
-//			w.draw(1, parent);
-//		featured_word.draw(1, parent);
 	}
 	
 	public void moveLeft() {
 		trans_x -= MOVE_AMOUNT;
 		if (trans_x < -b1_drawing.width)
 			resetForScroll();
+	}
+	
+	public void changeWordSet() {
+		setIsScrolling(false);
+		resetDissolver();
+		startDissolve();
 	}
 	
 	public void resetForScroll() {

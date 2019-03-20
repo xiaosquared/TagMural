@@ -7,6 +7,7 @@ import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
 import de.looksgood.ani.Ani;
+import global.Scene;
 import houses.block.ScrollingHouseScene;
 import music.staff.MusicScene;
 import processing.core.PApplet;
@@ -24,8 +25,10 @@ public class TagMuralTest extends PApplet {
 	MusicScene ms;
 	WaveScene ws;
 	
-	public enum SceneState { WAVE, HOUSES, MUSIC; }
-	SceneState current_scene = SceneState.MUSIC;
+	Scene current_scene;
+	
+//	public enum SceneState { WAVE, HOUSES, MUSIC; }
+//	SceneState current_scene = SceneState.MUSIC;
 	
 	float lastSceneChange = 0;
 	float changeSceneTime = 600000;
@@ -47,31 +50,34 @@ public class TagMuralTest extends PApplet {
 		hs = new ScrollingHouseScene(580, width-100, font, true, this);
 		hs.drawOffscreen();
 		
+		current_scene = ws;
+		
 		ms = new MusicScene(this, 6);
 	}
 	
 	public void draw() {
 		
 		float currentTime = millis();
-		if (currentTime - lastSceneChange > changeSceneTime) {
-			if (current_scene == SceneState.HOUSES)
-				current_scene = SceneState.WAVE;
-			else if (current_scene == SceneState.WAVE) {
-				current_scene = SceneState.MUSIC;
-			} else {
-				current_scene = SceneState.HOUSES;
-				hs.clearFeaturedWords();
-			}
-			
-			lastSceneChange = currentTime;
-		}
+//		if (currentTime - lastSceneChange > changeSceneTime) {
+//			if (current_scene == SceneState.HOUSES)
+//				current_scene = SceneState.WAVE;
+//			else if (current_scene == SceneState.WAVE) {
+//				current_scene = SceneState.MUSIC;
+//			} else {
+//				current_scene = SceneState.HOUSES;
+//				hs.clearFeaturedWords();
+//			}
+//			
+//			lastSceneChange = currentTime;
+//		}
+		current_scene.run();
 		
-		if (current_scene == SceneState.HOUSES)
-			hs.run();
-		else if (current_scene == SceneState.WAVE)
-			ws.run();
-		else if (current_scene == SceneState.MUSIC)
-			ms.run();
+//		if (current_scene == SceneState.HOUSES)
+//			hs.run();
+//		else if (current_scene == SceneState.WAVE)
+//			ws.run();
+//		else if (current_scene == SceneState.MUSIC)
+//			ms.run();
 	}
 	
 	private void initWebSocket() {
@@ -82,13 +88,8 @@ public class TagMuralTest extends PApplet {
 				public void onMessage( String message ) {
 					JSONObject json = parseJSONObject(message);
 					println(json.getString("dev_id"));
-//					if (current_scene == SceneState.WAVE) {
-//						ws.addFeaturedWord();
-//					} else if (current_scene == SceneState.HOUSES) {
-//						hs.addFeaturedWord();
-//					} else {
-						ms.addFeaturedWord(); 
-					//}
+					if (current_scene != null)
+						current_scene.addFeaturedWord();
 				}
 				@Override
 				public void onOpen( ServerHandshake handshake ) {
@@ -124,28 +125,14 @@ public class TagMuralTest extends PApplet {
 			// EVENT: New featured word
 		
 			case 'w':
-				if (current_scene == SceneState.WAVE) 
-					ws.addFeaturedWord();
-				else if (current_scene == SceneState.HOUSES)
-					hs.addFeaturedWord();
-				else
-					ms.addFeaturedWord();
+				current_scene.addFeaturedWord();
 			break;
 			
 			// EVENT: Switch which words are in the background
 			
 			case 'f':
-				if (current_scene == SceneState.WAVE) {
-					WordSetsManager.switchWordSet();
-					ws.fadeToSwitchWordSet();
-				}
-				else if (current_scene == SceneState.HOUSES) {
-					hs.setIsScrolling(false);
-					hs.resetDissolver();
-					hs.startDissolve();
-				} else {
-					ms.fade();
-				}
+				WordSetsManager.switchWordSet();
+				current_scene.changeWordSet();
 			break;
 			
 			case 'r':
@@ -158,12 +145,18 @@ public class TagMuralTest extends PApplet {
 			// SWITCH SCENES
 			
 			case ' ':
-				if (current_scene == SceneState.HOUSES)
-					current_scene = SceneState.WAVE;
-				else if (current_scene == SceneState.WAVE)
-					current_scene = SceneState.MUSIC;
-				else
-					current_scene = SceneState.HOUSES;
+				if (current_scene instanceof WaveScene)
+					current_scene = hs;
+				else if (current_scene instanceof ScrollingHouseScene)
+					current_scene = ms;
+				else if (current_scene instanceof MusicScene)
+					current_scene = ws;
+//				if (current_scene == SceneState.HOUSES)
+//					current_scene = SceneState.WAVE;
+//				else if (current_scene == SceneState.WAVE)
+//					current_scene = SceneState.MUSIC;
+//				else
+//					current_scene = SceneState.HOUSES;
 			break;
 		}
 	}

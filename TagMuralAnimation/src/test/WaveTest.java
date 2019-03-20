@@ -36,10 +36,6 @@ public class WaveTest extends PApplet {
 		textFont(font, font_size);  
 	}
 
-//	public void webSocketEvent(String msg) {
-//		println("received msg: " + msg);
-//		featured_word_queue.add(msg);
-//	}
 	
 	public void keyPressed() {
 		println(key);
@@ -60,7 +56,7 @@ public class WaveTest extends PApplet {
 			break;
 		case 'f':
 			WordSetsManager.switchWordSet();
-			ws.fadeToSwitchWordSet();
+			ws.changeWordSet();
 			break;
 //		default:
 //			client.sendMessage("hello dd!");
