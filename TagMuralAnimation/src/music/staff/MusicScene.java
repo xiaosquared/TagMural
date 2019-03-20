@@ -18,9 +18,8 @@ public class MusicScene implements Scene {
 	
 	ArrayList<WordImage> musicians; 
 	
-	LinkedList<String> featured_word_queue;
 	float WORD_FONT_SIZE = 60;
-	float WORD_FADE_TIME = 7000;
+	float WORD_FADE_TIME = 2000;
 	float fade_start_time = 0;
 	boolean fading = false;
 	
@@ -39,7 +38,7 @@ public class MusicScene implements Scene {
 		staff = new SineStaff(new PVector(0, parent.height*0.35f), parent.width,
 								staff_height, -PApplet.PI/20, staff_font_size, parent);
 		
-		featured_word_queue = new LinkedList<String>();
+		//featured_word_queue = new LinkedList<String>();
 		
 		initMusicians(parent);
 	}
@@ -82,24 +81,18 @@ public class MusicScene implements Scene {
 		pianist.setScale(0.39f, 0.39f);
 		last_change_frame = parent.millis();
 	}
-	
-	public void addFeaturedWord() {
-		featured_word_queue.add(WordSetsManager.getRandomWord().getText());
-	}
 
 	public void addNextWord(String word) {
 		if (!staff.isFull()) {
 			boolean added = staff.addWordNote(word, WORD_FONT_SIZE, parent);
-			System.out.println("Added word to staff : " + added);
 			if (added) {
 				last_add_time = parent.millis();
 				return;
 			}
 		}
-		featured_word_queue.add(word);
 	}
 	
-	private void addFromQueue() {
+	public void addFromQueue(LinkedList<String> featured_word_queue) {
 		if (!featured_word_queue.isEmpty())
 			addNextWord(featured_word_queue.pop());
 	}
@@ -119,12 +112,7 @@ public class MusicScene implements Scene {
 	
 	public void run() {
 		float current_time = parent.millis();
-		
-		if (current_time - last_add_time > ADD_WORD_INTERVAL) {
-			addFromQueue();
-			last_add_time = current_time;
-		}
-		
+
 		if (staff.isFull() && fading == false) {
 			staff.fadeWordNotes(WORD_FADE_TIME/1000);
 			fade_start_time = parent.millis();
@@ -134,7 +122,6 @@ public class MusicScene implements Scene {
 		else if (fading && current_time - fade_start_time > WORD_FADE_TIME * 0.6) {
 			staff.clearWordNotes();
 			fading = false;
-			addFromQueue();
 		}
 		
 		// AUTO ADD

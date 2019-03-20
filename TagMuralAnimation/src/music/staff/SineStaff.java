@@ -93,9 +93,6 @@ public class SineStaff {
 	
 		parent.textSize(font_size);
 		float word_width = parent.textWidth(text);
-		System.out.println("Test: " + text);
-		System.out.println("word width: " + word_width);
-		System.out.println("word font size: " + font_size);
 		
 		if (word_start_x + word_width >= getMaxX()) {
 			bFull = true;

@@ -1,10 +1,13 @@
 package water;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import de.looksgood.ani.Ani;
 import global.Scene;
 import processing.core.PApplet;
 import processing.core.PVector;
-import words.WordSetsManager;
 
 public class WaveScene implements Scene {
 	private final int MIN_FONT_SIZE = 16;
@@ -12,21 +15,24 @@ public class WaveScene implements Scene {
 	private final int RAIN_FONT_SIZE = 12;
 	private int DOWN_POSITION;
 	
+	private int num_waves = 5;
 	private WaveGroup waves; 
 	private RainGroup rains;
 	private boolean isRaining = true;
 	private Splash splash;
-	private FloatingWaveText featured_word;
 	
+	private ArrayList<FloatingWaveText> featured_words;
+
 	private PVector trans = new PVector(0, 0);
-	
-	private boolean isFading = false; 
 	
 	private PApplet parent;
 	
 	public WaveScene(PApplet parent, String[] words) {
 		this.parent = parent;
-		waves = new WaveGroup(5, new PVector(-20, parent.height-265), new PVector(parent.width+200, parent.height-65), 4, 220, 50, parent);
+		
+		featured_words = new ArrayList<FloatingWaveText>();
+		
+		waves = new WaveGroup(num_waves, new PVector(-20, parent.height-265), new PVector(parent.width+200, parent.height-65), 4, 220, 50, parent);
 		waves.initText(words, MIN_FONT_SIZE, MAX_FONT_SIZE);
 		splash = new Splash(parent);
 		rains = new RainGroup(waves, splash, words, RAIN_FONT_SIZE, parent);
@@ -35,11 +41,17 @@ public class WaveScene implements Scene {
 		rains.restart();
 	}
 	 
-	public void addFeaturedWord() {
-		String w = WordSetsManager.getRandomWord().getText();
-		PApplet.println(w);
-		featured_word = new FloatingWaveText(w, 
-				parent.random(70, 90), parent.random(0, parent.width*.66f), -20f, waves.getWave(0), parent);
+	
+	public void addFromQueue(LinkedList<String> featured_word_queue) {
+		if (!featured_word_queue.isEmpty()) {
+			addFeaturedWord(featured_word_queue.pop());
+		}
+	}
+	
+	public void addFeaturedWord(String w) {
+		featured_words.add(new FloatingWaveText(w, 
+				parent.random(70, 90), parent.random(0, parent.width*.66f), -20f, 
+					waves.getWave(PApplet.floor(parent.random(num_waves-1))), parent));
 	}
 	
 	public void run() {
@@ -61,16 +73,22 @@ public class WaveScene implements Scene {
 	}
 	
 	private void runFeaturedWord() {
-		if (featured_word != null) {
-			if (!featured_word.isVisible()) {
-				//initFeaturedWord(parent);
-				if (featured_word == null)
-					return;
+		Iterator<FloatingWaveText> fwt = new ArrayList<>(featured_words).iterator();
+		while(fwt.hasNext()) {
+			try {
+				FloatingWaveText ft = fwt.next();
+				if (!ft.isVisible()) {
+					featured_words.remove(ft);
+					continue;
+				}
+				ft.update();
+				ft.draw();
+				if (ft.hittingWater())
+					ft.hitWater(splash);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			featured_word.update();
-			featured_word.draw();
-			if (featured_word.hittingWater())
-				featured_word.hitWater(splash);
 		}
 	}
 	
@@ -96,7 +114,6 @@ public class WaveScene implements Scene {
 	}
 	
 	public void changeWordSet() {
-		featured_word.fadeOut();
 		waves.fadeOut("onEnd:switchAndFadeIn");
 	}
 	

@@ -31,7 +31,6 @@ public class ScrollingHouseScene implements Scene {
 	boolean isScrolling = true;
 	
 	ArrayList<RollingWord> featured_words;
-	LinkedList<String> featured_word_queue;
 	
 	float FEATURED_FONT_SIZE = 60;
 	float FEATURED_MOVE_AMOUNT = -2;
@@ -56,7 +55,6 @@ public class ScrollingHouseScene implements Scene {
 		this.width = width;
 		
 		featured_words = new ArrayList<RollingWord>();
-		featured_word_queue = new LinkedList<String>();
 	}
 	
 	private PGraphics setupPGraphics(PGraphics pg, PFont font, PApplet parent) {
@@ -91,11 +89,7 @@ public class ScrollingHouseScene implements Scene {
 	public boolean isScrolling() { return isScrolling; } 
 	public void setIsScrolling(boolean scrolling) { isScrolling = scrolling; }
 	
-	public void addFeaturedWord() {
-		featured_word_queue.add(WordSetsManager.getRandomWord().getText());
-	}
- 	
-	private void addFromQueue() {
+	public void addFromQueue(LinkedList<String> featured_word_queue) {
 		if (!featured_word_queue.isEmpty()) {
 			float y = parent.random(block1.getBaseY() + FEATURED_FONT_SIZE + 100, parent.height - 10);
 			if (!tooClose(y))
@@ -104,7 +98,6 @@ public class ScrollingHouseScene implements Scene {
 	}
 	
 	private void addNextWord(String word, float y) {
-		
 		float font_size = parent.random(FEATURED_FONT_SIZE - 10, FEATURED_FONT_SIZE + 10);
 		float dx = parent.random(-3, -2);
 	
@@ -126,12 +119,6 @@ public class ScrollingHouseScene implements Scene {
 	}
 	
 	public void run() {
-		float current_time = parent.millis();
-		if (current_time - last_add_time > ADD_WORD_INTERVAL) {
-			addFromQueue();
-			last_add_time = current_time;
-		}
-		
 		if (isDissolving()) {
 			BlockDissolver.DissolveState ds = runDissolve();
 			if (ds == DissolveState.DONE_FADING_OUT) {
@@ -146,14 +133,6 @@ public class ScrollingHouseScene implements Scene {
 			drawOffscreen();
 		}
 		
-		
-		
-		//AUTO ADD
-//		if (parent.millis() - lastAddTime > addWordInterval) {
-//			addFeaturedWord();
-//			addWordInterval = parent.random(4000, 8000);
-//			lastAddTime = parent.millis();
-//		}
 		
 		else if (isScrolling()) {
 			moveLeft();

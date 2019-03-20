@@ -46,7 +46,6 @@ public class WaveTest extends PApplet {
 			}
 			break;
 		case 'w':
-			ws.addFeaturedWord();
 			break;
 		case 't':
 			ws.translateDown();

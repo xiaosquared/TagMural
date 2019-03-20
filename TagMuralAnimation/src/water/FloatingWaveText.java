@@ -12,7 +12,7 @@ public class FloatingWaveText extends WaveText{
 	
 	Wave target_wave;
 	float[] prev_heights;
-	float lifespan = 8;
+	float lifespan = 4;
 	float opacity = 1;  // 0 is transparent;
 	float water_density = 0.00007f;
 
@@ -47,7 +47,7 @@ public class FloatingWaveText extends WaveText{
 		// effect on word
 		inWater = true;
 		vel.x = parent.random(-1, 1);
-		Ani.to(this, lifespan, 1.5f, "opacity", 0, Ani.QUAD_IN_OUT);
+		Ani.to(this, lifespan, 0.5f, "opacity", 0, Ani.QUAD_IN_OUT);
 
 		// effect on wave
 		int left = target_wave.getSelectedParticleIndex((int)start_pos.x);

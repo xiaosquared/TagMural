@@ -1,6 +1,7 @@
 package test;
 
 import java.net.URI;
+import java.util.LinkedList;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_6455;
@@ -27,11 +28,13 @@ public class TagMuralTest extends PApplet {
 	
 	Scene current_scene;
 	
-//	public enum SceneState { WAVE, HOUSES, MUSIC; }
-//	SceneState current_scene = SceneState.MUSIC;
+	LinkedList<String> featured_word_queue;
 	
 	float lastSceneChange = 0;
 	float changeSceneTime = 600000;
+	float ADD_WORD_INTERVAL = 2000;
+	float last_add_time = 0;
+	
 	
 	public void settings() {
 		fullScreen(P2D);
@@ -50,34 +53,21 @@ public class TagMuralTest extends PApplet {
 		hs = new ScrollingHouseScene(580, width-100, font, true, this);
 		hs.drawOffscreen();
 		
-		current_scene = hs;
+		current_scene = ws;
 		
 		ms = new MusicScene(this, 6);
+		
+		featured_word_queue = new LinkedList<String>();
 	}
 	
 	public void draw() {
+		float current_time = millis();
+		if (current_time - last_add_time > ADD_WORD_INTERVAL) {
+			current_scene.addFromQueue(featured_word_queue);
+			last_add_time = current_time;
+		}
 		
-		float currentTime = millis();
-//		if (currentTime - lastSceneChange > changeSceneTime) {
-//			if (current_scene == SceneState.HOUSES)
-//				current_scene = SceneState.WAVE;
-//			else if (current_scene == SceneState.WAVE) {
-//				current_scene = SceneState.MUSIC;
-//			} else {
-//				current_scene = SceneState.HOUSES;
-//				hs.clearFeaturedWords();
-//			}
-//			
-//			lastSceneChange = currentTime;
-//		}
 		current_scene.run();
-		
-//		if (current_scene == SceneState.HOUSES)
-//			hs.run();
-//		else if (current_scene == SceneState.WAVE)
-//			ws.run();
-//		else if (current_scene == SceneState.MUSIC)
-//			ms.run();
 	}
 	
 	private void initWebSocket() {
@@ -88,8 +78,8 @@ public class TagMuralTest extends PApplet {
 				public void onMessage( String message ) {
 					JSONObject json = parseJSONObject(message);
 					println(json.getString("dev_id"));
-					if (current_scene != null)
-						current_scene.addFeaturedWord();
+					if (featured_word_queue != null)
+						featured_word_queue.add(WordSetsManager.getRandomWord().getText());
 				}
 				@Override
 				public void onOpen( ServerHandshake handshake ) {
@@ -125,7 +115,7 @@ public class TagMuralTest extends PApplet {
 			// EVENT: New featured word
 		
 			case 'w':
-				current_scene.addFeaturedWord();
+				featured_word_queue.add(WordSetsManager.getRandomWord().getText());
 			break;
 			
 			// EVENT: Switch which words are in the background
