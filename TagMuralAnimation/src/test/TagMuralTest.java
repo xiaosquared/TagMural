@@ -30,8 +30,8 @@ public class TagMuralTest extends PApplet {
 	
 	LinkedList<String> featured_word_queue;
 	
-	float lastSceneChange = 0;
-	float changeSceneTime = 600000;
+	float last_scene_change = 0;
+	float CHANGE_SCENE_INTERVAL = 60000;
 	float ADD_WORD_INTERVAL = 2000;
 	float last_add_time = 0;
 	
@@ -61,13 +61,29 @@ public class TagMuralTest extends PApplet {
 	}
 	
 	public void draw() {
+		
 		float current_time = millis();
+		
 		if (current_time - last_add_time > ADD_WORD_INTERVAL) {
+			featured_word_queue.add(WordSetsManager.getRandomWord().getText());
 			current_scene.addFromQueue(featured_word_queue);
 			last_add_time = current_time;
 		}
 		
+		if (current_time - last_scene_change > CHANGE_SCENE_INTERVAL) {
+			changeScene();
+			last_scene_change = current_time;
+		}
+		
 		current_scene.run();
+		
+//		stroke(255);
+//		strokeWeight(2);
+//		line(0, 70, width, 70);
+//		line(44, 0, 0, height);
+//		line(width-32, 0, width-14, height);
+//		line(0, height, width, height);
+		
 	}
 	
 	private void initWebSocket() {
@@ -107,6 +123,16 @@ public class TagMuralTest extends PApplet {
 		textFont(font);  
 	}
 		
+	
+	private void changeScene() {
+		if (current_scene instanceof WaveScene)
+			current_scene = hs;
+		else if (current_scene instanceof ScrollingHouseScene)
+			current_scene = ms;
+		else if (current_scene instanceof MusicScene)
+			current_scene = ws;
+	}
+	
 	// Simulating server messages with key presses 
 	
 	public void keyPressed() {
@@ -135,18 +161,7 @@ public class TagMuralTest extends PApplet {
 			// SWITCH SCENES
 			
 			case ' ':
-				if (current_scene instanceof WaveScene)
-					current_scene = hs;
-				else if (current_scene instanceof ScrollingHouseScene)
-					current_scene = ms;
-				else if (current_scene instanceof MusicScene)
-					current_scene = ws;
-//				if (current_scene == SceneState.HOUSES)
-//					current_scene = SceneState.WAVE;
-//				else if (current_scene == SceneState.WAVE)
-//					current_scene = SceneState.MUSIC;
-//				else
-//					current_scene = SceneState.HOUSES;
+				changeScene();
 			break;
 		}
 	}
