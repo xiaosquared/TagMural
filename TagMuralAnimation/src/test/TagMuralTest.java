@@ -77,12 +77,12 @@ public class TagMuralTest extends PApplet {
 		
 		current_scene.run();
 		
-//		stroke(255);
-//		strokeWeight(2);
-//		line(0, 70, width, 70);
-//		line(44, 0, 0, height);
-//		line(width-32, 0, width-14, height);
-//		line(0, height, width, height);
+		stroke(255);
+		strokeWeight(2);
+		line(0, 70, width, 70);
+		line(44, 0, 0, height);
+		line(width-32, 0, width-14, height);
+		line(0, height, width, height);
 		
 	}
 	
