@@ -49,7 +49,7 @@ public class TagMuralTest extends PApplet {
 		Ani.init(this);
 		initWords();
 		
-		ws = new WaveScene(this, WordSetsManager.getCurrentWordSet().getTexts());
+		ws = new WaveScene(this, WordSetsManager.getCurrentWordSet().getTexts());		
 		hs = new ScrollingHouseScene(580, width-100, font, true, this);
 		hs.drawOffscreen();
 		
@@ -76,14 +76,40 @@ public class TagMuralTest extends PApplet {
 		}
 		
 		current_scene.run();
-		
-		stroke(255);
-		strokeWeight(2);
-		line(0, 70, width, 70);
-		line(44, 0, 0, height);
-		line(width-32, 0, width-14, height);
+	
+		drawMask();
+
 		line(0, height, width, height);
 		
+	}
+	
+	private void drawMask() {
+		stroke(0);
+		strokeWeight(1);
+		fill(0);
+		
+		//top
+		beginShape();
+		vertex(0, 0);
+		vertex(0, 70);
+		vertex(width, 70);
+		vertex(width, 0);
+		endShape();
+		
+		// left
+		beginShape();
+		vertex(0, 0);
+		vertex(44, 0);
+		vertex(0, height);
+		endShape();
+		
+		// right
+		beginShape();
+		vertex(width, 0);
+		vertex(width-32, 0);
+		vertex(width-14, height);
+		vertex(width, height);
+		endShape();;
 	}
 	
 	private void initWebSocket() {
@@ -125,12 +151,21 @@ public class TagMuralTest extends PApplet {
 		
 	
 	private void changeScene() {
-		if (current_scene instanceof WaveScene)
+		if (current_scene instanceof WaveScene) {
+			WordSetsManager.switchWordSet("commerce");
+			hs.changeWordSet();
 			current_scene = hs;
-		else if (current_scene instanceof ScrollingHouseScene)
+		}
+		else if (current_scene instanceof ScrollingHouseScene) {
+			WordSetsManager.switchWordSet("music");
+			ms.changeWordSet();
 			current_scene = ms;
-		else if (current_scene instanceof MusicScene)
+		}
+		else if (current_scene instanceof MusicScene) {
+			WordSetsManager.switchWordSet("transportation");
+			ws.changeWordSet();
 			current_scene = ws;
+		}
 	}
 	
 	// Simulating server messages with key presses 

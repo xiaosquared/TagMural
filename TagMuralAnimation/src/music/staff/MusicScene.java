@@ -35,11 +35,9 @@ public class MusicScene implements Scene {
 	
 	public MusicScene(PApplet parent, float staff_font_size) {
 		this.parent = parent;
-		staff = new SineStaff(new PVector(0, parent.height*0.35f), parent.width,
+		staff = new SineStaff(new PVector(0, parent.height*0.40f), parent.width,
 								staff_height, -PApplet.PI/20, staff_font_size, parent);
-		
-		//featured_word_queue = new LinkedList<String>();
-		
+				
 		initMusicians(parent);
 	}
 	
@@ -72,12 +70,12 @@ public class MusicScene implements Scene {
 		musicians.add(bench);
 		musicians.add(pianist);
 		
-		trumpeter.setTranslation(1000,  280);
-		piano.setTranslation(200, 510);
-		bench.setTranslation(730, 660);
-		pianist.setTranslation(610, 440);
+		trumpeter.setTranslation(900,  290);
+		piano.setTranslation(200, 490);
+		bench.setTranslation(730, 640);
+		pianist.setTranslation(610, 420);
 
-		trumpeter.setScale(0.4f, 0.4f);
+		trumpeter.setScale(0.38f, 0.38f);
 		pianist.setScale(0.39f, 0.39f);
 		last_change_frame = parent.millis();
 	}
@@ -103,7 +101,6 @@ public class MusicScene implements Scene {
 	}
 	
 	public void changeWordSet() {
-		WordSetsManager.switchWordSet();
 		for (WordImage m : musicians) {
 			m.reset(parent);
 		}

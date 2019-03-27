@@ -114,7 +114,7 @@ public class WaveScene implements Scene {
 	}
 	
 	public void changeWordSet() {
-		waves.fadeOut("onEnd:switchAndFadeIn");
+		//waves.fadeOut("onEnd:switchAndFadeIn");
 	}
 	
 	public void clearFeaturedWords() {

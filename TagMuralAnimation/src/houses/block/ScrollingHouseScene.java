@@ -166,9 +166,9 @@ public class ScrollingHouseScene implements Scene {
 	}
 	
 	public void changeWordSet() {
-		setIsScrolling(false);
-		resetDissolver();
-		startDissolve();
+		//setIsScrolling(false);
+		//resetDissolver();
+		//startDissolve();
 	}
 	
 	public void resetForScroll() {

@@ -25,15 +25,17 @@ public class WordSetsManager {
 	public static void init(PApplet parent) {
 		word_sets = new HashMap<String, WordSet>();
 		keys = new ArrayList<String>();
-		try {
-			GetRequest get = new GetRequest(url);
-			get.send();
-			parseJSON(get, parent);
-			System.out.println("Got words from server");
-		} catch (Exception e) {
-			System.out.println("Can't connect to server. Loading local stuff...");
-			loadLocalWords(parent);
-		}
+		loadLocalWords(parent);
+		switchWordSet("transportation");
+//		try {
+//			GetRequest get = new GetRequest(url);
+//			get.send();
+//			parseJSON(get, parent);
+//			System.out.println("Got words from server");
+//		} catch (Exception e) {
+//			System.out.println("Can't connect to server. Loading local stuff...");
+//			loadLocalWords(parent);
+//		}
 	}
 	
 	private static void parseJSON(GetRequest get, PApplet parent) {
@@ -69,10 +71,11 @@ public class WordSetsManager {
 			
 			key = table.getString(row, 0);
 			ws = new WordSet(parent);
-			for (int col = 1; col < table.getColumnCount(); col++) {
+			for (int col = 0; col < table.getColumnCount(); col++) {
 				String word = table.getString(row, col);
-				if (word != null)
+				if (word != null && word.length() > 0) {
 					ws.addWord(word);
+				}
 			}
 			word_sets.put(key, ws);
 			keys.add(key);
