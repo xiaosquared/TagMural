@@ -42,6 +42,7 @@ public class TagMuralTest extends PApplet {
 	}
 	
 	public void setup() {
+		noCursor();
 		textAlign(LEFT, TOP);
 		
 		initWebSocket();
