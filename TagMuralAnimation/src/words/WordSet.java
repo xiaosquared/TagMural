@@ -55,6 +55,19 @@ public class WordSet {
 		num_words++; 
 	}
 
+	public ArrayList<Word> getAllWords() {
+		return words;
+	}
+	
+	public int getNumWords() {
+		return num_words;
+	}
+	
+	public void combine(WordSet ws) {
+		words.addAll(ws.getAllWords());
+		num_words = num_words + ws.getNumWords();
+	}
+	
 	void addAllWords(String phrase) {
 		String[] raw_words = PApplet.split(phrase, '\n');
 		for (int i = 0; i < raw_words.length; i++) {

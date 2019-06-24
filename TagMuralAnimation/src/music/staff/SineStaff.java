@@ -136,8 +136,12 @@ public class SineStaff {
 		parent.translate(0, getTransY());
 	
 		Iterator<WordNote> it = word_notes.iterator();
-		while (it.hasNext()) {
-			it.next().draw(this, parent);
+		try {
+			while (it.hasNext()) {
+				it.next().draw(this, parent);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		clef.draw(parent);

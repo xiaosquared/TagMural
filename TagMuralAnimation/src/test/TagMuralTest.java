@@ -32,7 +32,7 @@ public class TagMuralTest extends PApplet {
 	
 	float last_scene_change = 0;
 	float CHANGE_SCENE_INTERVAL = 60000;
-	float ADD_WORD_INTERVAL = 2000;
+	float ADD_WORD_INTERVAL = 7000;
 	float last_add_time = 0;
 	
 	
@@ -49,11 +49,14 @@ public class TagMuralTest extends PApplet {
 		
 		Ani.init(this);
 		initWords();
-		
-		ws = new WaveScene(this, WordSetsManager.getCurrentWordSet().getTexts());		
+
+		WordSetsManager.switchWordSet("buildings");	
 		hs = new ScrollingHouseScene(580, width-100, font, true, this);
 		hs.drawOffscreen();
-		
+
+		WordSetsManager.switchWordSet("transportation");	
+		ws = new WaveScene(this, WordSetsManager.getCurrentWordSet().getTexts());		
+
 		current_scene = ws;
 		
 		ms = new MusicScene(this, 6);
@@ -120,9 +123,13 @@ public class TagMuralTest extends PApplet {
 				@Override
 				public void onMessage( String message ) {
 					JSONObject json = parseJSONObject(message);
-					println(json.getString("dev_id"));
-					if (featured_word_queue != null)
-						featured_word_queue.add(WordSetsManager.getRandomWord().getText());
+					String id = json.getString("dev_id");
+					System.out.println("Sensor Triggered: " + id);
+					if (featured_word_queue != null) {
+						featured_word_queue.add(WordSetsManager.getRandomWord(id).getText());
+						current_scene.addFromQueue(featured_word_queue);
+						last_add_time = millis();
+					}
 				}
 				@Override
 				public void onOpen( ServerHandshake handshake ) {
@@ -153,12 +160,12 @@ public class TagMuralTest extends PApplet {
 	
 	private void changeScene() {
 		if (current_scene instanceof WaveScene) {
-			WordSetsManager.switchWordSet("commerce");
+			WordSetsManager.switchWordSet("buildings");
 			hs.changeWordSet();
 			current_scene = hs;
 		}
 		else if (current_scene instanceof ScrollingHouseScene) {
-			WordSetsManager.switchWordSet("music");
+			WordSetsManager.switchWordSet("culture");
 			ms.changeWordSet();
 			current_scene = ms;
 		}
@@ -177,7 +184,11 @@ public class TagMuralTest extends PApplet {
 			// EVENT: New featured word
 		
 			case 'w':
-				featured_word_queue.add(WordSetsManager.getRandomWord().getText());
+				//featured_word_queue.add(WordSetsManager.getRandomWord().getText());
+				String newWord = WordSetsManager.getRandomWord("0x0006").getText();
+				println("Test add " + newWord);
+				featured_word_queue.add(newWord);
+				current_scene.addFromQueue(featured_word_queue);
 			break;
 			
 			// EVENT: Switch which words are in the background
