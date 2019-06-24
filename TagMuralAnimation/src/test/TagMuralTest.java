@@ -92,8 +92,8 @@ public class TagMuralTest extends PApplet {
 		//top
 		beginShape();
 		vertex(0, 0);
-		vertex(0, 70);
-		vertex(width, 70);
+		vertex(0, 35);
+		vertex(width, 35);
 		vertex(width, 0);
 		endShape();
 		
