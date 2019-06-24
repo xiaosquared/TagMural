@@ -38,7 +38,7 @@ public class WordSetsManager {
 			parseJSON(get, parent);
 			System.out.println("Got words from server");
 		} catch (Exception e) {
-			System.out.println("Can't connect to server. Loading local stuff...");
+			System.out.println("Can't connect to server. Loading from local file");
 			loadLocalWords(parent);
 			switchWordSet("transportation");
 		}
